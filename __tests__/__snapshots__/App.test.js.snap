@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File: App.js Function App it should take a snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="app"
+  >
+    <div
+      class="home"
+    >
+      This is home Section - Public Page
+      <ul>
+        <li>
+           
+          <a
+            href="/auth/register"
+          >
+             Register
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</DocumentFragment>
+`;

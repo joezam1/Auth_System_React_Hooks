@@ -1,0 +1,52 @@
+{
+    "name": "react.auth",
+    "version": "1.0.0",
+    "description": "Authentication and Authorization System",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest --verbose --env=jsdom",
+        "dev": "webpack-dev-server --open NODE_ENV=development --config webpack.config.js",
+        "build": "webpack NODE_ENV=production"
+    },
+    "path": false,
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "resolve": {
+        "fallback": {
+            "path": false,
+            "os": false
+        }
+    },
+    "dependencies": {
+        "react": "^18.1.0",
+        "react-dom": "^18.1.0",
+        "react-router-dom": "^6.3.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.18.2",
+        "@babel/preset-env": "^7.18.2",
+        "@babel/preset-react": "^7.17.12",
+        "@testing-library/jest-dom": "^5.16.4",
+        "@testing-library/react": "^13.2.0",
+        "@testing-library/user-event": "^14.2.0",
+        "babel-jest": "^28.1.0",
+        "babel-loader": "^8.2.5",
+        "clean-webpack-plugin": "^4.0.0",
+        "copy-webpack-plugin": "^11.0.0",
+        "core-js": "^3.22.7",
+        "css-loader": "^6.7.1",
+        "env-cmd": "^10.1.0",
+        "html-webpack-plugin": "^5.5.0",
+        "jest": "^28.1.0",
+        "jest-environment-jsdom": "^28.1.0",
+        "node-sass": "^7.0.1",
+        "path-browserify": "^1.0.1",
+        "regenerator-runtime": "^0.13.9",
+        "sass-loader": "^13.0.0",
+        "style-loader": "^3.3.1",
+        "webpack": "^5.72.1",
+        "webpack-cli": "^4.9.2",
+        "webpack-dev-server": "^4.9.0"
+    }
+}

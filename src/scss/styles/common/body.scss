@@ -1,0 +1,29 @@
+*{
+    box-sizing:border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+//test
+body{
+    background:rgb(251, 250, 249);
+}
+
+.table{
+    display: table;
+}
+
+.row{
+    border-spacing: 10px;
+    display:table-row;
+    table-layout: fixed;
+    width:100%;
+}
+.column{
+    background-color: yellow;
+    display: table-cell;
+}
+
+.text-left{
+    text-align: left;
+}

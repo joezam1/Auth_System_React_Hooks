@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File: Register Component Register It can take a snapshot 1`] = `
+<DocumentFragment>
+   
+  <div
+    class="register-container"
+  >
+    <h3>
+      Register
+    </h3>
+    <span>
+      <a
+        href="/"
+      >
+         Home 
+      </a>
+    </span>
+    <br />
+    <fieldset>
+      <form
+        action="/api/register"
+        class="form"
+        id="registerForm"
+        method="post"
+      >
+        <input
+          class="row"
+          name="firstName"
+          placeholder="Insert your first Name"
+          type="text"
+        />
+        <input
+          class="row"
+          name="lasstName"
+          placeholder="Insert your last Name"
+          type="text"
+        />
+        <input
+          class="row"
+          name="usernaame"
+          placeholder="Insert your username"
+          type="text"
+        />
+        <input
+          class="row"
+          name="enail"
+          placeholder="Insert your email"
+          type="email"
+        />
+        <input
+          class="row"
+          name="password"
+          placeholder="insert your password"
+          type="password"
+        />
+        <input
+          class="row"
+          name="confirmPassword"
+          placeholder="Confirm your password"
+          type="password"
+        />
+        <button
+          class="row"
+          name="button"
+          type="button"
+          value="submit"
+        >
+          Submit
+        </button>
+      </form>
+    </fieldset>
+  </div>
+   
+</DocumentFragment>
+`;
