@@ -1,7 +1,9 @@
 const routeConfiguration = {
     home:'/',
     authLoginPath:'/auth/login',
-    authRegisterPath:'/auth/register'
+    authRegisterPath:'/auth/register',
+    authLogoutPath:'/auth/logout',
+    privateCustomerDashboard:'/customerDashboard'
 }
 
 export default routeConfiguration;

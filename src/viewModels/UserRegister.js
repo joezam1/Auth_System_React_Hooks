@@ -2,7 +2,7 @@ import formFieldStatus from '../library/enumerations/FormFieldStatus.js';
 import DataTypes from '../library/stringLiterals/JsDataTypes.js';
 
 
-var userViewModel = function(model){
+var userRegisterViewModel = function(model){
     var firstName ={
         fieldValue: (model.firstName || ''),
         fieldStatus: formFieldStatus.Required,
@@ -50,4 +50,4 @@ var userViewModel = function(model){
     }
 
 }
-export default userViewModel;
+export default userRegisterViewModel;

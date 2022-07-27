@@ -1,10 +1,10 @@
-import validationManager from '../src/services/validators/ValidationManager.js';
-import userModel from '../src/viewModels/User';
+import ValidationService from '../src/services/validators/ValidationService.js';
+import userModel from '../src/viewModels/UserRegister';
 import inputCommonInspector from '../src/services/validators/InputCommonInspector.js';
 
-describe('File: validationManager.js',()=>{
+describe('File: ValidationService.js',()=>{
 
-    describe('Function: resolveUserRegisterValidation',function(){
+    describe('Function: resolveUserFormValidation',function(){
         test('Model is complete, The Errors reports is Empty', function(){
             //Arrange
             let userObject = {
@@ -20,7 +20,7 @@ describe('File: validationManager.js',()=>{
             let user = new userModel(userObject);
 
             //Act
-            let report = validationManager.resolveUserRegisterValidation(user);
+            let report = ValidationService.resolveUserFormValidation(user);
             let objectIsEmpty = inputCommonInspector.objectIsNullOrEmpty(report);
             //Assert
             expect(objectIsEmpty).toBe(true);
@@ -41,7 +41,7 @@ describe('File: validationManager.js',()=>{
             let user = new userModel(userObject);
 
             //Act
-            let report = validationManager.resolveUserRegisterValidation(user);
+            let report = ValidationService.resolveUserFormValidation(user);
             let objectIsEmpty = inputCommonInspector.objectIsNullOrEmpty(report);
             //Assert
             expect(report.firstName).not.toEqual('');
@@ -74,7 +74,7 @@ describe('File: validationManager.js',()=>{
             let user = new userModel(userObject);
 
             //Act
-            let resultErrorsReport = validationManager.buildErrorMessagesReport(errorReport,user);
+            let resultErrorsReport = ValidationService.buildErrorMessagesReport(errorReport,user);
 
             let result = inputCommonInspector.objectIsNullOrEmpty(resultErrorsReport);
             //Assert
@@ -104,7 +104,7 @@ describe('File: validationManager.js',()=>{
             let user = new userModel(userObject);
 
             //Act
-            let resultErrorsReport = validationManager.buildErrorMessagesReport(errorReport,user);
+            let resultErrorsReport = ValidationService.buildErrorMessagesReport(errorReport,user);
 
             let result = inputCommonInspector.objectIsNullOrEmpty(resultErrorsReport);
             //Assert

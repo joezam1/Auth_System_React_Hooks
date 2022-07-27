@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link , Navigate } from 'react-router-dom';
-import User from '../../viewModels/User.js';
+import User from '../../viewModels/UserRegister.js';
 import UserRoles from '../../library/enumerations/UserRoles.js';
 import RequestMethods from '../../services/httpProtocol/RequestMethods.js';
 import EnvConfig from '../../../configuration/environment/EnvConfig.js';
@@ -8,7 +8,7 @@ import ServerConfig from '../../../configuration/server/ServerConfig.js';
 import RouteConfig from '../../../configuration/routes/RouteConfig.js';
 import httpResponseStatus from '../../library/enumerations/HttpResponseStatus.js';
 import InputCommonInspector from '../../services/validators/InputCommonInspector.js';
-import ValidationManager from '../../services/validators/ValidationManager.js'
+import ValidationManager from '../../services/validators/ValidationService.js'
 
 export default function Register(){
 
@@ -21,7 +21,7 @@ export default function Register(){
     const [ passwordErrors, setPasswordErrors ] = useState('');
     const [ confirmPasswordErrors, setConfirmPasswordErrors ] = useState('');
     let messageRegistrationSuccess = 'Account Registered. You can now Login.';
-    let messageErrorsInRegistrationForm = 'There are errors in the Registration Form.';
+    let messageErrorsInForm = 'There are errors in the Form.';
     let messageRegistrationFailed = 'Error: Registration Failed ';
     let messageRegistrationNonProcessable = 'Registration non-processable: ';
     let userInfo = null;
@@ -102,9 +102,9 @@ export default function Register(){
     }
 
     function inputsAreValid(objModel){
-        let errorsReport = ValidationManager.resolveUserRegisterValidation(objModel);
+        let errorsReport = ValidationManager.resolveUserFormValidation(objModel);
         if(!InputCommonInspector.objectIsNullOrEmpty(errorsReport)){
-            setNotification(messageErrorsInRegistrationForm);
+            setNotification(messageErrorsInForm);
             let errorMessagesReport = ValidationManager.buildErrorMessagesReport(errorsReport, objModel);
             setAllErrorMessages(errorMessagesReport);
             return false;
@@ -129,7 +129,9 @@ export default function Register(){
     return(
      <div className="register-container">
             <h3>Register</h3>
-            <span><Link to="/"> Home </Link></span>
+            <span><Link to={ RouteConfig.home } > Home </Link></span>
+            <br/>
+            <span><Link to={ RouteConfig.authLoginPath }> Login </Link></span>
             <br />
             <fieldset>
                 <form action="/api/register" method="post" id="registerCustomerForm" className="form">

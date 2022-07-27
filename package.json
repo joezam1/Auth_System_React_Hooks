@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "jest --verbose --env=jsdom",
+        "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
         "dev": "webpack-dev-server --open NODE_ENV=development --config webpack.config.js",
         "build": "webpack NODE_ENV=production"
     },
@@ -21,7 +22,9 @@
     "dependencies": {
         "react": "^18.1.0",
         "react-dom": "^18.1.0",
-        "react-router-dom": "^6.3.0"
+        "react-router-dom": "^6.3.0",
+        "react-scripts": "^5.0.1",
+        "universal-cookie": "^4.0.4"
     },
     "devDependencies": {
         "@babel/core": "^7.18.2",

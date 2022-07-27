@@ -11,10 +11,10 @@ let stringIsNullOrEmpty = function(input){
     }
     return false;
 }
-//Test: DONE
+//Test:DONE
 let objectIsNullOrEmpty = function(obj){
-    let isObject = ((typeof obj ===DataTypes.OBJECT ) && !Array.isArray(obj) && typeof obj !== undefined );
-    let isEmptyObj = ( obj !== null && Object.keys(obj).length === 0 );
+    let isObject = ((typeof obj === DataTypes.OBJECT ) && !Array.isArray(obj) && typeof obj !== undefined && obj !== null );
+    let isEmptyObj = ( isObject && Object.keys(obj).length === 0 );
     let isNullObj = ( obj === null)
     let result =  (isObject && (isEmptyObj || isNullObj))
     return result;

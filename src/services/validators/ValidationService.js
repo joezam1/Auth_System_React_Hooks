@@ -4,7 +4,7 @@ import InputCommonInspector from './InputCommonInspector.js';
 
 
 //Test: DONE
-let resolveUserRegisterValidation = function(userModel){
+let resolveUserFormValidation = function(userModel){
     let reportInputLength = ObjectModelInspector.inspectInputLength(userModel);
     let reportInputType = ObjectModelInspector.inspectInputType(userModel);
     let reportInputValue = ObjectModelInspector.inspectInputValue(userModel);
@@ -37,7 +37,7 @@ let buildErrorMessagesReport = function(errorsReportForTargetObject, targetObjec
 }
 
 let validationManagerService = {
-    resolveUserRegisterValidation : resolveUserRegisterValidation,
+    resolveUserFormValidation : resolveUserFormValidation,
     buildErrorMessagesReport : buildErrorMessagesReport
 }
 
