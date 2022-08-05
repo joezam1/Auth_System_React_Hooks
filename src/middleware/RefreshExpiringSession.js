@@ -8,7 +8,6 @@ import EnvConfig from "../../configuration/environment/EnvConfig";
 import ServerConfig from '../../configuration/server/ServerConfig.js';
 import SessionConfig from '../../configuration/authentication/SessionConfig.js';
 import inputCommonInspector from "../services/validators/InputCommonInspector.js";
-import messageWorkerDataModel from "../dataModels/MessageWorkerDataModel";
 import FetchWorkerHelper from '../backgroundWorkers/FetchWorkerHelper.js';
 
 const RefreshExpiringSession = (function () {
@@ -42,7 +41,8 @@ export default RefreshExpiringSession;
             name: cookieName,
             session: cookieValue
         }
-        let message = FetchWorkerHelper.getMessageDataForFetchWorker(sessionUrl, requestMethod, payload);
+        let headersArray = [];
+        let message = FetchWorkerHelper.getMessageDataForFetchWorker(sessionUrl, requestMethod,headersArray, payload);
 
         return message;
     }

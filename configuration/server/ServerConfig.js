@@ -1,9 +1,9 @@
-const routeConfiguration = {
+const routeConfiguration = Object.freeze({
     apiUsersRegisterPathPost : '/api/users/register',
     apiUsersLoginPathPost: '/api/users/login',
     apiUserslogoutPathPost: '/api/users/logout',
     apiSessionsUpdatePut:'/api/sessions/update',
-    apiSessionsUuidGet:'/api/sessions/'
-}
+    apiSessionsSessionTokenGet:'/api/sessions/sessiontoken'
+});
 
 export default routeConfiguration;

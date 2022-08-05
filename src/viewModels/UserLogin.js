@@ -15,9 +15,9 @@ var userLoginViewModel = function(model){
         fieldDataType: DataTypes.STRING
     };
 
-    return {
+    return Object.freeze({
         username:username,
         password:password
-    }
+    });
 }
 export default userLoginViewModel;

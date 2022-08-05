@@ -36,13 +36,13 @@ let passwordAndConfirmPasswordAreEqual = function(password, confirmPassword){
 }
 
 
-let service = {
+let service = Object.freeze({
     nameIsValid:nameIsValid,
     usernameIsValid:usernameIsValid,
     emailIsValid:emailIsValid,
     passwordMinCharactersIsValid:passwordMinCharactersIsValid,
     passwordAndConfirmPasswordAreEqual:passwordAndConfirmPasswordAreEqual
-}
+});
 
 export default service;
 

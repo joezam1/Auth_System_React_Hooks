@@ -22,14 +22,14 @@ export default function Logout(){
         let cookieName =  LocalStorageService.getItemFromLocalStorage(CookieProperties.NAME);
         let cookiePath = LocalStorageService.getItemFromLocalStorage(CookieProperties.PATH);
         let cookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
-        if( !InputCommonInspector.stringIsValid( cookieValue) ){
+        if( InputCommonInspector.stringIsValid( cookieValue) ){
             let resultCookie = CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName, cookiePath);
             LocalStorageService.removeItemFromLocalStorage(CookieProperties.NAME);
             LocalStorageService.removeItemFromLocalStorage(CookieProperties.PATH);
             let intervalTimerId = LocalStorageService.getItemFromLocalStorage( SessionConfig.SESSION_TIMER_ID );
             clearInterval(intervalTimerId);
             LocalStorageService.removeItemFromLocalStorage(SessionConfig.SESSION_TIMER_ID);
-            processUserLogoutSession(cookieName, cookieValue);
+            processUserLogoutSession(cookieValue);
         }
     },[]);
 
@@ -39,12 +39,12 @@ export default function Logout(){
 
             case HttpResponseStatus._200ok:
                 setNotification(messageLogoutSuccess);
-                setTimeout(function(){ setLogoutStatus(true); }, SessionConfig.SESSION_DEFAULT_DELAYS_IN_NOTIFICATIONS);
-
+                delayRedirect();
             break;
 
             case HttpResponseStatus._401unauthorized:
-                setNotification(NotificationService.errorsInForm);
+                setNotification(NotificationService.logoutUnauthorized);
+                delayRedirect();
             break;
 
             case HttpResponseStatus._400badRequest:
@@ -60,16 +60,21 @@ export default function Logout(){
 
     }
 
-    function processUserLogoutSession(sessionCookieName,sessionCookieValue){
+    function delayRedirect(){
+        setTimeout(function(){ setLogoutStatus(true);
+        }, SessionConfig.SESSION_DEFAULT_DELAYS_IN_NOTIFICATIONS);
+    }
+
+    function processUserLogoutSession( sessionCookieValue){
 
         let logoutUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiUserslogoutPathPost;
         let dataModel = {
             session: sessionCookieValue
         }
         let selectedHeaders = {
-            cookie : `${sessionCookieName}=${sessionCookieValue}`,
+            x_session_id : sessionCookieValue
         }
-            RequestMethods.deleteMethod(logoutUrl, dataModel, logoutUserCallback, selectedHeaders);
+        RequestMethods.deleteMethod(logoutUrl, dataModel, logoutUserCallback, selectedHeaders);
     }
 
     if(isLoggedOut){

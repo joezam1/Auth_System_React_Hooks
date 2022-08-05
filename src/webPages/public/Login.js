@@ -108,8 +108,7 @@ export default function Login(){
 
 
     if (isLoggedIn) {
-        var redirect = AuthenticationInspector.redirectPrivateWebpagesMediator(RouteConfig.privateCustomerDashboard )
-         return redirect;
+        AuthenticationInspector.redirectPrivateWebpagesMediator(RouteConfig.privateCustomerDashboard )
      }
     return(
         <div className="register-container">

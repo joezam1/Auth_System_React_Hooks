@@ -36,12 +36,12 @@ let buildErrorMessagesReport = function(errorsReportForTargetObject, targetObjec
     return errorsSectionObjReport;
 }
 
-let validationManagerService = {
+let service = Object.freeze({
     resolveUserFormValidation : resolveUserFormValidation,
     buildErrorMessagesReport : buildErrorMessagesReport
-}
+});
 
-export default validationManagerService;
+export default service;
 
 //#REGION Private Functions
 

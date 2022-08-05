@@ -1,4 +1,4 @@
-let jsDataType = Object.freeze({
+const jsDataType = Object.freeze({
     NUMBER: 'number',
     BIGINT: 'bigint',
     STRING: 'string',

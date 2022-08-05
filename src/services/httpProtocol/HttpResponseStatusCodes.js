@@ -1,6 +1,6 @@
 import httpResponseStatus from '../../library/enumerations/HttpResponseStatus.js';
 
-var statuses = {
+var statuses = Object.freeze({
     ok200:{
         code:httpResponseStatus._200ok,
         statusText:'ok'
@@ -78,6 +78,6 @@ var statuses = {
         statusText:'unprocessable Entity'
     }
 
-}
+});
 
 export default statuses;

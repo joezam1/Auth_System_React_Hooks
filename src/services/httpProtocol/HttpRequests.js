@@ -32,7 +32,7 @@ function fetchMethod(url, options, responseCallback) {
         })
 }
 
-let service = {
+let service = Object.freeze({
     fetchMethod:fetchMethod
-}
+});
 export default service;

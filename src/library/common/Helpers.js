@@ -58,7 +58,7 @@ function getmessageFormatForDisplay(input){
     return '';
 }
 
-let service={
+let service= Object.freeze({
     removeLeadingAndTrailinsSpaces : removeLeadingAndTrailinsSpaces,
     getDateUTCFormat : getDateUTCFormat,
     createPropertiesArrayFromObjectProperties : createPropertiesArrayFromObjectProperties,
@@ -66,6 +66,6 @@ let service={
     getHtmlBreakSeparator : getHtmlBreakSeparator,
     getmessageFormatForDisplay : getmessageFormatForDisplay
 
-}
+});
 
 export default service;

@@ -67,13 +67,13 @@ let sessionCookieIsExpired = function( cookieSessionUTCDateCreated, cookieSessio
     return false;
 }
 
-return {
+return Object.freeze({
     insertCookieInDataStore : insertCookieInDataStore,
     insertCookieInDataStoreWithExpiryTime : insertCookieInDataStoreWithExpiryTime,
     getCookieFromDataStoreByName : getCookieFromDataStoreByName,
     deleteCookieFromDataStoreByNameAndPath : deleteCookieFromDataStoreByNameAndPath,
     sessionCookieIsExpired : sessionCookieIsExpired
-}
+});
 })();
 
 export default CookieService;

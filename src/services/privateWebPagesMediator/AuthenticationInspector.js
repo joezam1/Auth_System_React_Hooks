@@ -1,6 +1,3 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-
 import EnvConfig from '../../../configuration/environment/EnvConfig.js';
 import RouteConfig from '../../../configuration/routes/RouteConfig.js';
 import ServerConfig from '../../../configuration/server/ServerConfig.js';
@@ -12,21 +9,22 @@ import WebWorkerManager from '../../backgroundWorkers/WebWorkerManager.js';
 import FetchWorker from '../../backgroundWorkers/FetchWorker.js';
 import FetchWorkerHelper from '../../backgroundWorkers/FetchWorkerHelper.js';
 import HttpRequestMethods from '../../library/enumerations/HttpRequestMethods.js';
+import WindowLocationProperties from '../../library/stringLiterals/WindowLocationProperties.js';
 
 const AuthenticationInspector = (function(){
 
-    let _redirectTo = '';
     let redirectPrivateWebpagesMediator = function(redirectTo){
+        LocalStorageService.setItemInLocalStorage( WindowLocationProperties.REDIRECT, redirectTo )
         let cookieName = LocalStorageService.getItemFromLocalStorage(CookieProperties.NAME);
         let sessionToken = CookieService.getCookieFromDataStoreByName(cookieName);
         if( !inputCommonInspector.stringIsNullOrEmpty(sessionToken)){
-            _redirectTo = redirectTo;
+
             WebWorkerManager.startNewWorker(FetchWorker, fetchWorkerMessageCallback);
-            let message = getMessageDataForFetchWorker();
+            let message = getMessage();
             WebWorkerManager.sendMessageToWorker(message);
         }
         else{
-            return <Navigate to = { RouteConfig.authLogoutPath } />
+            setUrlRedirect( RouteConfig.authLogoutPath );
         }
     }
 
@@ -38,18 +36,21 @@ const AuthenticationInspector = (function(){
 export default AuthenticationInspector;
 
 //#REGION Private Functions
-function getMessageDataForFetchWorker(){
+function getMessage(){
     let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperties.NAME);
     let cookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
-    var sessionUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiSessionsUuidGet+cookieValue;
+    var sessionUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiSessionsSessionTokenGet;
 
     let requestMethod = HttpRequestMethods[HttpRequestMethods.GET];
-    let payload = {}
-    let message = FetchWorkerHelper.getMessageDataForFetchWorker(sessionUrl, requestMethod, payload);
+    let headersArray = [{name:'x_session_id',value: cookieValue }];
+    let payload = {};
+    let message = FetchWorkerHelper.getMessageDataForFetchWorker(sessionUrl, requestMethod, headersArray, payload);
     return message;
 }
 
+
 function fetchWorkerMessageCallback(event){
+
     console.log('sessionWorkerOnMessageCallback-event', event)
     let sessionInfo = event?.data?.data?.result;
     WebWorkerManager.terminateActiveWorker()
@@ -58,10 +59,24 @@ function fetchWorkerMessageCallback(event){
         let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperties.NAME);
         let currentSessionCookie = CookieService.getCookieFromDataStoreByName(cookieName);
         if(apiStoredSessionToken === currentSessionCookie){
-            return <Navigate to = { _redirectTo } />
+            let locationRedirect = LocalStorageService.getItemFromLocalStorage(WindowLocationProperties.REDIRECT);
+            LocalStorageService.removeItemFromLocalStorage(WindowLocationProperties.REDIRECT);
+            setUrlRedirect( locationRedirect );
+            return;
         }
     }
     //if is not valid then LOGOUT
-    return <Navigate to = { RouteConfig.authLogoutPath } />
+    setUrlRedirect( RouteConfig.authLogoutPath );
 }
+
+function setUrlRedirect(redirectTo){
+    var protocol = window.location.protocol;
+    var host = window.location.host
+    var pathName = window.location.pathname;
+    var search = window.location.search
+    var referrerUrl = protocol  + "//" + host + "/" + pathName + search
+    var urlRedirect = protocol  + "//" + host + redirectTo;
+    window.location.href =urlRedirect;
+}
+
 //#ENDREGION Private Functions

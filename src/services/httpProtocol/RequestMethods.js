@@ -43,11 +43,11 @@ let deleteMethod = function (url, payload, responseCallback, selectedHeaders = n
     HttpRequest.fetchMethod(url, options, responseCallback);
 }
 
-const service = {
+const service = Object.freeze({
     getMethod : getMethod,
     postMethod : postMethod,
     deleteMethod : deleteMethod
-}
+});
 
 export default service;
 
@@ -56,15 +56,11 @@ export default service;
 //#REGION Private Methods
 
 function getHeaders(selectedHeadersObj) {
-    var defaultHeadersObj = {
+    let defaultHeadersObj = {
         'Content-Type':'application/json'
     }
-    var authHeaders = null ; //TODO: getAuthenticationHeaders();
-    var headers = null;
-    // if (selectedHeaders !== null) {
-    //     headers = selectedHeaders;
-    // }
-    var headers = Object.assign({},defaultHeadersObj,authHeaders,selectedHeadersObj)
+    let authHeaders = null ; //TODO: getAuthenticationHeaders();
+    let headers = Object.assign({},defaultHeadersObj,authHeaders,selectedHeadersObj)
     return headers;
 }
 

@@ -37,13 +37,13 @@ const LocalStorageService = (function(){
     }
 
 
-    return {
+    return Object.freeze({
         setItemInLocalStorage : setItemInLocalStorage,
         getItemFromLocalStorage : getItemFromLocalStorage,
         getItemKeyFromLocalStorage : getItemKeyFromLocalStorage,
         removeItemFromLocalStorage : removeItemFromLocalStorage,
         clearAllItemsFromLocalStorage : clearAllItemsFromLocalStorage
-    }
+    });
 })();
 
 export default LocalStorageService;

@@ -39,7 +39,7 @@ var userRegisterViewModel = function(model){
         fieldDataType: DataTypes.STRING
     };
 
-    return {
+    return Object.freeze({
         firstName:firstName,
         middleName:middleName,
         lastName:lastName,
@@ -47,7 +47,7 @@ var userRegisterViewModel = function(model){
         email:email,
         password:password,
         confirmPassword:confirmPassword
-    }
+    });
 
 }
 export default userRegisterViewModel;

@@ -71,14 +71,13 @@ function objectIsValid(obj){
 }
 
 
-let inputCommonInspectorService = {
+let service = Object.freeze({
     stringIsNullOrEmpty : stringIsNullOrEmpty,
     objectIsNullOrEmpty : objectIsNullOrEmpty,
     valueIsUndefined : valueIsUndefined,
     errorKeyAndTargetKeyAreEqual : errorKeyAndTargetKeyAreEqual,
     stringIsValid : stringIsValid,
     objectIsValid : objectIsValid
+});
 
-}
-
-export default inputCommonInspectorService
+export default service

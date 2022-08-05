@@ -31,13 +31,10 @@ var isValidJson = function(input){
     return true;
 }
 
-
-
-
-var service = {
+var service = Object.freeze({
     isValidJson:isValidJson,
     isValidString:isValidString,
     isValidObj:isValidObj
-}
+});
 
 export default service;

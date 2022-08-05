@@ -5,23 +5,29 @@ const fetchWorker = function () {
         if (event && event.data) {
             let message = event.data;
             let switchMessage = message.switchMessage;
-
             let methodVerb = message.xmlHttpRequest.method;
             let url = message.xmlHttpRequest.url;
             let body = message.xmlHttpRequest.jsonPayload;
-            let headers = message.xmlHttpRequest.headers;
+            let headers = message.xmlHttpRequest.headersArray;
             let cors = message.xmlHttpRequest.corsMode;
-            xmlttpRequestMethod(methodVerb, url, body, headers, true);
+            xmlttpRequestMethod(methodVerb, url, body, headers, true );
         }
     };
 
     //#REGION Private Functions
 
-    let xmlttpRequestMethod = function(requestVerb ,requestUrl, body, headers, isAsync){
+    let xmlttpRequestMethod = function(requestVerb ,requestUrl, body, headersArray, isAsync){
 
         let httpRequest = new XMLHttpRequest();
         httpRequest.open(requestVerb, requestUrl, isAsync);
-        httpRequest.setRequestHeader(headers.name, headers.value)
+
+        httpRequest.setRequestHeader('Content-type', 'application/json');
+        httpRequest.setRequestHeader( 'Accept', 'application/json')
+        if(headersArray !=null && headersArray != undefined && Array.isArray(headersArray)){
+            for(let a=0; a<headersArray.length; a++){
+                httpRequest.setRequestHeader(headersArray[a].name, headersArray[a].value)
+            }
+        }
 
         httpRequest.onreadystatechange = function() {
                 if (httpRequest.readyState === 4) {

@@ -21,9 +21,9 @@ var getUrlRedirectTo = function(redirectTo){
 }
 
 
-var service = {
+var service = Object.freeze({
     safeJsonParse: safeJsonParse,
     getUrlRedirectTo:getUrlRedirectTo
-}
+});
 
 export default service;

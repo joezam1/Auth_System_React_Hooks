@@ -123,11 +123,11 @@ function inspectInputValue(objViewModel){
     return dataReportErrors;
 }
 
-const service = {
+const service = Object.freeze({
     inspectInputLength : inspectInputLength,
     inspectInputType : inspectInputType,
     inspectInputValue : inspectInputValue
-}
+});
 
 export default service;
 

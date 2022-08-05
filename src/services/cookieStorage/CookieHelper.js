@@ -43,12 +43,12 @@ let deleteCookieByNameSecurely = function(cookieName, cookiePath){
 }
 
 
-const service = {
+const service = Object.freeze({
     setCookie : setCookie,
     setCookieWithExpiryTime : setCookieWithExpiryTime,
     getCookieValueByName : getCookieValueByName,
     deleteCookiebyName : deleteCookiebyName,
     deleteCookieByNameSecurely : deleteCookieByNameSecurely
-}
+});
 
 export default service;

@@ -5,7 +5,7 @@ let messageWorkerDataModel = {
         url:'',
         method: '',
         corsMode:'',
-        headers:'',
+        headersArray:'',
         jsonPayload:''
     }
 

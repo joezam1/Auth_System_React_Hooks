@@ -25,12 +25,13 @@ else if(process.env.NODE_ENV==='production'){
     REACT_APP_TARGET_URL= 'authserverproduction.com'
 }
 
-var envConfig = {
+var envConfig = Object.freeze({
     NODE_ENV : REACT_APP_NODE_ENV,
     PROTOCOL : REACT_APP_PROTOCOL,
     HOST : REACT_APP_HOST,
     PORT : REACT_APP_PORT,
     TARGET_URL :REACT_APP_TARGET_URL
-}
+});
+
 console.log('envConfig', envConfig);
 module.exports = envConfig;

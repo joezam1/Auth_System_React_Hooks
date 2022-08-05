@@ -58,7 +58,7 @@ var isDate = function(input){
     return result;
 }
 
-var service = {
+var service = Object.freeze({
     isTypeString: isTypeString,
     isTypeBoolean: isTypeBoolean,
     isTypeNumber: isTypeNumber,
@@ -68,6 +68,6 @@ var service = {
     isTypeFunction: isTypeFunction,
     isTypeObject: isTypeObject,
     isDate : isDate
-}
+});
 
 export default service;

@@ -22,11 +22,11 @@ let clearAllItemsStorage = function(){
     window.localStorage.clear();
 }
 
-const service = {
+const service = Object.freeze({
     setItemStorage: setItemStorage,
     getItemStorage: getItemStorage,
     getKeyNameStorage: getKeyNameStorage,
     removeItemStorage: removeItemStorage,
     clearAllItemsStorage: clearAllItemsStorage
-}
+});
 export default service;
