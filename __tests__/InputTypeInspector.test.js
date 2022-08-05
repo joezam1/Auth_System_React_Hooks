@@ -1,7 +1,7 @@
 import InputTypeInspector from '../src/services/validators/InputTypeInspector.js';//= require('../app/serviceLayer/validation/inputTypeInspector.js');
 
 
-xdescribe('File: InputTypeInspector.js',()=>{
+describe('File: InputTypeInspector.js',()=>{
     //test('True is True', ()=>{ expect(true).toBe(true); });
     describe('Function: isTypeString', function(){
         test('Input string with value returns TRUE', function(){

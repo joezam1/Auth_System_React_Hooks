@@ -13,9 +13,19 @@ exports[`File: App.js Function App it should take a snapshot 1`] = `
         <li>
            
           <a
+            data-testid="link-home-register-id"
             href="/auth/register"
           >
-             Register
+            Register
+          </a>
+        </li>
+        <li>
+           
+          <a
+            data-testid="link-home-login-id"
+            href="/auth/login"
+          >
+             Login
           </a>
         </li>
       </ul>

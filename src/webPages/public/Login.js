@@ -2,58 +2,69 @@ import React, {useState} from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import RouteConfig from '../../../configuration/routes/RouteConfig.js';
 import UserLoginViewModel from '../../viewModels/UserLogin.js';
+import UserLoginDataModel from '../../dataModels/UserLoginDataModel.js';
 import ValidationManager from '../../services/validators/ValidationService.js';
 import InputCommonInspector from '../../services/validators/InputCommonInspector.js';
 import EnvConfig from '../../../configuration/environment/EnvConfig.js';
 import ServerConfig from '../../../configuration/server/ServerConfig.js';
 import httpResponseStatus from '../../library/enumerations/HttpResponseStatus.js';
 import RequestMethods from '../../services/httpProtocol/RequestMethods.js';
-import CookieService from '../../services/cookieStorage/cookieService.js';
-import authenticationInspector from '../../services/privatePagesMediator/authenticationInspector.js';
+import CookieService from '../../services/cookieStorage/CookieService.js';
+import LocalStorageService from '../../services/localStorage/LocalStorageService.js';
+import CookieProperties from '../../library/stringLiterals/CookieProperties.js';
+import AuthenticationInspector from '../../services/privateWebPagesMediator/AuthenticationInspector.js';
+
+import fetchWorkerScript from '../../backgroundWorkers/FetchWorker.js';
+import RefreshExpiringSession from '../../middleware/RefreshExpiringSession.js';
+import NotificationService from '../../services/notifications/NotificationService.js';
+
 
 export default function Login(){
+
     const [ notificationInfo, setNotification ] = useState('');
     const [isLoggedIn, setUserLogin] = useState();
     const [ usernameErrors, setUsernameErrors ] = useState('');
     const [ passwordErrors, setPasswordErrors ] = useState('');
-    let messageErrorsInForm = 'There are errors in the Form.';
-    let messageLoginFailed = 'Error: Login Failed ';
-    let messageLoginNonProcessable = 'Login non-processable: ';
-    let userInfo = null;
 
+    let userInfo = null;
 
     function loginUserCallback(response){
         console.log('loginUserCallback-response', response);
+
         switch(response.status){
             case httpResponseStatus._200ok:
                 let name = response.result.name;
                 let value = response.result.value;
                 let properties = response.result.properties;
-                CookieService.insertCookieInDataStore(name, value, properties)
+                LocalStorageService.setItemInLocalStorage(CookieProperties.NAME, name);
+                LocalStorageService.setItemInLocalStorage(CookieProperties.PATH, properties.path);
+                CookieService.insertCookieInDataStore(name, value, properties);
 
+                RefreshExpiringSession.resolveRefreshingExpiringSession(fetchWorkerScript);
                 setUserLogin(true);
+
             break;
 
             case httpResponseStatus._401unauthorized:
                 let responseObj = (typeof response.result === 'object')
                 if(responseObj){
-                    setNotification(messageErrorsInForm);
+                    setNotification( NotificationService.errorsInForm );
                     console.log('userInfo', userInfo);
                     let errorMessagesReport = ValidationManager.buildErrorMessagesReport(response.result, userInfo);
                     setAllErrorMessages(errorMessagesReport);
                     break;
                 }
-                setNotification(response.result);
+                setNotification( response.result );
             break;
 
             case httpResponseStatus._400badRequest:
-                messageLoginFailed += messageLoginFailed + response.result;
-                setNotification(messageLoginFailed);
+                let messageLoginFailed = NotificationService.loginFailed + response.result;
+                setNotification( messageLoginFailed );
             break;
 
             default:
-                messageLoginNonProcessable += messageLoginNonProcessable + response.result;
-                setNotification(messageLoginNonProcessable);
+                let messageLoginNonProcessable = NotificationService.loginNonProcessable  + response.result;
+                setNotification( messageLoginNonProcessable );
             break;
         }
     }
@@ -64,19 +75,16 @@ export default function Login(){
         var form = document.getElementById('loginCustomerForm');
         if(form !==null) {
             console.log('processUserRegistration-form', form);
-            var username = form[0].value;
-            var password = form[1].value;
-            var dataModel = {
-                username : username,
-                password : password
-            }
-            var userLogin = new UserLoginViewModel(dataModel);
+            UserLoginDataModel.username = form[0].value;
+            UserLoginDataModel.password = form[1].value;
+
+            var userLogin = new UserLoginViewModel(UserLoginDataModel);
             console.log('processUserRegistration-userLogin', userLogin);
             userInfo = userLogin;
             if( !inputsAreValid(userLogin)){ return; }
 
             var loginUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiUsersLoginPathPost;
-            RequestMethods.postMethod(loginUrl, dataModel, loginUserCallback);
+            RequestMethods.postMethod(loginUrl, UserLoginDataModel, loginUserCallback);
         }
     }
 
@@ -98,15 +106,16 @@ export default function Login(){
     }
 
 
+
     if (isLoggedIn) {
-        var redirect = authenticationInspector.redirectPrivateWebpagesMediator(RouteConfig.privateCustomerDashboard )
+        var redirect = AuthenticationInspector.redirectPrivateWebpagesMediator(RouteConfig.privateCustomerDashboard )
          return redirect;
      }
     return(
         <div className="register-container">
                <h3>Login</h3>
-               <span><Link to={RouteConfig.home}> Home </Link></span><br/>
-               <span><Link to={RouteConfig.authRegisterPath}>Register</Link></span>
+               <span><Link to={RouteConfig.home} data-testid="link-login-home-id"> Home </Link></span><br/>
+               <span><Link to={RouteConfig.authRegisterPath} data-testid="link-login-register-id">Register</Link></span>
                <br />
                <fieldset>
                    <form action="/api/login" method="post" id="loginCustomerForm" className="form">
@@ -125,5 +134,6 @@ export default function Login(){
                    </form>
                </fieldset>
            <p>{notificationInfo}</p>
+
        </div>);
 }

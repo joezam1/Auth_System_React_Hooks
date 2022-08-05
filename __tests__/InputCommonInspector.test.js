@@ -2,7 +2,7 @@ import InputCommonInspector from '../src/services/validators/InputCommonInspecto
 
 
 
-xdescribe('File: InputCommonInspector.js', () => {
+describe('File: InputCommonInspector.js', () => {
     //test('True is True', ()=>{ expect(true).toBe(true); });
 
     describe('Function: stringIsNullOrEmpty', function () {
@@ -71,6 +71,24 @@ xdescribe('File: InputCommonInspector.js', () => {
             expect(result).toBe(true);
         });
 
+        test('UNDEFINED variable NOT UNASIGNED returns FALSE', function () {
+            //Arrange
+            let undefinedObj;
+            //Act
+            let result = InputCommonInspector.objectIsNullOrEmpty(undefinedObj);
+            //Assert
+            expect(result).toBe(false);
+        });
+
+        test('UNDEFINED Value asigned returns FALSE', function () {
+            //Arrange
+            let undefinedObj = undefined;
+            //Act
+            let result = InputCommonInspector.objectIsNullOrEmpty(undefinedObj);
+            //Assert
+            expect(result).toBe(false);
+        });
+
         test('Property Object returns FALSE', function () {
             //Arrange
             let obj = { status: 200, statusText: "OK" };
@@ -81,6 +99,52 @@ xdescribe('File: InputCommonInspector.js', () => {
         });
     });
 
+    describe('Function: valueIsUndefined', function(){
+        test('UNDEFINED variable NOT UNASIGNED returns TRUE', function () {
+            //Arrange
+            let undefinedObj;
+            //Act
+            let result = InputCommonInspector.valueIsUndefined(undefinedObj);
+            //Assert
+            expect(result).toBe(true);
+        });
+
+        test('UNDEFINED Value asigned returns TRUE', function () {
+            //Arrange
+            let undefinedObj = undefined;
+            //Act
+            let result = InputCommonInspector.valueIsUndefined(undefinedObj);
+            //Assert
+            expect(result).toBe(true);
+        });
+
+        test('Empty Object returns FALSE', function () {
+            //Arrange
+            let emptyObj = {};
+            //Act
+            let result = InputCommonInspector.valueIsUndefined(emptyObj);
+            //Assert
+            expect(result).toBe(false);
+        });
+
+        test('NULL Object returns FALSE', function () {
+            //Arrange
+            let nullObj = null;
+            //Act
+            let result = InputCommonInspector.valueIsUndefined(nullObj);
+            //Assert
+            expect(result).toBe(false);
+        });
+
+        test('Property Object returns FALSE', function () {
+            //Arrange
+            let obj = { status: 200, statusText: "OK" };
+            //Act
+            let result = InputCommonInspector.valueIsUndefined(obj);
+            //Assert
+            expect(result).toBe(false);
+        });
+    });
     describe('Function: errorKeyAndTargetKeyAreEqual ',function(){
 
         test('When Error key and Target Key are equal, Result is TRUE', function(){

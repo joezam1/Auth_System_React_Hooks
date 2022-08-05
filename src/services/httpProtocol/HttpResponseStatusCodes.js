@@ -1,5 +1,4 @@
 import httpResponseStatus from '../../library/enumerations/HttpResponseStatus.js';
-import HttpResponseStatus from '../../library/enumerations/HttpResponseStatus.js';
 
 var statuses = {
     ok200:{

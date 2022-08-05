@@ -4,7 +4,7 @@ import userRegisterViewModel from '../src/viewModels/UserRegister.js';
 import InputCommonInspector from '../src/services/validators/InputCommonInspector.js';
 import UserRoles from '../src/library/enumerations/UserRoles.js';
 
-xdescribe('File: ObjectModelInspector.js', function () {
+describe('File: ObjectModelInspector.js', function () {
     afterEach(cleanup);
     describe('Function: inspectInputLength', function(){
         test('Inputs filled up completely do not generate Error Report', function(){

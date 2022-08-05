@@ -1,6 +1,6 @@
-import helpers from '../src/library/common/Helpers.js';//= require('../app/library/common/helpers.js');
+import helpers from '../src/library/common/Helpers.js';
 
-xdescribe('File: Helpers.js',function(){
+describe('File: Helpers.js',function(){
     describe('Function: removeLeadingAndTrailinsSpaces',function(){
 
         test('Input with Spaces will have them removed',function(){

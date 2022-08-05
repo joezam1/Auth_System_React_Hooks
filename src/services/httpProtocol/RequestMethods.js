@@ -1,11 +1,14 @@
 'use strict'
 
 import HttpRequest from './HttpRequests.js';
+import HttpRequestMethods from '../../library/enumerations/HttpRequestMethods.js';
+
+
 
 //Test:DONE
-var getMethod = function (url, responseCallback, selectedHeaders = null) {
-    var options = {
-        method: 'GET',
+let getMethod = function (url, responseCallback, selectedHeaders = null) {
+    let options = {
+        method: HttpRequestMethods[HttpRequestMethods.GET],
         mode:'cors',
         headers: getHeaders(selectedHeaders)
     }
@@ -14,11 +17,12 @@ var getMethod = function (url, responseCallback, selectedHeaders = null) {
 }
 
 //Test:DONE
-var postMethod = function (url, payload, responseCallback, selectedHeaders = null) {
-    var jsonPayload = JSON.stringify(payload);
+let postMethod = function (url, payload, responseCallback, selectedHeaders = null) {
+    let jsonPayload = JSON.stringify(payload);
 
-    var options = {
-        method: 'POST',
+    let options = {
+        method: HttpRequestMethods[HttpRequestMethods.POST],
+        mode:'cors',
         headers: getHeaders(selectedHeaders),
         body: jsonPayload
     }
@@ -26,9 +30,23 @@ var postMethod = function (url, payload, responseCallback, selectedHeaders = nul
     HttpRequest.fetchMethod(url, options, responseCallback);
 }
 
-var service = {
-    getMethod: getMethod,
-    postMethod: postMethod
+let deleteMethod = function (url, payload, responseCallback, selectedHeaders = null) {
+    let jsonPayload = JSON.stringify(payload);
+
+    let options = {
+        method: HttpRequestMethods[HttpRequestMethods.DELETE],
+        mode:'cors',
+        headers: getHeaders(selectedHeaders),
+        body: jsonPayload
+    }
+
+    HttpRequest.fetchMethod(url, options, responseCallback);
+}
+
+const service = {
+    getMethod : getMethod,
+    postMethod : postMethod,
+    deleteMethod : deleteMethod
 }
 
 export default service;
@@ -37,16 +55,16 @@ export default service;
 
 //#REGION Private Methods
 
-function getHeaders(selectedHeaders) {
-    var defaultHeaders = {
+function getHeaders(selectedHeadersObj) {
+    var defaultHeadersObj = {
         'Content-Type':'application/json'
     }
     var authHeaders = null ; //TODO: getAuthenticationHeaders();
     var headers = null;
-    if (selectedHeaders !== null) {
-        headers = selectedHeaders;
-    }
-    var headers = Object.assign({},defaultHeaders,authHeaders,selectedHeaders)
+    // if (selectedHeaders !== null) {
+    //     headers = selectedHeaders;
+    // }
+    var headers = Object.assign({},defaultHeadersObj,authHeaders,selectedHeadersObj)
     return headers;
 }
 

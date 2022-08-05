@@ -7,8 +7,8 @@ export default function Home(){
       <div className="home">
           This is home Section - Public Page
           <ul>
-              <li> <Link to={RouteConfig.authRegisterPath}>Register</Link></li>
-              <li> <Link to={RouteConfig.authLoginPath}> Login</Link></li>
+              <li> <Link to={RouteConfig.authRegisterPath} data-testid="link-home-register-id">Register</Link></li>
+              <li> <Link to={RouteConfig.authLoginPath} data-testid="link-home-login-id"> Login</Link></li>
           </ul>
       </div>
   );

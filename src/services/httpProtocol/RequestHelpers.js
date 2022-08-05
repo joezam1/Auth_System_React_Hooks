@@ -1,9 +1,9 @@
-import InputValidators from '../validators/CommonValidators.js';
+import CommonValidators from '../validators/CommonValidators.js';
 
 //Test:DONE
 var safeJsonParse = function (input) {
     var value = input;
-    if (InputValidators.isValidJson(input)) {
+    if (CommonValidators.isValidJson(input)) {
         value = JSON.parse(input);
     }
     return value;

@@ -2,11 +2,18 @@ import React from 'react';
 import {MemoryRouter} from 'react-router-dom';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import Register from '../src/webPages/public/Register.js';
+import RouteConfig from '../configuration/routes/RouteConfig.js';
+import RequestMethods from '../src/services/httpProtocol/RequestMethods.js';
+import ValidationService from '../src/services/validators/ValidationService.js';
 
+jest.mock('../src/services/httpProtocol/RequestMethods.js');
+jest.mock('../src/services/validators/validationService.js');
 
-xdescribe('File: Register', function(){
+describe('File: Register.js', function(){
     afterEach(cleanup);
-
+    afterAll(()=>{
+        jest.resetAllMocks();
+    });
     let container;
     beforeEach(()=>{
         container = render( <MemoryRouter> <Register/> </MemoryRouter>);
@@ -18,12 +25,37 @@ xdescribe('File: Register', function(){
 
         test('Home Link Redirects Correctly', function(){
             const link = container.getByText( 'Home' );
-            const link1 = container.getByRole('link');
+            const link1 = container.getByTestId ('link-register-home-id');
             fireEvent.click(link);
             var initialPath = window.location.pathname;
             var pathname = link.pathname;
-            expect(pathname).toBe('/');
+            expect(pathname).toBe(RouteConfig.home);
             expect(link).toBe(link1);
-    });
+        });
+
+        test('Login Link Redirects Correctly', function(){
+            const link = container.getByText( 'Login' );
+            const link1 = container.getByTestId ('link-register-login-id');
+            fireEvent.click(link);
+            var initialPath = window.location.pathname;
+            var pathname = link.pathname;
+            expect(pathname).toBe(RouteConfig.authLoginPath);
+            expect(link).toBe(link1);
+        });
+
+        test('submit button Triggers form', function(){
+            //Arrange
+            const submitButton = container.getByTestId('register-customer-form-id');
+            const resultMock = 'OK';
+            const resultValidationMock = {};
+            ValidationService.resolveUserFormValidation = jest.fn().mockReturnValueOnce(resultValidationMock);
+            RequestMethods.postMethod = jest.fn().mockReturnValueOnce(resultMock);
+            //Act
+            //submitButton.simulate('click');
+            fireEvent.click(submitButton);
+            //Assert
+            expect(RequestMethods.postMethod).toHaveBeenCalledTimes(1);
+            expect(ValidationService.resolveUserFormValidation).toHaveBeenCalledTimes(1);
+        });
     });
 });

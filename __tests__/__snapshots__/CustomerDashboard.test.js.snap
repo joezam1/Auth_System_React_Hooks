@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File: CustomerDashboard.js Component CustomerDashboard It should take a snapshot 1`] = `
+<DocumentFragment>
+   
+  <div
+    class="section-Customer-dashboard"
+  >
+    Customer Dashboard works ok!
+    <br />
+    <a
+      href="/auth/logout"
+    >
+      Logout
+    </a>
+  </div>
+    
+</DocumentFragment>
+`;

@@ -1,6 +1,6 @@
 import InputValueInspector from '../src/services/validators/InputValueInspector.js';
 
-xdescribe('File: InputValueInspector',()=>{
+describe('File: InputValueInspector',()=>{
     //test('True is True', ()=>{ expect(true).toBe(true); });
     describe('Function: nameIsValid', function(){
 

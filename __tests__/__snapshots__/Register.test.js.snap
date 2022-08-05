@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`File: Register Component Register It can take a snapshot 1`] = `
+exports[`File: Register.js Component Register It can take a snapshot 1`] = `
 <DocumentFragment>
    
   <div
@@ -11,9 +11,19 @@ exports[`File: Register Component Register It can take a snapshot 1`] = `
     </h3>
     <span>
       <a
+        data-testid="link-register-home-id"
         href="/"
       >
          Home 
+      </a>
+    </span>
+    <br />
+    <span>
+      <a
+        data-testid="link-register-login-id"
+        href="/auth/login"
+      >
+         Login 
       </a>
     </span>
     <br />
@@ -21,7 +31,7 @@ exports[`File: Register Component Register It can take a snapshot 1`] = `
       <form
         action="/api/register"
         class="form"
-        id="registerForm"
+        id="registerCustomerForm"
         method="post"
       >
         <input
@@ -30,38 +40,69 @@ exports[`File: Register Component Register It can take a snapshot 1`] = `
           placeholder="Insert your first Name"
           type="text"
         />
+        <div
+          class="text-left"
+        >
+          <span />
+        </div>
         <input
           class="row"
-          name="lasstName"
+          name="lastName"
           placeholder="Insert your last Name"
           type="text"
         />
+        <div
+          class="text-left"
+        >
+          <span />
+        </div>
         <input
           class="row"
-          name="usernaame"
+          name="username"
           placeholder="Insert your username"
           type="text"
         />
+        <div
+          class="text-left"
+        >
+          <span />
+        </div>
         <input
           class="row"
           name="enail"
           placeholder="Insert your email"
           type="email"
         />
+        <div
+          class="text-left"
+        >
+          <span />
+        </div>
         <input
           class="row"
           name="password"
           placeholder="insert your password"
           type="password"
         />
+        <div
+          class="text-left"
+        >
+          <span />
+        </div>
         <input
           class="row"
           name="confirmPassword"
           placeholder="Confirm your password"
           type="password"
         />
+        <div
+          class="text-left"
+        >
+          <span />
+        </div>
         <button
           class="row"
+          data-testid="register-customer-form-id"
           name="button"
           type="button"
           value="submit"
@@ -70,6 +111,7 @@ exports[`File: Register Component Register It can take a snapshot 1`] = `
         </button>
       </form>
     </fieldset>
+    <p />
   </div>
    
 </DocumentFragment>

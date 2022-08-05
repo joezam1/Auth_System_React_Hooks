@@ -11,9 +11,19 @@ exports[`File: Home.js Component Home It should take a snapshot 1`] = `
       <li>
          
         <a
+          data-testid="link-home-register-id"
           href="/auth/register"
         >
           Register
+        </a>
+      </li>
+      <li>
+         
+        <a
+          data-testid="link-home-login-id"
+          href="/auth/login"
+        >
+           Login
         </a>
       </li>
     </ul>

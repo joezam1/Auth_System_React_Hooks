@@ -1,7 +1,7 @@
 import { cleanup } from '@testing-library/react';
 import RequestHelpers from '../src/services/httpProtocol/RequestHelpers.js';
 
-xdescribe('File: RequestHelpers.js', function () {
+describe('File: RequestHelpers.js', function () {
     afterEach(cleanup);
     //NOTE: Test that JEST is working correctly
     //test('True is True', function () { expect(true).toBe(true); });

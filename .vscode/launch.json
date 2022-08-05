@@ -9,6 +9,12 @@
             "name": "Run TEST Terminal",
             "request": "launch",
             "type": "node-terminal"
+        },
+        {
+            "command": "npm run dev",
+            "name": "Run DEBUG Terminal",
+            "request": "launch",
+            "type": "node-terminal"
         }
     ]
 }

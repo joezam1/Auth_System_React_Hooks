@@ -5,53 +5,61 @@ import { fetchMethod } from '../src/services/httpProtocol/HttpRequests.js';
 
 
 
-jest.mock('../src/services/httpProtocol/HttpRequests.js', ()=>({
-    fetchMethod:jest.fn()
+jest.mock('../src/services/httpProtocol/HttpRequests.js', () => ({
+    fetchMethod: jest.fn()
 }));
 
-afterEach(()=>{
+afterEach(() => {
     jest.clearAllMocks();
 });
 
-xdescribe('File: RequestMethods.js', function () {
+describe('File: RequestMethods.js', function () {
     afterEach(cleanup);
     //NOTE: Test that JEST is working correctly
     //test('True is True', function () { expect(true).toBe(true); });
 
-    describe('Function: getMethod with Mock', function(){
-        test('getMethod calls fetchMethod once',
-        function(){
+    describe('Function: getMethod with Mock', function () {
+        test('getMethod calls fetchMethod once', function () {
+
+            //Arrange
             let url = 'http://localhost';
 
-            fetchMethod.mockImplementation((url, options, responseCallback) =>{
-                var response ={status:200, statusText:'OK'}
+            fetchMethod.mockImplementation((url, options, responseCallback) => {
+                var response = { status: 200, statusText: 'OK' }
                 responseCallback(response);
             })
-
-           function responseGetCallback(response){
+            function responseGetCallback(response) {
                 expect(response.status).toEqual(200);
-           }
-           RequestMethods.getMethod(url, responseGetCallback, null);
-           expect(fetchMethod).toHaveBeenCalledTimes(1);
+            }
+            //Act
+            RequestMethods.getMethod(url, responseGetCallback, null);
+            //Assert
+            expect(fetchMethod).toHaveBeenCalledTimes(1);
         });
     });
 
-    describe('Function: postMethod', function(){
-        test('postMethod Calls FetchMethod only once',
-            function(){
-                let url = 'http://localhost';
+    describe('Function: postMethod', function () {
+        test('postMethod Calls FetchMethod only once', function () {
+            //Arrange
+            let url = 'http://localhost';
+            let payloadModel = {
+                firstName: 'Thomas',
+                lastName: 'Jones'
+            }
 
-                fetchMethod.mockImplementation((url, options, responseCallback) =>{
-                    var response ={status:200, statusText:'OK'}
-                    responseCallback(response);
-                })
+            fetchMethod.mockImplementation((url, options, responseCallback) => {
+                var response = { status: 200, statusText: 'OK' }
+                responseCallback(response);
+            })
 
-                function responsePostCallback(response){
-                    expect(response.status).toEqual(200);
-                }
+            function responsePostCallback(response) {
+                expect(response.status).toEqual(200);
+            }
+            //Act
+            RequestMethods.postMethod(url, payloadModel, responsePostCallback, null);
 
-                RequestMethods.postMethod(url, responsePostCallback,null);
-                expect(fetchMethod).toHaveBeenCalledTimes(1);
-            });
+            //Assert
+            expect(fetchMethod).toHaveBeenCalledTimes(1);
+        });
     })
 });

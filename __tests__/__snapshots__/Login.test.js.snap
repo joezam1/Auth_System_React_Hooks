@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File: Login.js Component Login It should take a snapshot 1`] = `
+<DocumentFragment>
+   
+  <div
+    class="register-container"
+  >
+    <h3>
+      Login
+    </h3>
+    <span>
+      <a
+        data-testid="link-login-home-id"
+        href="/"
+      >
+         Home 
+      </a>
+    </span>
+    <br />
+    <span>
+      <a
+        data-testid="link-login-register-id"
+        href="/auth/register"
+      >
+        Register
+      </a>
+    </span>
+    <br />
+    <fieldset>
+      <form
+        action="/api/login"
+        class="form"
+        id="loginCustomerForm"
+        method="post"
+      >
+        <input
+          class="row"
+          name="username"
+          placeholder="Insert your username"
+          type="text"
+        />
+        <div
+          class="text-left"
+        >
+          <span />
+        </div>
+        <input
+          class="row"
+          name="password"
+          placeholder="insert your password"
+          type="password"
+        />
+        <div
+          class="text-left"
+        >
+          <span />
+        </div>
+        <button
+          class="row"
+          name="button"
+          type="button"
+          value="submit"
+        >
+          Submit
+        </button>
+      </form>
+    </fieldset>
+    <p />
+  </div>
+    
+</DocumentFragment>
+`;

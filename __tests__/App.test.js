@@ -4,7 +4,7 @@ import App from '../src/App.js';
 
 
 
-xdescribe('File: App.js', function(){
+describe('File: App.js', function(){
     afterEach(cleanup);
 
     //NOTE: Test that JEST is working correctly
