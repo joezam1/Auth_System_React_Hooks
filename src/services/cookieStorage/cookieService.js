@@ -23,10 +23,10 @@ let insertCookieInDataStore = function(cookieName, cookieValue, optionsObject){
     }
 }
 
-let insertCookieInDataStoreWithExpiryTime = function(name, value, path, utcDateCreated, maxAgeMilliseconds, isSecure ){
+let insertCookieInDataStoreWithExpiryTime = function(name, value, path, utcDateExpired ){
 
     try{
-        CookieHelper.setCookieWithExpiryTime (name, value, path, utcDateCreated, maxAgeMilliseconds, isSecure );
+        CookieHelper.setCookieWithExpiryTime (name, value, path, utcDateExpired  );
     }
     catch(error){
         let errorMessage= new Error('Failed to save the cookie to the storage: ', error);
@@ -53,7 +53,16 @@ let deleteCookieFromDataStoreByNameAndPath = function(cookieName, cookiePath){
     }
 }
 
-let sessionCookieIsExpired = function( cookieSessionUTCDateCreated, cookieSessionEpiryInMilliseconds){
+let sessionCookieIsExpired = function(cookieSessionUTCDateExpired){
+    let dateNow = new Date();
+    let dateNowUtc = dateNow.toISOString();
+    if(dateNowUtc > cookieSessionUTCDateExpired){
+        return true;
+    }
+    return false;
+}
+
+let sessionCookieIsExpired1 = function( cookieSessionUTCDateCreated, cookieSessionEpiryInMilliseconds){
     let dateNow = new Date();
     let dateNowUtc = dateNow.toISOString();
     let sessionDateCreatedUtc = new Date(cookieSessionUTCDateCreated);

@@ -1,10 +1,10 @@
-import AuthenticationInspector from '../src/services/privateWebPagesMediator/AuthenticationInspector.js';
+import SessionValidatorService from '../src/services/privateWebPagesMediator/SessionValidatorService.js';
 import CookieService from '../src/services/cookieStorage/CookieService.js';
 import RouteConfig from '../configuration/routes/RouteConfig.js';
 
 jest.mock('../src/services/cookieStorage/CookieService.js');
 
-describe('File: AuthenticationInspector.js', function(){
+describe('File: SessionValidatorService.js', function(){
     afterAll(()=>{
         jest.resetAllMocks();
     });
@@ -18,7 +18,7 @@ describe('File: AuthenticationInspector.js', function(){
             let urlRedirect = RouteConfig.home;
             //Act
 
-            let result = AuthenticationInspector.redirectPrivateWebpagesMediator(urlRedirect);
+            let result = SessionValidatorService.redirectPrivateWebpagesMediator(urlRedirect);
             let navigationObj = (result.type.name === 'Navigate');
             let navigationUrl = result.props.to;
             //Assert
@@ -36,7 +36,7 @@ describe('File: AuthenticationInspector.js', function(){
             let logoutRedirect = RouteConfig.authLogoutPath;
             //Act
 
-            let result = AuthenticationInspector.redirectPrivateWebpagesMediator(urlRedirect);
+            let result = SessionValidatorService.redirectPrivateWebpagesMediator(urlRedirect);
             let navigationObj = (result.type.name === 'Navigate');
             let navigationUrl = result.props.to;
             //Assert

@@ -1,10 +1,11 @@
 import InputTypeInspector from '../validators/InputTypeInspector.js';
+import InputCommonInspector from '../validators/InputCommonInspector.js';
 import LocalStorageHelper from './LocalStorageHelper.js';
 
 const LocalStorageService = (function(){
 
     const setItemInLocalStorage = function(key, value){
-        if (InputTypeInspector.isTypeString(key) && InputTypeInspector.isTypeString(value)) {
+        if (InputTypeInspector.isTypeString(key) && InputCommonInspector.objectIsValid(value)) {
             LocalStorageHelper.setItemStorage(key, value);
             return 'OK';
         }

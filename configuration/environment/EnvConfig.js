@@ -33,5 +33,5 @@ var envConfig = Object.freeze({
     TARGET_URL :REACT_APP_TARGET_URL
 });
 
-console.log('envConfig', envConfig);
+console.log('envConfig-SERVICE-LOADED', envConfig);
 module.exports = envConfig;

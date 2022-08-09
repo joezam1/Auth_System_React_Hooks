@@ -2,25 +2,31 @@ import WebWorkerManager from "../backgroundWorkers/WebWorkerManager";
 import LocalStorageService from "../services/localStorage/LocalStorageService";
 import CookieService from "../services/cookieStorage/CookieService";
 import CookieProperties from "../library/stringLiterals/CookieProperties";
-import MessageWorkerDataModel from "../dataModels/MessageWorkerDataModel";
+//import MessageWorkerDataModel from "../dataModels/MessageWorkerDataModel";
 import HttpRequestMethods from "../library/enumerations/HttpRequestMethods";
 import EnvConfig from "../../configuration/environment/EnvConfig";
 import ServerConfig from '../../configuration/server/ServerConfig.js';
 import SessionConfig from '../../configuration/authentication/SessionConfig.js';
 import inputCommonInspector from "../services/validators/InputCommonInspector.js";
 import FetchWorkerHelper from '../backgroundWorkers/FetchWorkerHelper.js';
+import IntervalIdName from '../library/enumerations/IntervalIdName.js';
 
-const RefreshExpiringSession = (function () {
+const SessionRefreshInspector = (function () {
     const resolveRefreshingExpiringSession = function (fetchWorker) {
 
-        let timerId = setInterval(function(){
-            WebWorkerManager.startNewWorker(fetchWorker, fetchWorkerOnMessageCallback);
+        console.log('resolverefreshinExpiringSession-TRIGGERED')
+        console.log('SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS',SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS);
+        let timerId = setInterval(function()
+        {
+            console.log('Interval-triggered-ok');
+            WebWorkerManager.startNewWorker(fetchWorker, refreshFetchWorkerOnMessageCallback);
             let message = getMessageDataForWorker();
             WebWorkerManager.sendMessageToWorker(message);
 
         }, SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS);
 
-        LocalStorageService.setItemInLocalStorage(SessionConfig.SESSION_TIMER_ID, timerId);
+        let setInntervalIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId];
+        LocalStorageService.setItemInLocalStorage( setInntervalIdName , timerId);
     }
 
     return {
@@ -29,7 +35,7 @@ const RefreshExpiringSession = (function () {
 
 })();
 
-export default RefreshExpiringSession;
+export default SessionRefreshInspector;
 
 //#REGION Private Functions
     function getMessageDataForWorker(){
@@ -48,29 +54,37 @@ export default RefreshExpiringSession;
     }
 
 
-    function fetchWorkerOnMessageCallback(event){
+    function refreshFetchWorkerOnMessageCallback(event){
         console.log('sessionWorkerOnMessageCallback-event', event)
+        let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperties.NAME);
+        let cookiePath = LocalStorageService.getItemFromLocalStorage(CookieProperties.PATH);
+        let intervalTimerId = LocalStorageService.getItemFromLocalStorage( SessionConfig.SESSION_TIMER_ID );
         let sessionInfo = event?.data?.data?.result;
+
         if(inputCommonInspector.objectIsValid(sessionInfo)){
-            let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperties.NAME);
-            let cookiePath = sessionInfo?.data?.fieldValue?.properties?.path
             let newSessionToken = sessionInfo?.sessionToken?.fieldValue;
             let originalUtcDateCreated = sessionInfo?.utcDateCreated?.fieldValue;
             let expiresInMilliseconds = sessionInfo?.expires?.fieldValue;
-
-            let cookieIsExpired = CookieService.sessionCookieIsExpired (originalUtcDateCreated, expiresInMilliseconds)
+            let originalUtcDateExpired = sessionInfo?.utcDateExpired?.fieldValue;
+            let cookieIsExpired = CookieService.sessionCookieIsExpired ( originalUtcDateExpired )
             if(!cookieIsExpired && inputCommonInspector.stringIsValid(newSessionToken)){
 
                 let currentCookie = CookieService.getCookieFromDataStoreByName(cookieName);
                 if(inputCommonInspector.stringIsValid(currentCookie)){
 
                     CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName,cookiePath);
-                    CookieService.insertCookieInDataStoreWithExpiryTime(cookieName, newSessionToken, cookiePath, originalUtcDateCreated, expiresInMilliseconds, true);
+                    let optionsObject = {
+                        path: cookiePath,
+                        maxAge : expiresInMilliseconds
+                    }
+                    CookieService.insertCookieInDataStore(cookieName, newSessionToken,  optionsObject);
+                    WebWorkerManager.terminateActiveWorker();
                     return;
                 }
             }
-            CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName,cookiePath);
         }
+        CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName,cookiePath);
+        clearInterval(intervalTimerId);
         WebWorkerManager.terminateActiveWorker();
     }
 

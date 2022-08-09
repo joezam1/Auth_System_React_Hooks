@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link , Navigate } from 'react-router-dom';
 import User from '../../viewModels/UserRegister.js';
 import UserRoles from '../../library/enumerations/UserRoles.js';
-import RequestMethods from '../../services/httpProtocol/RequestMethods.js';
+import RequestMethodsService from '../../services/httpProtocol/RequestMethodsService.js';
 import EnvConfig from '../../../configuration/environment/EnvConfig.js';
 import ServerConfig from '../../../configuration/server/ServerConfig.js';
 import RouteConfig from '../../../configuration/routes/RouteConfig.js';
@@ -90,7 +90,7 @@ export default function Register(){
             userInfo = user;
             if( !inputsAreValid(user) ){ return; }
             var registerUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiUsersRegisterPathPost;
-            RequestMethods.postMethod(registerUrl, dataModel, registerUserCallback);
+            RequestMethodsService.postMethod(registerUrl, dataModel, registerUserCallback);
         }
     }
 

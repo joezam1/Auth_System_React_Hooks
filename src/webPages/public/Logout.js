@@ -5,13 +5,14 @@ import RouteConfig from '../../../configuration/routes/RouteConfig.js';
 import CookieService from '../../services/cookieStorage/CookieService.js';
 import CookieProperties from "../../library/stringLiterals/CookieProperties.js";
 import LocalStorageService from "../../services/localStorage/LocalStorageService.js";
-import RequestMethods from '../../services/httpProtocol/RequestMethods.js';
+import RequestMethodsService from '../../services/httpProtocol/RequestMethodsService.js';
 import ServerConfig from '../../../configuration/server/ServerConfig.js';
 import EnvConfig from '../../../configuration/environment/EnvConfig.js';
 import SessionConfig from '../../../configuration/authentication/SessionConfig.js';
 import HttpResponseStatus from '../../library/enumerations/HttpResponseStatus.js';
 import NotificationService from "../../services/notifications/NotificationService.js";
 import InputCommonInspector from "../../services/validators/InputCommonInspector.js";
+import IntervalIdName from "../../library/enumerations/IntervalIdName.js";
 
 export default function Logout(){
 
@@ -26,9 +27,10 @@ export default function Logout(){
             let resultCookie = CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName, cookiePath);
             LocalStorageService.removeItemFromLocalStorage(CookieProperties.NAME);
             LocalStorageService.removeItemFromLocalStorage(CookieProperties.PATH);
-            let intervalTimerId = LocalStorageService.getItemFromLocalStorage( SessionConfig.SESSION_TIMER_ID );
+            let intervalTimerIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId]
+            let intervalTimerId = LocalStorageService.getItemFromLocalStorage( intervalTimerIdName );
             clearInterval(intervalTimerId);
-            LocalStorageService.removeItemFromLocalStorage(SessionConfig.SESSION_TIMER_ID);
+            LocalStorageService.removeItemFromLocalStorage( intervalTimerIdName );
             processUserLogoutSession(cookieValue);
         }
     },[]);
@@ -38,7 +40,7 @@ export default function Logout(){
         switch(response.status){
 
             case HttpResponseStatus._200ok:
-                setNotification(messageLogoutSuccess);
+                setNotification(NotificationService.logoutSuccess );
                 delayRedirect();
             break;
 
@@ -74,7 +76,7 @@ export default function Logout(){
         let selectedHeaders = {
             x_session_id : sessionCookieValue
         }
-        RequestMethods.deleteMethod(logoutUrl, dataModel, logoutUserCallback, selectedHeaders);
+        RequestMethodsService.deleteMethod(logoutUrl, dataModel, logoutUserCallback, selectedHeaders);
     }
 
     if(isLoggedOut){

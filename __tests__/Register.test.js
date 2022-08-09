@@ -3,10 +3,10 @@ import {MemoryRouter} from 'react-router-dom';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import Register from '../src/webPages/public/Register.js';
 import RouteConfig from '../configuration/routes/RouteConfig.js';
-import RequestMethods from '../src/services/httpProtocol/RequestMethods.js';
+import RequestMethodsService from '../src/services/httpProtocol/RequestMethodsService.js';
 import ValidationService from '../src/services/validators/ValidationService.js';
 
-jest.mock('../src/services/httpProtocol/RequestMethods.js');
+jest.mock('../src/services/httpProtocol/RequestMethodsService.js');
 jest.mock('../src/services/validators/validationService.js');
 
 describe('File: Register.js', function(){
@@ -49,12 +49,12 @@ describe('File: Register.js', function(){
             const resultMock = 'OK';
             const resultValidationMock = {};
             ValidationService.resolveUserFormValidation = jest.fn().mockReturnValueOnce(resultValidationMock);
-            RequestMethods.postMethod = jest.fn().mockReturnValueOnce(resultMock);
+            RequestMethodsService.postMethod = jest.fn().mockReturnValueOnce(resultMock);
             //Act
             //submitButton.simulate('click');
             fireEvent.click(submitButton);
             //Assert
-            expect(RequestMethods.postMethod).toHaveBeenCalledTimes(1);
+            expect(RequestMethodsService.postMethod).toHaveBeenCalledTimes(1);
             expect(ValidationService.resolveUserFormValidation).toHaveBeenCalledTimes(1);
         });
     });

@@ -1,6 +1,4 @@
 import jsCookie from 'js-cookie';
-import SessionConfig from '../../../configuration/authentication/SessionConfig.js';
-
 
 let setCookie = function (cookieName, cookieValue, path, milliseconds= null) {
     var expires = "";
@@ -12,27 +10,19 @@ let setCookie = function (cookieName, cookieValue, path, milliseconds= null) {
     document.cookie = cookieName + "=" + cookieValue + ';Path='+ path+';'+  expires;
  }
 
- let setCookieWithExpiryTime = function(sessionCookieName, sessionCookieValue, path, utcDateCreated, maxAgeMilliseconds, isSecure) {
-
-    let sessionDateCreatedUtc = new Date(utcDateCreated);
-    let sessionExpiryInMinutes = maxAgeMilliseconds / SessionConfig.ONE_MINUTE_IN_MILLISECONDS;
-    let expirationDateUtc = sessionDateCreatedUtc.setMinutes( sessionDateCreatedUtc.getMinutes() + sessionExpiryInMinutes );
+ let setCookieWithExpiryTime = function(sessionCookieName, sessionCookieValue, path, utcDateExpired) {
 
     jsCookie.set(sessionCookieName, sessionCookieValue, {
         path: path,
-        expires: expirationDateUtc,
-        secure: isSecure,
+        expires: utcDateExpired
     })
 }
-
-
 
 let getCookieValueByName = function(cookieName){
     let selectedCookie = jsCookie.get(cookieName);
 
     return selectedCookie;
 }
-
 
 let deleteCookiebyName = function(cookieName){
     Cookies.remove(cookieName);

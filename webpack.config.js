@@ -1,5 +1,5 @@
 const path = require('path');
-const Envconfig = require('./configuration/environment/EnvConfig.js');
+//const Envconfig = require('./configuration/environment/EnvConfig.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 

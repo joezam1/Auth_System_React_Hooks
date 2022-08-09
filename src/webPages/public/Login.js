@@ -8,14 +8,14 @@ import InputCommonInspector from '../../services/validators/InputCommonInspector
 import EnvConfig from '../../../configuration/environment/EnvConfig.js';
 import ServerConfig from '../../../configuration/server/ServerConfig.js';
 import httpResponseStatus from '../../library/enumerations/HttpResponseStatus.js';
-import RequestMethods from '../../services/httpProtocol/RequestMethods.js';
+import RequestMethodsService from '../../services/httpProtocol/RequestMethodsService.js';
 import CookieService from '../../services/cookieStorage/CookieService.js';
 import LocalStorageService from '../../services/localStorage/LocalStorageService.js';
 import CookieProperties from '../../library/stringLiterals/CookieProperties.js';
-import AuthenticationInspector from '../../services/privateWebPagesMediator/AuthenticationInspector.js';
+import SessionValidatorService from '../../services/privateWebPagesMediator/SessionValidatorService.js';
 
 import fetchWorkerScript from '../../backgroundWorkers/FetchWorker.js';
-import RefreshExpiringSession from '../../middleware/RefreshExpiringSession.js';
+import SessionRefreshInspector from '../../middleware/SessionRefreshInspector.js';
 import NotificationService from '../../services/notifications/NotificationService.js';
 
 
@@ -40,7 +40,7 @@ export default function Login(){
                 LocalStorageService.setItemInLocalStorage(CookieProperties.PATH, properties.path);
                 CookieService.insertCookieInDataStore(name, value, properties);
 
-                RefreshExpiringSession.resolveRefreshingExpiringSession(fetchWorkerScript);
+                SessionRefreshInspector.resolveRefreshingExpiringSession(fetchWorkerScript);
                 setUserLogin(true);
 
             break;
@@ -84,7 +84,7 @@ export default function Login(){
             if( !inputsAreValid(userLogin)){ return; }
 
             var loginUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiUsersLoginPathPost;
-            RequestMethods.postMethod(loginUrl, UserLoginDataModel, loginUserCallback);
+            RequestMethodsService.postMethod(loginUrl, UserLoginDataModel, loginUserCallback);
         }
     }
 
@@ -108,8 +108,8 @@ export default function Login(){
 
 
     if (isLoggedIn) {
-        AuthenticationInspector.redirectPrivateWebpagesMediator(RouteConfig.privateCustomerDashboard )
-     }
+        SessionValidatorService.redirectPrivateWebpagesMediator(RouteConfig.privateCustomerDashboard )
+    }
     return(
         <div className="register-container">
                <h3>Login</h3>

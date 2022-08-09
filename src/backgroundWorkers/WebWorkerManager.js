@@ -1,4 +1,4 @@
-import inputCommonInspectorService from "../services/validators/InputCommonInspector";
+import inputCommonInspector from "../services/validators/InputCommonInspector";
 const WebWorkerManager = (function(){
 
     let activeWorker;
@@ -7,8 +7,9 @@ const WebWorkerManager = (function(){
             activeWorker = new Worker(workerFileScript);
             console.log (`BEGIN-StartNewWorker-${workerFileScript}`);
             activeWorker.onmessage = function(event){
-                console.log(`startNewWorker.${workerFileScript}-onmessage-MESSAGE RECEIVED-${event}`);
-                if(!inputCommonInspectorService.objectIsNullOrEmpty(callback) && !inputCommonInspectorService.valueIsUndefined(callback)){
+                console.log(`startNewWorker.${workerFileScript}-onmessage-MESSAGE RECEIVED:`, event );
+                if( inputCommonInspector.objectIsValid(callback) ){
+                    console.log('callback-isValid');
                     callback(event);
                 }
             }
@@ -16,26 +17,29 @@ const WebWorkerManager = (function(){
     }
 
     const sendMessageToWorker = function(messageObj){
+        console.log('WORKER-MANAGER- sendMessageToWorker- messageObj:', messageObj)
         if(backgroundWorkerIsValid()){
             activeWorker.postMessage(messageObj);
-            let messageObjString = messageObj.toString();
-            console.log(`${activeWorker}-sendMessageToWorker-${messageObjString}`)
         }
+
     }
 
     const terminateActiveWorker = function(){
         console.log('BEGIN-terminateActiveWorker-activeWorker',activeWorker);
-        activeWorker.terminate();
-        activeWorker = undefined;
-        console.log('END-terminateActiveWorker-activeWorker',activeWorker);
+        if(inputCommonInspector.objectIsValid(activeWorker)){
+            activeWorker.terminate();
+            activeWorker = undefined;
+            console.log('END-terminateActiveWorker-activeWorker',activeWorker);
+        }
+        console.log('terminateActiveWorker-activeWorker',activeWorker);
     }
 
 
-    return {
+    return Object.freeze({
         startNewWorker : startNewWorker,
         sendMessageToWorker : sendMessageToWorker,
         terminateActiveWorker : terminateActiveWorker
-    }
+    });
 
     //#REGION Private Functions
 

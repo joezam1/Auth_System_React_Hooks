@@ -1,6 +1,6 @@
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import RequestMethods from '../src/services/httpProtocol/RequestMethods.js';
+import RequestMethodsService from '../src/services/httpProtocol/RequestMethodsService.js';
 import { fetchMethod } from '../src/services/httpProtocol/HttpRequests.js';
 
 
@@ -13,7 +13,7 @@ afterEach(() => {
     jest.clearAllMocks();
 });
 
-describe('File: RequestMethods.js', function () {
+describe('File: RequestMethodsService.js', function () {
     afterEach(cleanup);
     //NOTE: Test that JEST is working correctly
     //test('True is True', function () { expect(true).toBe(true); });
@@ -32,7 +32,7 @@ describe('File: RequestMethods.js', function () {
                 expect(response.status).toEqual(200);
             }
             //Act
-            RequestMethods.getMethod(url, responseGetCallback, null);
+            RequestMethodsService.getMethod(url, responseGetCallback, null);
             //Assert
             expect(fetchMethod).toHaveBeenCalledTimes(1);
         });
@@ -56,7 +56,7 @@ describe('File: RequestMethods.js', function () {
                 expect(response.status).toEqual(200);
             }
             //Act
-            RequestMethods.postMethod(url, payloadModel, responsePostCallback, null);
+            RequestMethodsService.postMethod(url, payloadModel, responsePostCallback, null);
 
             //Assert
             expect(fetchMethod).toHaveBeenCalledTimes(1);
