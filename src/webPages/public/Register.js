@@ -11,6 +11,7 @@ import InputCommonInspector from '../../services/validators/InputCommonInspector
 import ValidationManager from '../../services/validators/ValidationService.js';
 import NotificationService from '../../services/notifications/NotificationService.js';
 
+//Test:DONE
 export default function Register(){
 
     const [ notificationInfo, setNotification ] = useState('');
@@ -76,13 +77,14 @@ export default function Register(){
         var form = document.getElementById('registerCustomerForm');
         if(form !==null) {
             console.log('processUserRegistration-form', form);
+
             let dataModel = {
-                firstName :(!InputCommonInspector.objectIsValid(form[0]) ) ? form[0].value : '',
-                lastName : (!InputCommonInspector.objectIsValid(form[1]) ) ? form[1].value : '',
-                username : (!InputCommonInspector.objectIsValid(form[2]) ) ? form[2].value : '',
-                email : (!InputCommonInspector.objectIsValid(form[3]) ) ? form[3].value : '',
-                password : (!InputCommonInspector.objectIsValid(form[4]) ) ? form[4].value: '',
-                confirmPassword : (!InputCommonInspector.objectIsValid(form[5]) ) ? form[5].value : '',
+                firstName :(InputCommonInspector.objectIsValid(form[0]) ) ? form[0].value : '',
+                lastName : (InputCommonInspector.objectIsValid(form[1]) ) ? form[1].value : '',
+                username : (InputCommonInspector.objectIsValid(form[2]) ) ? form[2].value : '',
+                email : (InputCommonInspector.objectIsValid(form[3]) ) ? form[3].value : '',
+                password : (InputCommonInspector.objectIsValid(form[4]) ) ? form[4].value: '',
+                confirmPassword : (InputCommonInspector.objectIsValid(form[5]) ) ? form[5].value : '',
                 userRole : UserRoles.Customer
             };
             var user = new User(dataModel);

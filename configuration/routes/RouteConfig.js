@@ -3,7 +3,8 @@ const routeConfiguration = Object.freeze({
     authLoginPath:'/auth/login',
     authRegisterPath:'/auth/register',
     authLogoutPath:'/auth/logout',
-    privateCustomerDashboard:'/customerDashboard'
+    privateCustomerDashboard:'/customerDashboard',
+    privateCustomerOrders:'/customerOrders',
 });
 
 export default routeConfiguration;

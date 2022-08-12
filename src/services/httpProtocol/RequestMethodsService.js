@@ -30,6 +30,7 @@ let postMethod = function (url, payload, responseCallback, selectedHeaders = nul
     HttpRequest.fetchMethod(url, options, responseCallback);
 }
 
+//Test: DONE
 let deleteMethod = function (url, payload, responseCallback, selectedHeaders = null) {
     let jsonPayload = JSON.stringify(payload);
 

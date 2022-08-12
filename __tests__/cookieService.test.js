@@ -8,34 +8,6 @@ describe('File: CookieService.js',function(){
         jest.resetAllMocks();
     });
 
-    describe('Function: setCookieName',function(){
-        test('Cookie Name can be set OK', function(){
-            //Arrange
-            let cookieName = 'test';
-            //Act
-            CookieService.setCookieName(cookieName);
-
-            //Assert
-            let result = CookieService.getCookieName();
-            expect(result).toEqual(cookieName);
-        });
-
-    });
-
-    describe('Function: getCookieName',function(){
-        test('Get function returns the correct value', function(){
-            //Arrange
-            let cookieName = 'testing-cookieName-123';
-            CookieService.setCookieName(cookieName);
-            //Act
-            let result = CookieService.getCookieName();
-
-            //Assert
-            expect(result).toEqual(cookieName);
-        });
-
-    });
-
     describe('Function: insertCookieInDataStore', function(){
         test('When we provide the correct values, the information is stored as cookie', function(){
             //Arrange
@@ -62,27 +34,57 @@ describe('File: CookieService.js',function(){
             //Arrange
             let cookieName = 'testabc';
             let cookieValue = '123456';
-            CookieHelper.getCookieByName = jest.fn().mockReturnValueOnce(cookieValue);
+            CookieHelper.getCookieValueByName = jest.fn().mockReturnValueOnce(cookieValue);
             //Act
             let cookieResult = CookieService.getCookieFromDataStoreByName(cookieName);
             console.log('cookieResult', cookieResult);
             //Assert
             expect(cookieResult).toEqual(cookieValue);
-            expect(CookieHelper.getCookieByName).toHaveBeenCalledTimes(1);
+            expect(CookieHelper.getCookieValueByName).toHaveBeenCalledTimes(1);
         });
     });
 
-    describe('Function: deleteCookieFromDataStoreByName', function(){
+    describe('Function: deleteCookieFromDataStoreByNameAndPath', function(){
         test('Function is called once OK', function(){
             //Arrange
             let name = 'test';
+            let path = '/';
             let deleteResult = 'OK';
-            CookieHelper.deleteCookieByName = jest.fn().mockReturnValueOnce(deleteResult);
+            CookieHelper.deleteCookieByNameSecurely = jest.fn().mockReturnValueOnce(deleteResult);
             //Act
-            let deletionResult = CookieService.deleteCookieFromDataStoreByName(name);
+            let deletionResult = CookieService.deleteCookieFromDataStoreByNameAndPath(name,path);
             //Assert
             expect(deletionResult).toEqual(deleteResult);
-            expect(CookieHelper.deleteCookieByName).toHaveBeenCalledTimes(1);
+            expect(CookieHelper.deleteCookieByNameSecurely).toHaveBeenCalledTimes(1);
         });
     });
+
+    describe('Function: sessionCookieIsExpired', function(){
+        test('when UTC Date is in the PAST it returns TRUE', function(){
+            //Arragne
+            let selectedDateNow = new Date();
+            let timestamp2DaysEarlier = selectedDateNow.setDate(selectedDateNow.getDate() - 2);
+            var date2DaysEarlierUTC =  new Date( timestamp2DaysEarlier + (selectedDateNow.getTimezoneOffset()*60000));
+            //Act
+            let result = CookieService.sessionCookieIsExpired(date2DaysEarlierUTC);
+
+            //Assert
+            expect(result).toBe(true);
+
+        });
+
+        test('when UTC Date is in the FUTURE it returns FALSE', function(){
+            //Arragne
+            let selectedDateNow = new Date();
+            let timestamp2DaysEarlier = selectedDateNow.setDate(selectedDateNow.getDate()  + 3);
+            var date3DaysLatierUTC =  new Date( timestamp2DaysEarlier + (selectedDateNow.getTimezoneOffset()*60000));
+            //Act
+            let result = CookieService.sessionCookieIsExpired(date3DaysLatierUTC);
+
+            //Assert
+            expect(result).toBe(false);
+
+        });
+    });
+
 });

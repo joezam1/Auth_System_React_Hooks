@@ -1,9 +1,7 @@
 import CookieHelper from './CookieHelper.js';
-import SessionConfig from '../../../configuration/authentication/SessionConfig.js';
 
 
 const CookieService = (function(){
-
 
 //Test: DONE
 let insertCookieInDataStore = function(cookieName, cookieValue, optionsObject){
@@ -22,25 +20,13 @@ let insertCookieInDataStore = function(cookieName, cookieValue, optionsObject){
         return errorMessage;
     }
 }
-
-let insertCookieInDataStoreWithExpiryTime = function(name, value, path, utcDateExpired ){
-
-    try{
-        CookieHelper.setCookieWithExpiryTime (name, value, path, utcDateExpired  );
-    }
-    catch(error){
-        let errorMessage= new Error('Failed to save the cookie to the storage: ', error);
-        console.log('errorMessage', errorMessage);
-        return errorMessage;
-    }
-}
-
+//Test: DONE
 let getCookieFromDataStoreByName = function(cookieName){
     let selectedCookie = CookieHelper.getCookieValueByName(cookieName);
     return selectedCookie;
 }
 
-
+//Test: DONE
 let deleteCookieFromDataStoreByNameAndPath = function(cookieName, cookiePath){
     try{
         CookieHelper.deleteCookieByNameSecurely(cookieName, cookiePath);
@@ -52,25 +38,18 @@ let deleteCookieFromDataStoreByNameAndPath = function(cookieName, cookiePath){
         return errorMessage;
     }
 }
-
+//Test: DONE
 let sessionCookieIsExpired = function(cookieSessionUTCDateExpired){
     let dateNow = new Date();
-    let dateNowUtc = dateNow.toISOString();
-    if(dateNowUtc > cookieSessionUTCDateExpired){
-        return true;
-    }
-    return false;
-}
+    //To convert to UTC datetime by subtracting the current Timezone offset
+    var utcDate =  new Date(dateNow.getTime() + (dateNow.getTimezoneOffset()*60000));
+    let dateExpiredUtcAsDate = new Date(cookieSessionUTCDateExpired)
+    console.log('sessionCookieIsExpired-utdDate', utcDate);
+    console.log('sessionCookieIsExpired-dateExpiredUtcAsDate', dateExpiredUtcAsDate);
 
-let sessionCookieIsExpired1 = function( cookieSessionUTCDateCreated, cookieSessionEpiryInMilliseconds){
-    let dateNow = new Date();
-    let dateNowUtc = dateNow.toISOString();
-    let sessionDateCreatedUtc = new Date(cookieSessionUTCDateCreated);
-    let sessionExpiryInSeconds = cookieSessionEpiryInMilliseconds / SessionConfig.ONE_SECOND_IN_MILLISECONDS;
-    let sessionExpiryInMinutes = cookieSessionEpiryInMilliseconds / SessionConfig.ONE_MINUTE_IN_MILLISECONDS;
-    let expirationDateUtcInMinutes = sessionDateCreatedUtc.setMinutes( sessionDateCreatedUtc.getMinutes() + sessionExpiryInMinutes );
-    let expirationDateUTCAsDate = sessionDateCreatedUtc.toISOString();
-    if(dateNowUtc > expirationDateUTCAsDate){
+    let dateNowUtcAsTime = utcDate.getTime();
+    let dateExpiredUtcAsTime = dateExpiredUtcAsDate.getTime();
+    if( dateNowUtcAsTime > dateExpiredUtcAsTime){
         return true;
     }
     return false;
@@ -78,7 +57,6 @@ let sessionCookieIsExpired1 = function( cookieSessionUTCDateCreated, cookieSessi
 
 return Object.freeze({
     insertCookieInDataStore : insertCookieInDataStore,
-    insertCookieInDataStoreWithExpiryTime : insertCookieInDataStoreWithExpiryTime,
     getCookieFromDataStoreByName : getCookieFromDataStoreByName,
     deleteCookieFromDataStoreByNameAndPath : deleteCookieFromDataStoreByNameAndPath,
     sessionCookieIsExpired : sessionCookieIsExpired

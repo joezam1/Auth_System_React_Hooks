@@ -4,14 +4,15 @@ import LocalStorageHelper from './LocalStorageHelper.js';
 
 const LocalStorageService = (function(){
 
+    //Test: DONE
     const setItemInLocalStorage = function(key, value){
-        if (InputTypeInspector.isTypeString(key) && InputCommonInspector.objectIsValid(value)) {
+        if (InputTypeInspector.isTypeString(key) && (value)) {
             LocalStorageHelper.setItemStorage(key, value);
             return 'OK';
         }
         return null;
     }
-
+    //Test: DONE
     const getItemFromLocalStorage = function(key){
         if (InputTypeInspector.isTypeString(key) ) {
             let result = LocalStorageHelper.getItemStorage (key);
@@ -19,7 +20,7 @@ const LocalStorageService = (function(){
         }
         return null;
     }
-
+    //Test: DONE
     const removeItemFromLocalStorage = function(key ){
         if (InputTypeInspector.isTypeString(key) ) {
             let result = LocalStorageHelper.removeItemStorage (key);
@@ -27,11 +28,11 @@ const LocalStorageService = (function(){
         }
         return null;
     }
-
+    //Test: DONE
     const clearAllItemsFromLocalStorage = function(){
         LocalStorageHelper.clearAllItemsStorage();
     }
-
+    //Test: DONE
     const getItemKeyFromLocalStorage = function(index){
         let result = LocalStorageHelper.getKeyNameStorage(index);
         return result;

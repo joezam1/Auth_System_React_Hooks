@@ -2,7 +2,6 @@ import WebWorkerManager from "../backgroundWorkers/WebWorkerManager";
 import LocalStorageService from "../services/localStorage/LocalStorageService";
 import CookieService from "../services/cookieStorage/CookieService";
 import CookieProperties from "../library/stringLiterals/CookieProperties";
-//import MessageWorkerDataModel from "../dataModels/MessageWorkerDataModel";
 import HttpRequestMethods from "../library/enumerations/HttpRequestMethods";
 import EnvConfig from "../../configuration/environment/EnvConfig";
 import ServerConfig from '../../configuration/server/ServerConfig.js';
@@ -12,21 +11,34 @@ import FetchWorkerHelper from '../backgroundWorkers/FetchWorkerHelper.js';
 import IntervalIdName from '../library/enumerations/IntervalIdName.js';
 
 const SessionRefreshInspector = (function () {
+    //Test:DONE
     const resolveRefreshingExpiringSession = function (fetchWorker) {
 
         console.log('resolverefreshinExpiringSession-TRIGGERED')
         console.log('SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS',SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS);
-        let timerId = setInterval(function()
-        {
-            console.log('Interval-triggered-ok');
-            WebWorkerManager.startNewWorker(fetchWorker, refreshFetchWorkerOnMessageCallback);
-            let message = getMessageDataForWorker();
-            WebWorkerManager.sendMessageToWorker(message);
+        let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperties.NAME);
+        let initialCookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
 
-        }, SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS);
+        if(inputCommonInspector.stringIsValid(initialCookieValue)){
+            let timerId = setInterval(function()
+            {
+                console.log('Interval-triggered-ok');
+                let latestCookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
+                console.log('latestCookieValue:',latestCookieValue);
+                if(!inputCommonInspector.stringIsValid(latestCookieValue)){
+                    clearInterval(timerId);
+                    console.log('Interval-stopped-ok');
+                    return;
+                }
+                WebWorkerManager.startNewWorker(fetchWorker, refreshFetchWorkerOnMessageCallback);
+                let message = getMessageDataForWorker(cookieName , latestCookieValue );
+                WebWorkerManager.sendMessageToWorker(message);
 
-        let setInntervalIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId];
-        LocalStorageService.setItemInLocalStorage( setInntervalIdName , timerId);
+            }, SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS);
+
+            let intervalIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId];
+            LocalStorageService.setItemInLocalStorage( intervalIdName , timerId);
+        }
     }
 
     return {
@@ -38,9 +50,7 @@ const SessionRefreshInspector = (function () {
 export default SessionRefreshInspector;
 
 //#REGION Private Functions
-    function getMessageDataForWorker(){
-        let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperties.NAME);
-        let cookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
+    function getMessageDataForWorker(cookieName , cookieValue ){
         var sessionUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiSessionsUpdatePut;
         let requestMethod = HttpRequestMethods[HttpRequestMethods.PUT];
         let payload = {
@@ -58,34 +68,49 @@ export default SessionRefreshInspector;
         console.log('sessionWorkerOnMessageCallback-event', event)
         let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperties.NAME);
         let cookiePath = LocalStorageService.getItemFromLocalStorage(CookieProperties.PATH);
-        let intervalTimerId = LocalStorageService.getItemFromLocalStorage( SessionConfig.SESSION_TIMER_ID );
+
         let sessionInfo = event?.data?.data?.result;
 
-        if(inputCommonInspector.objectIsValid(sessionInfo)){
-            let newSessionToken = sessionInfo?.sessionToken?.fieldValue;
-            let originalUtcDateCreated = sessionInfo?.utcDateCreated?.fieldValue;
-            let expiresInMilliseconds = sessionInfo?.expires?.fieldValue;
-            let originalUtcDateExpired = sessionInfo?.utcDateExpired?.fieldValue;
-            let cookieIsExpired = CookieService.sessionCookieIsExpired ( originalUtcDateExpired )
-            if(!cookieIsExpired && inputCommonInspector.stringIsValid(newSessionToken)){
-
-                let currentCookie = CookieService.getCookieFromDataStoreByName(cookieName);
-                if(inputCommonInspector.stringIsValid(currentCookie)){
-
-                    CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName,cookiePath);
-                    let optionsObject = {
-                        path: cookiePath,
-                        maxAge : expiresInMilliseconds
-                    }
-                    CookieService.insertCookieInDataStore(cookieName, newSessionToken,  optionsObject);
-                    WebWorkerManager.terminateActiveWorker();
-                    return;
-                }
-            }
+        if(inputCommonInspector.objectIsValid(sessionInfo) && updateCookieSession( cookieName, cookiePath, sessionInfo) ){
+           return;
         }
-        CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName,cookiePath);
-        clearInterval(intervalTimerId);
-        WebWorkerManager.terminateActiveWorker();
+        removeAllStorageData(cookieName , cookiePath);
     }
 
+    function updateCookieSession( cookieName, cookiePath, sessionInfo ){
+        debugger;
+        let newSessionToken = sessionInfo?.sessionToken?.fieldValue;
+        console.log('NEW-SESSION-TOKEN:', newSessionToken)
+        let expiresInMilliseconds = sessionInfo?.expires?.fieldValue;
+        let originalUtcDateExpired = sessionInfo?.utcDateExpired?.fieldValue;
+        let cookieIsExpired = CookieService.sessionCookieIsExpired ( originalUtcDateExpired )
+        if((cookieIsExpired === false) && inputCommonInspector.stringIsValid(newSessionToken)){
+            let currentCookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
+            console.log('CURRENT-SESSION-TOKEN:', currentCookieValue)
+            if(inputCommonInspector.stringIsValid(currentCookieValue)){
+
+                CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName,cookiePath);
+                let optionsObject = {
+                    path: cookiePath,
+                    maxAge : expiresInMilliseconds
+                }
+
+                CookieService.insertCookieInDataStore(cookieName, newSessionToken,  optionsObject);
+                WebWorkerManager.terminateActiveWorker();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function removeAllStorageData(cookieName , cookiePath){
+        CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName,cookiePath);
+        let intervalIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId];
+        let intervalTimerId = LocalStorageService.getItemFromLocalStorage( intervalIdName );
+        clearInterval(intervalTimerId);
+        LocalStorageService.removeItemFromLocalStorage(CookieProperties.NAME);
+        LocalStorageService.removeItemFromLocalStorage(CookieProperties.PATH);
+        LocalStorageService.removeItemFromLocalStorage(intervalIdName);
+        WebWorkerManager.terminateActiveWorker();
+    }
 //#ENDREGION Private Functions

@@ -1,5 +1,6 @@
 import DataTypes from '../stringLiterals/JsDataTypes.js';
 import CommonValidators from '../../services/validators/CommonValidators.js';
+import InputCommonInspector from '../../services/validators/InputCommonInspector.js';
 
 //Test: DONE
 let removeLeadingAndTrailinsSpaces = function(input){
@@ -47,15 +48,25 @@ let formatStringFirstLetterCapital = function(input){
 }
 //Test: DONE
 function getHtmlBreakSeparator(input){
-    let inputIsValid = CommonValidators.isValidString(input);
+    let inputIsValid = InputCommonInspector.stringIsValid(input);
     return (inputIsValid ? '<br/>' : '');
 }
 //Test: DONE
 function getmessageFormatForDisplay(input){
-    if(CommonValidators.isValidString(input)){
+    if(InputCommonInspector.stringIsValid(input)){
         return input;
     }
     return '';
+}
+//Test: DONE
+let setUrlRedirect = function(redirectTo){
+    let protocol = window.location.protocol;
+    let host = window.location.host
+    let pathName = window.location.pathname;
+    let search = window.location.search
+    let referrerUrl = protocol  + "//" + host + "/" + pathName + search
+    let nextUrlRedirect = protocol  + "//" + host + redirectTo;
+    window.location.href = nextUrlRedirect;
 }
 
 let service= Object.freeze({
@@ -64,7 +75,8 @@ let service= Object.freeze({
     createPropertiesArrayFromObjectProperties : createPropertiesArrayFromObjectProperties,
     formatStringFirstLetterCapital : formatStringFirstLetterCapital,
     getHtmlBreakSeparator : getHtmlBreakSeparator,
-    getmessageFormatForDisplay : getmessageFormatForDisplay
+    getmessageFormatForDisplay : getmessageFormatForDisplay,
+    setUrlRedirect : setUrlRedirect
 
 });
 

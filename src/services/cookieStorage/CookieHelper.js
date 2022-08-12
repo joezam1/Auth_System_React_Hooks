@@ -24,10 +24,6 @@ let getCookieValueByName = function(cookieName){
     return selectedCookie;
 }
 
-let deleteCookiebyName = function(cookieName){
-    Cookies.remove(cookieName);
-}
-
 let deleteCookieByNameSecurely = function(cookieName, cookiePath){
     document.cookie = cookieName +'=; Path='+ cookiePath +'; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
@@ -37,7 +33,6 @@ const service = Object.freeze({
     setCookie : setCookie,
     setCookieWithExpiryTime : setCookieWithExpiryTime,
     getCookieValueByName : getCookieValueByName,
-    deleteCookiebyName : deleteCookiebyName,
     deleteCookieByNameSecurely : deleteCookieByNameSecurely
 });
 

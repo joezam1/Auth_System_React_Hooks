@@ -10,10 +10,14 @@ import FetchWorker from '../../backgroundWorkers/FetchWorker.js';
 import FetchWorkerHelper from '../../backgroundWorkers/FetchWorkerHelper.js';
 import HttpRequestMethods from '../../library/enumerations/HttpRequestMethods.js';
 import WindowLocationProperties from '../../library/stringLiterals/WindowLocationProperties.js';
+import Helpers from '../../library/common/Helpers.js';
+
+
+
 
 const SessionValidatorService = (function(){
-
-    let redirectPrivateWebpagesMediator = function(redirectTo){
+    //Test:DONE
+    const redirectPrivateWebpagesMediator = function(redirectTo){
         LocalStorageService.setItemInLocalStorage( WindowLocationProperties.REDIRECT, redirectTo )
         let cookieName = LocalStorageService.getItemFromLocalStorage(CookieProperties.NAME);
         let sessionToken = CookieService.getCookieFromDataStoreByName(cookieName);
@@ -21,12 +25,12 @@ const SessionValidatorService = (function(){
             resolveSessionValidationUsingWebWorkers(FetchWorker, sessionToken);
         }
         else{
-            setUrlRedirect( RouteConfig.authLogoutPath );
+            Helpers.setUrlRedirect( RouteConfig.authLogoutPath );
         }
     }
 
     return {
-        redirectPrivateWebpagesMediator : redirectPrivateWebpagesMediator
+        redirectPrivateWebpagesMediator : redirectPrivateWebpagesMediator,
     }
 })();
 
@@ -39,6 +43,8 @@ function resolveSessionValidationUsingWebWorkers(selectedWebWorker, currentSessi
     let apiRequestMessage = getMessageForApiSession(currentSessionToken);
     WebWorkerManager.sendMessageToWorker(apiRequestMessage);
 }
+
+
 function getMessageForApiSession(cookieValue){
     var sessionUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiSessionsSessionTokenGet;
     let requestMethod = HttpRequestMethods[HttpRequestMethods.GET];
@@ -61,23 +67,14 @@ function validateSessionFetchWorkerMessageCallback(event){
             let locationRedirect = LocalStorageService.getItemFromLocalStorage(WindowLocationProperties.REDIRECT);
             LocalStorageService.removeItemFromLocalStorage(WindowLocationProperties.REDIRECT);
             if(inputCommonInspector.objectIsValid(locationRedirect)){
-                setUrlRedirect( locationRedirect );
+                Helpers.setUrlRedirect( locationRedirect );
             }
             return;
         }
     }
     //if is not valid then LOGOUT
-    setUrlRedirect( RouteConfig.authLogoutPath );
+    Helpers.setUrlRedirect( RouteConfig.authLogoutPath );
 }
 
-function setUrlRedirect(redirectTo){
-    let protocol = window.location.protocol;
-    let host = window.location.host
-    let pathName = window.location.pathname;
-    let search = window.location.search
-    let referrerUrl = protocol  + "//" + host + "/" + pathName + search
-    let nextUrlRedirect = protocol  + "//" + host + redirectTo;
-    window.location.href = nextUrlRedirect;
-}
 
 //#ENDREGION Private Functions

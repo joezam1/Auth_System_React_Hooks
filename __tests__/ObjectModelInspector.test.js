@@ -6,6 +6,9 @@ import UserRoles from '../src/library/enumerations/UserRoles.js';
 
 describe('File: ObjectModelInspector.js', function () {
     afterEach(cleanup);
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
     describe('Function: inspectInputLength', function(){
         test('Inputs filled up completely do not generate Error Report', function(){
             //Arrange

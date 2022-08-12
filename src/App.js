@@ -9,37 +9,13 @@ import Register from './webPages/public/Register.js';
 import Login from './webPages/public/Login.js';
 import Logout from './webPages/public/Logout.js';
 import CustomerDashboard from './webPages/private/CustomerDashboard';
+import CustomerOrders from './webPages/private/CustomerOrders';
 
 //Test:DONE
 export default function App() {
 
     WindowEventManager.resolveWindowNavigationEvent();
-/*if (window.performance) {
-    console.log('FILE: APP.js');
-    console.log('window.performance.performance.navigationTiming', window.PerformanceNavigationTiming)
-    const allEntries = performance.getEntries();
-    console.log('allEntries', allEntries);
 
-    const entriesA = performance.getEntriesByType("navigation");
-    console.log('navigation-entries', entriesA);
-    console.log('navigation-entry-type', entriesA[0].entryType);
-
-    if(entriesA[0].entryType === 'navigation'){
-        console.log('navigation-EVENT-LOADED');
-    }
-    const entriesB = performance.getEntriesByType("resource");
-    console.log('navigation-entry-type', entriesB[0].entryType);
-
-
-    if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
-      console.info( "Reload detected" );
-    } else {
-      console.info( "Reload not detected");
-    }
-  } else {
-    console.info("window.performance is not supported");
-  }
-*/
     return (<div className="app">
         <BrowserRouter>
             <Routes>
@@ -48,6 +24,7 @@ export default function App() {
                 <Route exact path={RouteConfig.authLoginPath} element={<Login/>} />
                 <Route exact path={RouteConfig.authLogoutPath} element={<Logout/>} />
                 <Route exact path={RouteConfig.privateCustomerDashboard} element={<CustomerDashboard/>} />
+                <Route exact path={RouteConfig.privateCustomerOrders} element={<CustomerOrders/>} />
             </Routes>
         </BrowserRouter>
 

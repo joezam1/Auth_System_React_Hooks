@@ -73,6 +73,6 @@ const fetchWorker = function () {
 let codeString = fetchWorker.toString();
 let codeObj = codeString.substring(codeString.indexOf("{") + 1, codeString.lastIndexOf("}"));
 const blob = new Blob([codeObj], { type: "application/javascript" });
-const worker_script = URL.createObjectURL(blob);
+const worker_script =(typeof( URL.createObjectURL ) == 'function' ) ? URL.createObjectURL(blob) : '';
 
 module.exports = worker_script;

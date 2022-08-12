@@ -15,8 +15,9 @@ let stringIsNullOrEmpty = function(input){
     return false;
 }
 //Test:DONE
-// let isObject = ((typeof obj === DataTypes.OBJECT ) && !Array.isArray(obj) && typeof obj !== undefined && obj !== null );
+
 let objectIsNullOrEmpty = function(obj){
+    let objType = (typeof(obj));
     let isObjectType = (typeof obj == DataTypes.OBJECT)
     let isArrayType = Array.isArray(obj);
     let isNotUndefinedType = typeof obj !== 'undefined';
@@ -24,7 +25,7 @@ let objectIsNullOrEmpty = function(obj){
     let isNullValue = ( obj === null)
 
     let isObject = ( isObjectType && !isArrayType && isNotUndefinedType );
-    let isEmptyObj = ( isObject && !isNullValue && Object.keys(obj).length === 0 );
+    let isEmptyObj = ( isObject && !isNullValue && (Object.keys(obj).length === 0) );
 
     let result =  (isObject && (isEmptyObj || isNullValue))
     return result;
@@ -50,26 +51,29 @@ let errorKeyAndTargetKeyAreEqual = function(errorKey, targetKey){
     return areEqual;
 }
 
-
+//Test: DONE
 function stringIsValid(inputStr){
+    let isValidType = (typeof inputStr === DataTypes.STRING);
     let isNullOrEmpty = stringIsNullOrEmpty(inputStr);
     let isUndefined = valueIsUndefined(inputStr);
-    if(isNullOrEmpty || isUndefined) {
-        return false;
+    if(isValidType && !isNullOrEmpty && !isUndefined) {
+        return true;
     }
-    return true;
+    return false;
 }
-
-
+//Test: DONE
 function objectIsValid(obj){
+    let isObjectType = (typeof obj == DataTypes.OBJECT)
+    let isArrayType = Array.isArray(obj);
+    let isNotUndefinedType = typeof obj !== 'undefined';
+    let isValidType = (isObjectType && !isArrayType && isNotUndefinedType);
     let isNullOrEmpty = objectIsNullOrEmpty(obj);
     let isUndefined = valueIsUndefined(obj);
-    if(isNullOrEmpty || isUndefined) {
-        return false;
+    if(isValidType && !isNullOrEmpty && !isUndefined) {
+        return true;
     }
-    return true;
+    return false;
 }
-
 
 let service = Object.freeze({
     stringIsNullOrEmpty : stringIsNullOrEmpty,

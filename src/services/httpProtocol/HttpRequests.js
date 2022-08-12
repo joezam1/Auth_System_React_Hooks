@@ -1,6 +1,6 @@
 
 import RequestHelper from './RequestHelpers.js';
-import InputValidator from '../validators/CommonValidators.js';
+import InputCommonInspector from '../validators/InputCommonInspector.js';
 
 
 //Test: DONE
@@ -14,11 +14,11 @@ function fetchMethod(url, options, responseCallback) {
             console.log('result:', result);
             var responseObj = RequestHelper.safeJsonParse(result);
             console.log('responseObj:', responseObj);
-            if (InputValidator.isValidObj(responseObj) && InputValidator.isValidString(responseObj.replacementToken)) {
+            if (InputCommonInspector.objectIsValid(responseObj) && InputCommonInspector.stringIsValid(responseObj.replacementToken)) {
                 //TODO: setAccessTokenReplacement(responseOjb.replacementToken);
             }
 
-            if (InputValidator.isValidObj(responseObj) && InputValidator.isValidString(responseObj.redirectTo)) {
+            if (InputCommonInspector.objectIsValid(responseObj) && InputCommonInspector.stringIsValid(responseObj.redirectTo)) {
                 window.location.href = RequestHelper.getUrlRedirectto(responseObj.redirectTo);
                 return;
             }

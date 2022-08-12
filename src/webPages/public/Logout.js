@@ -24,7 +24,7 @@ export default function Logout(){
         let cookiePath = LocalStorageService.getItemFromLocalStorage(CookieProperties.PATH);
         let cookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
         if( InputCommonInspector.stringIsValid( cookieValue) ){
-            let resultCookie = CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName, cookiePath);
+            CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName, cookiePath);
             LocalStorageService.removeItemFromLocalStorage(CookieProperties.NAME);
             LocalStorageService.removeItemFromLocalStorage(CookieProperties.PATH);
             let intervalTimerIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId]

@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File: ButtonPrivateRedirect.js Component: ButtonPrivateRedirect With Props It can take a snapshot 1`] = `
+<DocumentFragment>
+   
+  <div
+    class="button-private-redirect-section"
+  >
+    <button
+      data-testid="button-private-redirect-id"
+      type="button"
+    >
+       test 
+    </button>
+  </div>
+   
+</DocumentFragment>
+`;
+
+exports[`File: ButtonPrivateRedirect.js Component: ButtonPrivateRedirect Without Props It can take a snapshot 1`] = `
+<DocumentFragment>
+   
+  <div
+    class="button-private-redirect-section"
+  >
+    <button
+      data-testid="button-private-redirect-id"
+      type="button"
+    >
+        
+    </button>
+  </div>
+   
+</DocumentFragment>
+`;

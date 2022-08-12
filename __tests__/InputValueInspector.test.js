@@ -1,6 +1,9 @@
 import InputValueInspector from '../src/services/validators/InputValueInspector.js';
 
 describe('File: InputValueInspector',()=>{
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
     //test('True is True', ()=>{ expect(true).toBe(true); });
     describe('Function: nameIsValid', function(){
 

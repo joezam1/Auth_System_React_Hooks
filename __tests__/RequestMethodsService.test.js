@@ -62,4 +62,29 @@ describe('File: RequestMethodsService.js', function () {
             expect(fetchMethod).toHaveBeenCalledTimes(1);
         });
     })
+
+    describe('Function: deleteMethod', function(){
+        test('deleteMethod Calls FetchMethod only once', function () {
+            //Arrange
+            let url = 'http://localhost';
+            let payloadModel = {
+                firstName: 'Thomas',
+                lastName: 'Jones'
+            }
+
+            fetchMethod.mockImplementation((url, options, responseCallback) => {
+                var response = { status: 200, statusText: 'OK' }
+                responseCallback(response);
+            })
+
+            function responsePostCallback(response) {
+                expect(response.status).toEqual(200);
+            }
+            //Act
+            RequestMethodsService.deleteMethod(url, payloadModel, responsePostCallback, null);
+
+            //Assert
+            expect(fetchMethod).toHaveBeenCalledTimes(1);
+        });
+    })
 });

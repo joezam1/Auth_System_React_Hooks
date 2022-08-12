@@ -3,6 +3,9 @@ import RequestHelpers from '../src/services/httpProtocol/RequestHelpers.js';
 
 describe('File: RequestHelpers.js', function () {
     afterEach(cleanup);
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
     //NOTE: Test that JEST is working correctly
     //test('True is True', function () { expect(true).toBe(true); });
 
@@ -52,6 +55,7 @@ describe('File: RequestHelpers.js', function () {
                 expect(resultObj).toStrictEqual(invalidObj);
             });
     });
+
     describe('Function: getUrlRedirectTo', function () {
         test('URL redirects to path specified',
             function () {

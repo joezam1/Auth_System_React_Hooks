@@ -8,6 +8,9 @@ import CustomerDashboard from '../src/webPages/private/CustomerDashboard.js';
 
 describe('File: CustomerDashboard.js', function(){
     afterEach(cleanup);
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
     describe('Component CustomerDashboard', function(){
         let container;
         beforeEach(()=>{

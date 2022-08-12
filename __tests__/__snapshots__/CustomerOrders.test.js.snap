@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File: CustomerOrders.js Component CustomerOrders It should take a snapshot 1`] = `
+<DocumentFragment>
+   
+  <div
+    class="customer-orders-section"
+  >
+    <span>
+      This is the customer Orders Section.
+    </span>
+    <h3>
+      Go To
+    </h3>
+    <span>
+      <a
+        data-testid="link-customer-order-home-id"
+        href="/"
+      >
+         Home 
+      </a>
+    </span>
+    <br />
+    <span>
+      <a
+        data-testid="link-customer-order-dashboard-id"
+        href="/customerDashboard"
+      >
+        Customer Dashboard
+      </a>
+    </span>
+    <br />
+  </div>
+    
+</DocumentFragment>
+`;

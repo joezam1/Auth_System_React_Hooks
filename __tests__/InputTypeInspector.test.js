@@ -2,6 +2,10 @@ import InputTypeInspector from '../src/services/validators/InputTypeInspector.js
 
 
 describe('File: InputTypeInspector.js',()=>{
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
     //test('True is True', ()=>{ expect(true).toBe(true); });
     describe('Function: isTypeString', function(){
         test('Input string with value returns TRUE', function(){
@@ -194,34 +198,6 @@ describe('File: InputTypeInspector.js',()=>{
         });
     });
 
-    describe('Function: isTypeObject', function(){
-        test('Input object returns TRUE', function(){
-            //Arrange
-            let input ={value:34.66};
-            //Act
-            let result = InputTypeInspector.isTypeObject(input);
-            //Assert
-            expect(result).toBe(true);
-        })
-
-        test('Input string returns FALSE', function(){
-            //Arrange
-            let input ='{value:34.66}';
-            //Act
-            let result = InputTypeInspector.isTypeObject(input);
-            //Assert
-            expect(result).toBe(false);
-        });
-
-        test('Input null returns FALSE', function(){
-            //Arrange
-            let input = null;
-            //Act
-            let result = InputTypeInspector.isTypeObject(input);
-            //Assert
-            expect(result).toBe(false);
-        })
-    });
 
     describe('Function: isTypeNull', function(){
         test('Input value NULL returns TRUE',function(){
@@ -284,7 +260,38 @@ describe('File: InputTypeInspector.js',()=>{
             expect(result).toBe(false);
         });
     });
-    describe('Function: isTypeObjectDate', function(){
+
+
+    describe('Function: isTypeObject', function(){
+        test('Input object returns TRUE', function(){
+            //Arrange
+            let input ={value:34.66};
+            //Act
+            let result = InputTypeInspector.isTypeObject(input);
+            //Assert
+            expect(result).toBe(true);
+        })
+
+        test('Input string returns FALSE', function(){
+            //Arrange
+            let input ='{value:34.66}';
+            //Act
+            let result = InputTypeInspector.isTypeObject(input);
+            //Assert
+            expect(result).toBe(false);
+        });
+
+        test('Input null returns FALSE', function(){
+            //Arrange
+            let input = null;
+            //Act
+            let result = InputTypeInspector.isTypeObject(input);
+            //Assert
+            expect(result).toBe(false);
+        })
+    });
+
+    describe('Function: isDate', function(){
         test('Input object DATE returns TRUE', function(){
             //Arrange
             let input = new Date();

@@ -1,6 +1,13 @@
 import helpers from '../src/library/common/Helpers.js';
+import RouteConfig from '../configuration/routes/RouteConfig.js';
+
+
 
 describe('File: Helpers.js',function(){
+
+    afterAll(()=>{
+        jest.resetAllMocks();
+    });
     describe('Function: removeLeadingAndTrailinsSpaces',function(){
 
         test('Input with Spaces will have them removed',function(){
@@ -15,7 +22,6 @@ describe('File: Helpers.js',function(){
             expect(spacesRemovedCount).toBeGreaterThan(0);
         });
     });
-
 
     describe('Function: getDateUTCFormat', function(){
         test('Common LOCALE Date gets converted to UTC-Date', function(){
@@ -87,7 +93,6 @@ describe('File: Helpers.js',function(){
         })
     })
 
-
     describe('Function: getHtmlBreakSeparator',function(){
 
         test('When the input is VALID, the HTML Separator is generated', function(){
@@ -132,4 +137,36 @@ describe('File: Helpers.js',function(){
             expect(result).toEqual(expectedResult);
         });
     });
+
+
+    describe('Function: setUrlRedirect', function(){
+        test('When we provide redirection path, the object window.location.href is called OK', function(){
+            //Arrange
+            delete global.window.location;
+            global.window = Object.create(window);
+            global.window.location = {
+                ancestorOrigins: null,
+                hash: null,
+                host: 'localhost',
+                port: '80',
+                protocol: 'http:',
+                hostname: 'localhost',
+                href: null,
+                origin: 'http://localhost',
+                pathname: null,
+                search: null,
+                assign: null,
+                reload: null,
+                replace: null,
+            };
+            let redirectLocation = RouteConfig.privateCustomerDashboard;
+            let finalUrl = global.window.location.protocol + '//'+global.window.location.host +''+ redirectLocation;
+            //Act
+
+            helpers.setUrlRedirect(redirectLocation);
+            //Assert
+            expect(window.location.href).toEqual(finalUrl);
+        })
+    });
+
 });

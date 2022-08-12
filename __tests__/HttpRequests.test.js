@@ -7,17 +7,14 @@ jest.mock('../src/services/httpProtocol/HttpRequests.js', ()=>({
 }));
 
 
-afterEach(()=>{
-    jest.clearAllMocks();
-});
-
-
 describe('File: HttpRequests',function(){
     afterEach(cleanup);
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
     describe('Function: fetchMedhod',function(){
 
-        test('fetchMethod has been called',
-            function(){
+        test('fetchMethod has been called', function(){
                 //Arrange
                 fetchMethod.mockImplementation((url, options, responseCallback) =>{
                     var response ={status:200, statusText:'OK'}

@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File: Logout.js Function return It should take a snapshot 1`] = `
+<DocumentFragment>
+   
+  <div
+    class="logout-section"
+  >
+    <p>
+      You are Logged Out
+    </p>
+     
+    <span>
+       | 
+    </span>
+    <a
+      href="/"
+    >
+      Go Home
+    </a>
+    <br />
+    <div>
+       
+    </div>
+  </div>
+    
+</DocumentFragment>
+`;

@@ -6,22 +6,19 @@ import FetchWorker from '../backgroundWorkers/FetchWorker.js';
 
 const WindowEventManager = (function () {
 
+    //Test: DONE
     const resolveWindowNavigationEvent = function () {
         console.log('FILE: WindowEventManager.js');
         console.log('Inserted in File: App.js ');
 
         if (window.performance) {
             console.info("window.performance supported: OK");
-            const entriesNavigation = window.performance.getEntriesByType("navigation");
+            const entriesNavigation = ((window.performance.getEntriesByType) !== undefined ) ? window.performance.getEntriesByType("navigation"): [];
 
-            if (entriesNavigation[0].entryType === 'navigation') {
+            if (entriesNavigation.length>0 && entriesNavigation[0].entryType === 'navigation') {
                 console.log('navigation-EVENT-LOADED');
-                //console.log('navigation-entries', entriesNavigation);
-                //console.log('navigation-entry-type', entriesNavigation[0].entryType);
                 resolveAllMiddlewareWindowIntervalsTracked();
             }
-            const entriesB = performance.getEntriesByType("resource");
-            console.log('navigation-entry-type', entriesB[0].entryType);
 
         } else {
             console.info("window.performance is not supported");
@@ -37,10 +34,11 @@ export default WindowEventManager;
 
 function resolveAllMiddlewareWindowIntervalsTracked(){
     console.log('resolveAllMiddlewareWindowIntervalsTracked-STARTED');
-    let setInntervalIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId];
-    let intervalId = LocalStorageService.getItemFromLocalStorage ( setInntervalIdName );
-    if(InputCommonInspector.objectIsValid(intervalId)){
+    let intervalIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId];
+    let intervalId = LocalStorageService.getItemFromLocalStorage ( intervalIdName );
+    if(InputCommonInspector.objectIsValid( intervalId ) || InputCommonInspector.stringIsValid(intervalId) ){
         clearInterval(intervalId);
+        LocalStorageService.removeItemFromLocalStorage(intervalIdName);
         SessionRefreshInspector.resolveRefreshingExpiringSession(FetchWorker);
     }
 }

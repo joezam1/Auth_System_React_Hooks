@@ -18,7 +18,7 @@ describe('File: Register.js', function(){
     beforeEach(()=>{
         container = render( <MemoryRouter> <Register/> </MemoryRouter>);
     });
-    describe('Component Register', function(){
+    describe('Component: Register', function(){
         test('It can take a snapshot', function(){
             expect(container.asFragment(<Register/>)).toMatchSnapshot();
         });
@@ -51,7 +51,7 @@ describe('File: Register.js', function(){
             ValidationService.resolveUserFormValidation = jest.fn().mockReturnValueOnce(resultValidationMock);
             RequestMethodsService.postMethod = jest.fn().mockReturnValueOnce(resultMock);
             //Act
-            //submitButton.simulate('click');
+
             fireEvent.click(submitButton);
             //Assert
             expect(RequestMethodsService.postMethod).toHaveBeenCalledTimes(1);

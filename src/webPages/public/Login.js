@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useAsync } from 'react-async-hook';
+
 import RouteConfig from '../../../configuration/routes/RouteConfig.js';
 import UserLoginViewModel from '../../viewModels/UserLogin.js';
 import UserLoginDataModel from '../../dataModels/UserLoginDataModel.js';
@@ -22,7 +24,7 @@ import NotificationService from '../../services/notifications/NotificationServic
 export default function Login(){
 
     const [ notificationInfo, setNotification ] = useState('');
-    const [isLoggedIn, setUserLogin] = useState();
+    const [isLoggedIn, setUserLogin] = useState(false);
     const [ usernameErrors, setUsernameErrors ] = useState('');
     const [ passwordErrors, setPasswordErrors ] = useState('');
 
@@ -40,7 +42,7 @@ export default function Login(){
                 LocalStorageService.setItemInLocalStorage(CookieProperties.PATH, properties.path);
                 CookieService.insertCookieInDataStore(name, value, properties);
 
-                SessionRefreshInspector.resolveRefreshingExpiringSession(fetchWorkerScript);
+                //SessionRefreshInspector.resolveRefreshingExpiringSession(fetchWorkerScript);
                 setUserLogin(true);
 
             break;
@@ -107,6 +109,11 @@ export default function Login(){
 
 
 
+    /*if (isLoggedIn){
+        let resultRedirect = useAsync(  SessionValidatorService.redirectPrivateWebpagesMediatorAsync(RouteConfig.privateCustomerDashboard ));
+
+        return resultRedirect;
+    }*/
     if (isLoggedIn) {
         SessionValidatorService.redirectPrivateWebpagesMediator(RouteConfig.privateCustomerDashboard )
     }
