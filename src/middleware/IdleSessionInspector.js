@@ -6,10 +6,19 @@ import Modal from '../library/enumerations/Modal.js';
 import SessionConfig from '../../configuration/authentication/SessionConfig.js';
 import LocalStorageService from '../services/localStorage/LocalStorageService.js';
 import IntervalIdName from '../library/enumerations/IntervalIdName.js';
+import InputCommonInspector from '../services/validators/InputCommonInspector.js';
+import CookieService from '../services/cookieStorage/CookieService.js';
 
 const IdleSessionInspector = (function(){
 
     const scanIdleBrowserTime = function(){
+
+        let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperty.NAME);
+        let cookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
+
+        if(!InputCommonInspector.stringIsValid(cookieValue)){
+            return;
+        }
 
         const WARNING_MESSAGE_COUNTDOWN_IN_SECONDS = SessionConfig.IDLE_SESSION_COUNTDOWN_SIXTY_SECONDS_IN_MILLISECONDS / SessionConfig.ONE_SECOND_IN_MILLISECONDS;
         const SCANNER_INTERVAL_FREQUENCY = SessionConfig.ONE_SECOND_IN_MILLISECONDS;
@@ -46,21 +55,22 @@ const IdleSessionInspector = (function(){
             _idleSecondsCounter++;
             console.log('CheckTime-_idleSecondsCounter:' , _idleSecondsCounter);
             if(_idleSecondsCounter === 0){
-                //STOP RENDERING
+                //Testing Only
                 //ModalRenderingFactoryService.CreateRenderer( Modal.idleSession )
                 //LayerRenderingService.startRendering();
+                //Stop Rendering
                 ModalRenderingFactoryService.removeRenderer();
                 LayerRenderingService.stopRendering();
             }
             if(_idleSecondsCounter >= DISPLAY_LOGOUT_WARNING){
-                //Execute the countdown
+
                 console.log('_countdown-BEFORE : ',_countdown);
                 LocalStorageService.setItemInLocalStorage(SessionConfig.IDLE_SESSION_COUNTDOWN_VALUE , _countdown);
                 _countdown--;
                 console.log('_countdown-AFTER : ',_countdown);
             }
             if(_idleSecondsCounter === DISPLAY_LOGOUT_WARNING){
-                //Call DISPLAY MODAL
+
                 LayerRenderingService.startRendering();
                 ModalRenderingFactoryService.CreateRenderer( Modal.idleSession )
             }
