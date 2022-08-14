@@ -3,6 +3,7 @@ import LocalStorageService from '../services/localStorage/LocalStorageService.js
 import InputCommonInspector from '../services/validators/InputCommonInspector.js';
 import SessionRefreshInspector from '../middleware/SessionRefreshInspector.js';
 import FetchWorker from '../backgroundWorkers/FetchWorker.js';
+import IdleSessionInspector from '../middleware/IdleSessionInspector.js';
 
 const WindowEventManager = (function () {
 
@@ -34,11 +35,31 @@ export default WindowEventManager;
 
 function resolveAllMiddlewareWindowIntervalsTracked(){
     console.log('resolveAllMiddlewareWindowIntervalsTracked-STARTED');
+
+    resolveRefreshExpiringSessionInterval();
+    resolveIdleBrowserTimeoutInterval();
+    console.log('resolveAllMiddlewareWindowIntervalsTracked-END');
+}
+
+function resolveRefreshExpiringSessionInterval(){
     let intervalIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId];
-    let intervalId = LocalStorageService.getItemFromLocalStorage ( intervalIdName );
-    if(InputCommonInspector.objectIsValid( intervalId ) || InputCommonInspector.stringIsValid(intervalId) ){
-        clearInterval(intervalId);
+    let refreshIntervalId = LocalStorageService.getItemFromLocalStorage ( intervalIdName );
+    if(InputCommonInspector.objectIsValid( refreshIntervalId ) || InputCommonInspector.stringIsValid(refreshIntervalId) ){
+
+        clearInterval(refreshIntervalId);
         LocalStorageService.removeItemFromLocalStorage(intervalIdName);
         SessionRefreshInspector.resolveRefreshingExpiringSession(FetchWorker);
+    }
+}
+
+function resolveIdleBrowserTimeoutInterval(){
+    let storageName = IntervalIdName[IntervalIdName.idleBrowserIntervalId];
+    let idleIntervalId = LocalStorageService.getItemFromLocalStorage(storageName);
+
+    if(InputCommonInspector.objectIsValid( idleIntervalId ) || InputCommonInspector.stringIsValid(idleIntervalId) ){
+
+        clearInterval(idleIntervalId);
+        LocalStorageService.removeItemFromLocalStorage(storageName);
+        IdleSessionInspector.scanIdleBrowserTime();
     }
 }

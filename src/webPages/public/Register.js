@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link , Navigate } from 'react-router-dom';
 import User from '../../viewModels/UserRegister.js';
-import UserRoles from '../../library/enumerations/UserRoles.js';
+import UserRole from '../../library/enumerations/UserRole.js';
 import RequestMethodsService from '../../services/httpProtocol/RequestMethodsService.js';
 import EnvConfig from '../../../configuration/environment/EnvConfig.js';
 import ServerConfig from '../../../configuration/server/ServerConfig.js';
@@ -85,7 +85,7 @@ export default function Register(){
                 email : (InputCommonInspector.objectIsValid(form[3]) ) ? form[3].value : '',
                 password : (InputCommonInspector.objectIsValid(form[4]) ) ? form[4].value: '',
                 confirmPassword : (InputCommonInspector.objectIsValid(form[5]) ) ? form[5].value : '',
-                userRole : UserRoles.Customer
+                userRole : UserRole.Customer
             };
             var user = new User(dataModel);
             console.log('processUserRegistration-user', user);

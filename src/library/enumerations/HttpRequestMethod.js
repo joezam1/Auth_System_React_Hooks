@@ -1,4 +1,4 @@
-const HttpRequestMethods = Object.freeze({
+const HttpRequestMethod = Object.freeze({
     GET:0,
     POST:1,
     PUT:2,
@@ -9,4 +9,4 @@ const HttpRequestMethods = Object.freeze({
     3:'DELETE'
 });
 
-export default HttpRequestMethods;
+export default HttpRequestMethod;

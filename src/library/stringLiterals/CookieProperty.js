@@ -1,4 +1,4 @@
-const CookieProperties = Object.freeze({
+const CookieProperty = Object.freeze({
     NAME:'name',
     EXPIRES: 'expires',
     MAXAGE: 'max-age',
@@ -6,4 +6,4 @@ const CookieProperties = Object.freeze({
     DOMAIN: 'domain'
 });
 
-export default CookieProperties;
+export default CookieProperty;

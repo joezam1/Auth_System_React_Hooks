@@ -1,4 +1,4 @@
-const jsDataType = Object.freeze({
+const JsDataType = Object.freeze({
     NUMBER: 'number',
     BIGINT: 'bigint',
     STRING: 'string',
@@ -9,4 +9,4 @@ const jsDataType = Object.freeze({
     ARRAY: 'array',
     FUNCTION: 'function'
 });
-export default jsDataType;
+export default JsDataType;

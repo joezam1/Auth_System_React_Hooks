@@ -1,6 +1,9 @@
 const IntervalIdName = Object.freeze({
     sessionRefreshIntervalId:0,
-    0:'sessionrefreshIntervalId'
+    idleBrowserIntervalId:1,
+    0:'sessionrefreshIntervalId',
+    1:'idleBrowserIntervalId',
+
 });
 
 export default IntervalIdName;

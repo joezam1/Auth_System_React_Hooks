@@ -1,42 +1,42 @@
 import formFieldStatus from '../library/enumerations/FormFieldStatus.js';
-import DataTypes from '../library/stringLiterals/JsDataTypes.js';
+import JsDataType from '../library/stringLiterals/JsDataType.js';
 
 
 var userRegisterViewModel = function(model){
     var firstName ={
         fieldValue: (model.firstName || ''),
         fieldStatus: formFieldStatus.Required,
-        fieldDataType: DataTypes.STRING
+        fieldDataType: JsDataType.STRING
     };
     var middleName = {
         fieldValue: (model.middleName || '') ,
         fieldStatus:formFieldStatus.Optional,
-        fieldDataType: DataTypes.STRING
+        fieldDataType: JsDataType.STRING
     };
     var lastName = {
         fieldValue: (model.lastName || ''),
         fieldStatus: formFieldStatus.Required,
-        fieldDataType: DataTypes.STRING
+        fieldDataType: JsDataType.STRING
     };
     var username = {
         fieldValue: (model.username || ''),
         fieldStatus: formFieldStatus.Required,
-        fieldDataType: DataTypes.STRING
+        fieldDataType: JsDataType.STRING
     };
     var email = {
         fieldValue: (model.email || '' ),
         fieldStatus:formFieldStatus.Required,
-        fieldDataType: DataTypes.STRING
+        fieldDataType: JsDataType.STRING
     };
     var password = {
         fieldValue: (model.password || ''),
         fieldStatus: formFieldStatus.Required,
-        fieldDataType: DataTypes.STRING
+        fieldDataType: JsDataType.STRING
     };
     var confirmPassword = {
         fieldValue: (model.confirmPassword || ''),
         fieldStatus:formFieldStatus.Required,
-        fieldDataType: DataTypes.STRING
+        fieldDataType: JsDataType.STRING
     };
 
     return Object.freeze({

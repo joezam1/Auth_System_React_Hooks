@@ -1,11 +1,11 @@
-import DataTypes from '../stringLiterals/JsDataTypes.js';
+import JsDataType from '../stringLiterals/JsDataType.js';
 import CommonValidators from '../../services/validators/CommonValidators.js';
 import InputCommonInspector from '../../services/validators/InputCommonInspector.js';
 
 //Test: DONE
 let removeLeadingAndTrailinsSpaces = function(input){
     let inputNoSpaces = input;
-    if(typeof input === DataTypes.STRING){
+    if(typeof input === JsDataType.STRING){
         inputNoSpaces = input.trim();
     }
     return inputNoSpaces;
@@ -31,7 +31,7 @@ let formatStringFirstLetterCapital = function(input){
 
     let newInput = input;
     let allInputsArray = [];
-    if(typeof input === DataTypes.STRING){
+    if(typeof input === JsDataType.STRING){
         let spacedCamelCase = input.replace(/[A-Z]/g, ' $&').trim();
         let normalizedInputArray = spacedCamelCase.split(' ');
         for(let a = 0; a < normalizedInputArray.length; a++){
@@ -60,13 +60,28 @@ function getmessageFormatForDisplay(input){
 }
 //Test: DONE
 let setUrlRedirect = function(redirectTo){
-    let protocol = window.location.protocol;
-    let host = window.location.host
-    let pathName = window.location.pathname;
-    let search = window.location.search
-    let referrerUrl = protocol  + "//" + host + "/" + pathName + search
-    let nextUrlRedirect = protocol  + "//" + host + redirectTo;
-    window.location.href = nextUrlRedirect;
+    let urlRedirect = getUrlRedirectTo( redirectTo );
+    window.location.href = urlRedirect;
+}
+
+//Test:DONE
+var getUrlRedirectTo = function(redirectTo){
+    var protocol = window.location.protocol;
+    var host = window.location.host;
+    var pathName = window.location.pathname;
+    var search = window.location.search;
+    var urlReferrer = protocol + "//" + host + "/" + pathName + search;
+    var urlRedirect = protocol + "//" + host + redirectTo;
+    return urlRedirect;
+}
+
+//Test:DONE
+var safeJsonParse = function (input) {
+    var value = input;
+    if (CommonValidators.isValidJson(input)) {
+        value = JSON.parse(input);
+    }
+    return value;
 }
 
 let service= Object.freeze({
@@ -76,8 +91,9 @@ let service= Object.freeze({
     formatStringFirstLetterCapital : formatStringFirstLetterCapital,
     getHtmlBreakSeparator : getHtmlBreakSeparator,
     getmessageFormatForDisplay : getmessageFormatForDisplay,
-    setUrlRedirect : setUrlRedirect
-
+    setUrlRedirect : setUrlRedirect,
+    getUrlRedirectTo : getUrlRedirectTo,
+    safeJsonParse : safeJsonParse
 });
 
 export default service;

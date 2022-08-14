@@ -1,15 +1,15 @@
 import EnvConfig from '../../../configuration/environment/EnvConfig.js';
 import RouteConfig from '../../../configuration/routes/RouteConfig.js';
 import ServerConfig from '../../../configuration/server/ServerConfig.js';
-import CookieProperties from '../../library/stringLiterals/CookieProperties.js';
+import CookieProperty from '../../library/stringLiterals/CookieProperty.js';
 import CookieService from '../cookieStorage/CookieService.js';
 import LocalStorageService from '../localStorage/LocalStorageService.js';
 import inputCommonInspector from '../validators/InputCommonInspector';
 import WebWorkerManager from '../../backgroundWorkers/WebWorkerManager.js';
 import FetchWorker from '../../backgroundWorkers/FetchWorker.js';
 import FetchWorkerHelper from '../../backgroundWorkers/FetchWorkerHelper.js';
-import HttpRequestMethods from '../../library/enumerations/HttpRequestMethods.js';
-import WindowLocationProperties from '../../library/stringLiterals/WindowLocationProperties.js';
+import HttpRequestMethod from '../../library/enumerations/HttpRequestMethod.js';
+import WindowLocationProperty from '../../library/stringLiterals/WindowLocationProperty.js';
 import Helpers from '../../library/common/Helpers.js';
 
 
@@ -18,8 +18,8 @@ import Helpers from '../../library/common/Helpers.js';
 const SessionValidatorService = (function(){
     //Test:DONE
     const redirectPrivateWebpagesMediator = function(redirectTo){
-        LocalStorageService.setItemInLocalStorage( WindowLocationProperties.REDIRECT, redirectTo )
-        let cookieName = LocalStorageService.getItemFromLocalStorage(CookieProperties.NAME);
+        LocalStorageService.setItemInLocalStorage( WindowLocationProperty.REDIRECT, redirectTo )
+        let cookieName = LocalStorageService.getItemFromLocalStorage(CookieProperty.NAME);
         let sessionToken = CookieService.getCookieFromDataStoreByName(cookieName);
         if( !inputCommonInspector.stringIsNullOrEmpty(sessionToken)){
             resolveSessionValidationUsingWebWorkers(FetchWorker, sessionToken);
@@ -47,7 +47,7 @@ function resolveSessionValidationUsingWebWorkers(selectedWebWorker, currentSessi
 
 function getMessageForApiSession(cookieValue){
     var sessionUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiSessionsSessionTokenGet;
-    let requestMethod = HttpRequestMethods[HttpRequestMethods.GET];
+    let requestMethod = HttpRequestMethod[HttpRequestMethod.GET];
     let headersArray = [{name:'x_session_id', value: cookieValue }];
     let payload = {};
     let message = FetchWorkerHelper.getMessageDataForFetchWorker(sessionUrl, requestMethod, headersArray, payload);
@@ -61,12 +61,12 @@ function validateSessionFetchWorkerMessageCallback(event){
     WebWorkerManager.terminateActiveWorker()
     if(inputCommonInspector.objectIsValid(sessionInfo)){
         let apiStoredSessionToken = sessionInfo?.sessionToken?.fieldValue;
-        let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperties.NAME);
+        let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperty.NAME);
         let currentSessionCookie = CookieService.getCookieFromDataStoreByName(cookieName);
         if(apiStoredSessionToken === currentSessionCookie){
-            let locationRedirect = LocalStorageService.getItemFromLocalStorage(WindowLocationProperties.REDIRECT);
-            LocalStorageService.removeItemFromLocalStorage(WindowLocationProperties.REDIRECT);
-            if(inputCommonInspector.objectIsValid(locationRedirect)){
+            let locationRedirect = LocalStorageService.getItemFromLocalStorage(WindowLocationProperty.REDIRECT);
+            LocalStorageService.removeItemFromLocalStorage(WindowLocationProperty.REDIRECT);
+            if(inputCommonInspector.stringIsValid(locationRedirect)){
                 Helpers.setUrlRedirect( locationRedirect );
             }
             return;

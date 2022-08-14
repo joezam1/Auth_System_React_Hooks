@@ -1,9 +1,11 @@
 //COMMON
-@import './styles/common/body.scss';
+@import './styles/common/Body.scss';
 
 
-//PARTIAL
+//PARTIALS
+@import './styles/partials/IdleSessionModal.scss';
+@import './styles/partials/TransparentBackgroundLayer.scss';
 
 
 //WEBPAGE
-@import './styles/webPages/register.scss';
+@import './styles/webPages/Register.scss';

@@ -3,16 +3,21 @@ import { Link, Navigate } from 'react-router-dom';
 
 import RouteConfig from '../../../configuration/routes/RouteConfig.js';
 import CookieService from '../../services/cookieStorage/CookieService.js';
-import CookieProperties from "../../library/stringLiterals/CookieProperties.js";
 import LocalStorageService from "../../services/localStorage/LocalStorageService.js";
 import RequestMethodsService from '../../services/httpProtocol/RequestMethodsService.js';
+import NotificationService from "../../services/notifications/NotificationService.js";
+import InputCommonInspector from "../../services/validators/InputCommonInspector.js";
+
 import ServerConfig from '../../../configuration/server/ServerConfig.js';
 import EnvConfig from '../../../configuration/environment/EnvConfig.js';
 import SessionConfig from '../../../configuration/authentication/SessionConfig.js';
+
 import HttpResponseStatus from '../../library/enumerations/HttpResponseStatus.js';
-import NotificationService from "../../services/notifications/NotificationService.js";
-import InputCommonInspector from "../../services/validators/InputCommonInspector.js";
 import IntervalIdName from "../../library/enumerations/IntervalIdName.js";
+import WindowLocationProperty from '../../library/stringLiterals/WindowLocationProperty.js';
+import CookieProperty from "../../library/stringLiterals/CookieProperty.js";
+
+
 
 export default function Logout(){
 
@@ -20,17 +25,27 @@ export default function Logout(){
     const [ isLoggedOut, setLogoutStatus] = useState(false);
 
     useEffect(()=>{
-        let cookieName =  LocalStorageService.getItemFromLocalStorage(CookieProperties.NAME);
-        let cookiePath = LocalStorageService.getItemFromLocalStorage(CookieProperties.PATH);
+        let cookieName =  LocalStorageService.getItemFromLocalStorage(CookieProperty.NAME);
+        let cookiePath = LocalStorageService.getItemFromLocalStorage(CookieProperty.PATH);
         let cookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
         if( InputCommonInspector.stringIsValid( cookieValue) ){
             CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName, cookiePath);
-            LocalStorageService.removeItemFromLocalStorage(CookieProperties.NAME);
-            LocalStorageService.removeItemFromLocalStorage(CookieProperties.PATH);
+            LocalStorageService.removeItemFromLocalStorage(CookieProperty.NAME);
+            LocalStorageService.removeItemFromLocalStorage(CookieProperty.PATH);
+
             let intervalTimerIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId]
             let intervalTimerId = LocalStorageService.getItemFromLocalStorage( intervalTimerIdName );
             clearInterval(intervalTimerId);
             LocalStorageService.removeItemFromLocalStorage( intervalTimerIdName );
+
+            let intervalIdleBrowserIdName = IntervalIdName[IntervalIdName.idleBrowserIntervalId];
+            let idleIntervalId = LocalStorageService.getItemFromLocalStorage(intervalIdleBrowserIdName);
+            clearInterval(idleIntervalId);
+            LocalStorageService.removeItemFromLocalStorage( idleIntervalId );
+
+            LocalStorageService.removeItemFromLocalStorage(SessionConfig.IDLE_SESSION_COUNTDOWN_VALUE);
+            LocalStorageService.removeItemFromLocalStorage ( WindowLocationProperty.REDIRECT )
+
             processUserLogoutSession(cookieValue);
         }
     },[]);

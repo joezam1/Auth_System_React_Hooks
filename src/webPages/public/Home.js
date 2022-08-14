@@ -2,7 +2,7 @@ import React, {useState, useEffect } from 'react';
 import {Link } from 'react-router-dom';
 import RouteConfig from '../../../configuration/routes/RouteConfig.js';
 import LocalStorageService from '../../services/localStorage/LocalStorageService.js';
-import CookieProperties from '../../library/stringLiterals/CookieProperties.js';
+import CookieProperty from '../../library/stringLiterals/CookieProperty.js';
 import CookieService from '../../services/cookieStorage/CookieService.js';
 import InputCommonInspector from '../../services/validators/InputCommonInspector.js';
 import ButtonPrivateRedirect from '../../components/ButtonPrivateRedirect.js';
@@ -11,7 +11,7 @@ export default function Home(){
     const [userIsLoggedIn, setUserLogedIn] = useState(false);
 
     useEffect(()=>{
-        let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperties.NAME );
+        let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperty.NAME );
         let cookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
         if( InputCommonInspector.stringIsValid(cookieValue)){
             setUserLogedIn(true);

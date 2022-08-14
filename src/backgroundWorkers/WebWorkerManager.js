@@ -8,7 +8,7 @@ const WebWorkerManager = (function () {
             console.log(`BEGIN-StartNewWorker-${workerFileScript}`);
             activeWorker.onmessage = function (event) {
                 console.log(`startNewWorker.${workerFileScript}-onmessage-MESSAGE RECEIVED:`, event);
-                if (inputCommonInspector.objectIsValid(callback)) {
+                if (callback !== null && !inputCommonInspector.valueIsUndefined(callback)) {
                     console.log('callback-isValid');
                     callback(event);
                 }

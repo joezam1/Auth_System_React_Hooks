@@ -169,4 +169,73 @@ describe('File: Helpers.js',function(){
         })
     });
 
+
+    describe('Function: getUrlRedirectTo', function () {
+        test('URL redirects to path specified',
+            function () {
+                //Arrange
+                var windowLocation =   window.location;
+                var originalWindowLocation =   window.location.origin;
+                var pathName = window.location.pathname;
+                let pathRedirectTo = '/testing-register';
+                //Act
+                var result = helpers.getUrlRedirectTo(pathRedirectTo);
+                //Assert
+                expect(result).not.toEqual(originalWindowLocation);
+                expect(result).toContain('register');
+            });
+    });
+
+
+
+    describe('Function: safeJsonParse', function () {
+
+        var obj = {
+            code: 1,
+            description: "week",
+            daysOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            period: {
+                month: {
+                    time: 'morning'
+                }
+            }
+        }
+
+
+        test('Can parse a json Object',
+            function () {
+                var jsonObj = JSON.stringify(obj);
+                var resultObj = helpers.safeJsonParse(jsonObj);
+                var resultIsTypeObject = (typeof resultObj === 'object');
+                var time = resultObj.period.month.time;
+                expect(time).toBe('morning');
+                expect(resultIsTypeObject).toBe(true);
+            });
+
+
+        test('Will return the original string input when is NOT a valid json object',
+            function () {
+                var originalString = "this is Just a String, not a json object";
+                var result = helpers.safeJsonParse(originalString);
+                expect(result).toBe(originalString);
+                expect(result).toStrictEqual(originalString);
+            });
+
+        test('Will return the original object input when is NOT a valid json object',
+            function () {
+                //Arrange
+                var invalidObj = +'[]' + obj;
+                var jsonObj = JSON.stringify(invalidObj);
+                //Act
+                var resultObj = helpers.safeJsonParse(jsonObj);
+                var resultIsTypeObject = (typeof resultObj === 'object');
+                var time = resultObj.period;
+                //Assert
+                expect(time).toBe(undefined);
+                expect(resultIsTypeObject).toBe(false);
+                expect(resultObj).toStrictEqual(invalidObj);
+            });
+    });
+
+
 });

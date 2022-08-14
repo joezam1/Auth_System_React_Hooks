@@ -13,11 +13,12 @@ import httpResponseStatus from '../../library/enumerations/HttpResponseStatus.js
 import RequestMethodsService from '../../services/httpProtocol/RequestMethodsService.js';
 import CookieService from '../../services/cookieStorage/CookieService.js';
 import LocalStorageService from '../../services/localStorage/LocalStorageService.js';
-import CookieProperties from '../../library/stringLiterals/CookieProperties.js';
+import CookieProperty from '../../library/stringLiterals/CookieProperty.js';
 import SessionValidatorService from '../../services/privateWebPagesMediator/SessionValidatorService.js';
 
 import fetchWorkerScript from '../../backgroundWorkers/FetchWorker.js';
 import SessionRefreshInspector from '../../middleware/SessionRefreshInspector.js';
+import IdleSessionInspector from '../../middleware/IdleSessionInspector.js';
 import NotificationService from '../../services/notifications/NotificationService.js';
 
 
@@ -38,11 +39,11 @@ export default function Login(){
                 let name = response.result.name;
                 let value = response.result.value;
                 let properties = response.result.properties;
-                LocalStorageService.setItemInLocalStorage(CookieProperties.NAME, name);
-                LocalStorageService.setItemInLocalStorage(CookieProperties.PATH, properties.path);
+                LocalStorageService.setItemInLocalStorage(CookieProperty.NAME, name);
+                LocalStorageService.setItemInLocalStorage(CookieProperty.PATH, properties.path);
                 CookieService.insertCookieInDataStore(name, value, properties);
-
-                //SessionRefreshInspector.resolveRefreshingExpiringSession(fetchWorkerScript);
+                IdleSessionInspector.scanIdleBrowserTime();
+                SessionRefreshInspector.resolveRefreshingExpiringSession(fetchWorkerScript);
                 setUserLogin(true);
 
             break;
@@ -107,13 +108,6 @@ export default function Login(){
         setPasswordErrors(errorsReport.passwordAllErrors);
     }
 
-
-
-    /*if (isLoggedIn){
-        let resultRedirect = useAsync(  SessionValidatorService.redirectPrivateWebpagesMediatorAsync(RouteConfig.privateCustomerDashboard ));
-
-        return resultRedirect;
-    }*/
     if (isLoggedIn) {
         SessionValidatorService.redirectPrivateWebpagesMediator(RouteConfig.privateCustomerDashboard )
     }

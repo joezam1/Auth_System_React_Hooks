@@ -1,5 +1,5 @@
 
-import RequestHelper from './RequestHelpers.js';
+import Helpers from '../../library/common/Helpers';
 import InputCommonInspector from '../validators/InputCommonInspector.js';
 
 
@@ -12,16 +12,16 @@ function fetchMethod(url, options, responseCallback) {
         })
         .then(function (result) {
             console.log('result:', result);
-            var responseObj = RequestHelper.safeJsonParse(result);
+            var responseObj = Helpers.safeJsonParse(result);
             console.log('responseObj:', responseObj);
             if (InputCommonInspector.objectIsValid(responseObj) && InputCommonInspector.stringIsValid(responseObj.replacementToken)) {
                 //TODO: setAccessTokenReplacement(responseOjb.replacementToken);
             }
 
-            if (InputCommonInspector.objectIsValid(responseObj) && InputCommonInspector.stringIsValid(responseObj.redirectTo)) {
-                window.location.href = RequestHelper.getUrlRedirectto(responseObj.redirectTo);
+            /*if (InputCommonInspector.objectIsValid(responseObj) && InputCommonInspector.stringIsValid(responseObj.redirectTo)) {
+                window.location.href = Helpers.getUrlRedirectto(responseObj.redirectTo);
                 return;
-            }
+            }*/
 
             responseCallback(responseObj);
 

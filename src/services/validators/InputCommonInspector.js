@@ -1,12 +1,12 @@
-import DataTypes from '../../library/stringLiterals/JsDataTypes.js';
-import InputValidationSuffixes from '../../library/stringLiterals/InputValidationSuffixes.js';
+import JsDataType from '../../library/stringLiterals/JsDataType.js';
+import InputValidationSuffix from '../../library/stringLiterals/InputValidationSuffix.js';
 
 //Test: DONE
 let stringIsNullOrEmpty = function(input){
     if(valueIsUndefined(input)) {
         return false;
     }
-    let isValidType = (typeof input === DataTypes.STRING || typeof input === DataTypes.OBJECT);
+    let isValidType = (typeof input === JsDataType.STRING || typeof input === JsDataType.OBJECT);
     let isValidValue = (input === null || (input !==null && input.length === 0));
 
     if( (isValidType && isValidValue)){
@@ -18,7 +18,7 @@ let stringIsNullOrEmpty = function(input){
 
 let objectIsNullOrEmpty = function(obj){
     let objType = (typeof(obj));
-    let isObjectType = (typeof obj == DataTypes.OBJECT)
+    let isObjectType = (typeof obj == JsDataType.OBJECT)
     let isArrayType = Array.isArray(obj);
     let isNotUndefinedType = typeof obj !== 'undefined';
 
@@ -42,9 +42,9 @@ let valueIsUndefined = function(value){
 //Test: DONE
 let errorKeyAndTargetKeyAreEqual = function(errorKey, targetKey){
     let selectedErrorKey = errorKey;
-    let clearedErrorKey = selectedErrorKey.replace(InputValidationSuffixes.REQUIRED,'')
-                                          .replace(InputValidationSuffixes.INVALID,'')
-                                          .replace(InputValidationSuffixes.DATATYPE,'');
+    let clearedErrorKey = selectedErrorKey.replace(InputValidationSuffix.REQUIRED,'')
+                                          .replace(InputValidationSuffix.INVALID,'')
+                                          .replace(InputValidationSuffix.DATATYPE,'');
     let errorKeyLowerCase = clearedErrorKey.toLowerCase();
     let targetObjKeyLowerCase = targetKey.toLowerCase();
     let areEqual = (errorKeyLowerCase === (targetObjKeyLowerCase));
@@ -53,7 +53,7 @@ let errorKeyAndTargetKeyAreEqual = function(errorKey, targetKey){
 
 //Test: DONE
 function stringIsValid(inputStr){
-    let isValidType = (typeof inputStr === DataTypes.STRING);
+    let isValidType = (typeof inputStr === JsDataType.STRING);
     let isNullOrEmpty = stringIsNullOrEmpty(inputStr);
     let isUndefined = valueIsUndefined(inputStr);
     if(isValidType && !isNullOrEmpty && !isUndefined) {
@@ -63,7 +63,7 @@ function stringIsValid(inputStr){
 }
 //Test: DONE
 function objectIsValid(obj){
-    let isObjectType = (typeof obj == DataTypes.OBJECT)
+    let isObjectType = (typeof obj == JsDataType.OBJECT)
     let isArrayType = Array.isArray(obj);
     let isNotUndefinedType = typeof obj !== 'undefined';
     let isValidType = (isObjectType && !isArrayType && isNotUndefinedType);

@@ -2,7 +2,7 @@ import { cleanup } from '@testing-library/react';
 import ObjectModelInspector from '../src/services/validators/ObjectModelInspector.js'
 import userRegisterViewModel from '../src/viewModels/UserRegister.js';
 import InputCommonInspector from '../src/services/validators/InputCommonInspector.js';
-import UserRoles from '../src/library/enumerations/UserRoles.js';
+import UserRole from '../src/library/enumerations/UserRole.js';
 
 describe('File: ObjectModelInspector.js', function () {
     afterEach(cleanup);
@@ -19,7 +19,7 @@ describe('File: ObjectModelInspector.js', function () {
                 email : 'thomas11@west.com',
                 password : 'abcd',
                 confirmPassword : 'abcd',
-                userRole : UserRoles.Customer,
+                userRole : UserRole.Customer,
             };
             let userModel = new userRegisterViewModel(dataModel);
             //Act
@@ -39,7 +39,7 @@ describe('File: ObjectModelInspector.js', function () {
                 email : 'thomas11@west.com',
                 password : 'abcd',
                 confirmPassword : 'abcd',
-                userRole : UserRoles.Customer,
+                userRole : UserRole.Customer,
             };
             let userModel = new userRegisterViewModel(dataModel);
             //Act
@@ -61,7 +61,7 @@ describe('File: ObjectModelInspector.js', function () {
                 email : 'thomas11@west.com',
                 password : 'abcd',
                 confirmPassword : 'abcd',
-                userRole : UserRoles.Customer,
+                userRole : UserRole.Customer,
             };
             let userModel = new userRegisterViewModel(dataModel);
             //Act
@@ -82,7 +82,7 @@ describe('File: ObjectModelInspector.js', function () {
                 email : 'thomas11@west.com',
                 password : null,
                 confirmPassword : 'abcd',
-                userRole : UserRoles.Customer,
+                userRole : UserRole.Customer,
             };
             let userModel = new userRegisterViewModel(dataModel);
             //Act
@@ -106,7 +106,7 @@ describe('File: ObjectModelInspector.js', function () {
                 email : 'thomas11@west.com',
                 password : 'abcd',
                 confirmPassword : 'abcd',
-                userRole : UserRoles.Customer,
+                userRole : UserRole.Customer,
             };
             let userModel = new userRegisterViewModel(dataModel);
             //Act
@@ -127,7 +127,7 @@ describe('File: ObjectModelInspector.js', function () {
                 email : 'thomas11@west.com',
                 password : 'abcd',
                 confirmPassword : 'abcd',
-                userRole : UserRoles.Customer,
+                userRole : UserRole.Customer,
             };
             let userModel = new userRegisterViewModel(dataModel);
             //Act

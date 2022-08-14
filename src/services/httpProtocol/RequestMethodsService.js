@@ -1,14 +1,14 @@
 'use strict'
 
 import HttpRequest from './HttpRequests.js';
-import HttpRequestMethods from '../../library/enumerations/HttpRequestMethods.js';
+import HttpRequestMethod from '../../library/enumerations/HttpRequestMethod.js';
 
 
 
 //Test:DONE
 let getMethod = function (url, responseCallback, selectedHeaders = null) {
     let options = {
-        method: HttpRequestMethods[HttpRequestMethods.GET],
+        method: HttpRequestMethod[HttpRequestMethod.GET],
         mode:'cors',
         headers: getHeaders(selectedHeaders)
     }
@@ -21,7 +21,7 @@ let postMethod = function (url, payload, responseCallback, selectedHeaders = nul
     let jsonPayload = JSON.stringify(payload);
 
     let options = {
-        method: HttpRequestMethods[HttpRequestMethods.POST],
+        method: HttpRequestMethod[HttpRequestMethod.POST],
         mode:'cors',
         headers: getHeaders(selectedHeaders),
         body: jsonPayload
@@ -35,7 +35,7 @@ let deleteMethod = function (url, payload, responseCallback, selectedHeaders = n
     let jsonPayload = JSON.stringify(payload);
 
     let options = {
-        method: HttpRequestMethods[HttpRequestMethods.DELETE],
+        method: HttpRequestMethod[HttpRequestMethod.DELETE],
         mode:'cors',
         headers: getHeaders(selectedHeaders),
         body: jsonPayload

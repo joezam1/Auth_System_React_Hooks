@@ -1,8 +1,8 @@
 import WebWorkerManager from "../backgroundWorkers/WebWorkerManager";
 import LocalStorageService from "../services/localStorage/LocalStorageService";
 import CookieService from "../services/cookieStorage/CookieService";
-import CookieProperties from "../library/stringLiterals/CookieProperties";
-import HttpRequestMethods from "../library/enumerations/HttpRequestMethods";
+import CookieProperty from "../library/stringLiterals/CookieProperty.js";
+import HttpRequestMethod from "../library/enumerations/HttpRequestMethod";
 import EnvConfig from "../../configuration/environment/EnvConfig";
 import ServerConfig from '../../configuration/server/ServerConfig.js';
 import SessionConfig from '../../configuration/authentication/SessionConfig.js';
@@ -16,7 +16,7 @@ const SessionRefreshInspector = (function () {
 
         console.log('resolverefreshinExpiringSession-TRIGGERED')
         console.log('SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS',SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS);
-        let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperties.NAME);
+        let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperty.NAME);
         let initialCookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
 
         if(inputCommonInspector.stringIsValid(initialCookieValue)){
@@ -52,7 +52,7 @@ export default SessionRefreshInspector;
 //#REGION Private Functions
     function getMessageDataForWorker(cookieName , cookieValue ){
         var sessionUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiSessionsUpdatePut;
-        let requestMethod = HttpRequestMethods[HttpRequestMethods.PUT];
+        let requestMethod = HttpRequestMethod[HttpRequestMethod.PUT];
         let payload = {
             name: cookieName,
             session: cookieValue
@@ -66,8 +66,8 @@ export default SessionRefreshInspector;
 
     function refreshFetchWorkerOnMessageCallback(event){
         console.log('sessionWorkerOnMessageCallback-event', event)
-        let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperties.NAME);
-        let cookiePath = LocalStorageService.getItemFromLocalStorage(CookieProperties.PATH);
+        let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperty.NAME);
+        let cookiePath = LocalStorageService.getItemFromLocalStorage(CookieProperty.PATH);
 
         let sessionInfo = event?.data?.data?.result;
 
@@ -108,8 +108,8 @@ export default SessionRefreshInspector;
         let intervalIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId];
         let intervalTimerId = LocalStorageService.getItemFromLocalStorage( intervalIdName );
         clearInterval(intervalTimerId);
-        LocalStorageService.removeItemFromLocalStorage(CookieProperties.NAME);
-        LocalStorageService.removeItemFromLocalStorage(CookieProperties.PATH);
+        LocalStorageService.removeItemFromLocalStorage(CookieProperty.NAME);
+        LocalStorageService.removeItemFromLocalStorage(CookieProperty.PATH);
         LocalStorageService.removeItemFromLocalStorage(intervalIdName);
         WebWorkerManager.terminateActiveWorker();
     }

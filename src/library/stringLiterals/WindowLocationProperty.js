@@ -1,4 +1,4 @@
-const WindowLocationProperties = Object.freeze({
+const WindowLocationProperty = Object.freeze({
     PROTOCOL:'protocol',
     HOST:'host',
     PATHNAME:'pathname',
@@ -8,4 +8,4 @@ const WindowLocationProperties = Object.freeze({
 
 });
 
-export default WindowLocationProperties;
+export default WindowLocationProperty;

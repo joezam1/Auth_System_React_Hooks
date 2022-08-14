@@ -1,18 +1,18 @@
 import formFieldStatus from '../library/enumerations/FormFieldStatus.js';
-import DataTypes from '../library/stringLiterals/JsDataTypes.js';
+import JsDataType from '../library/stringLiterals/JsDataType.js';
 
 
 var userLoginViewModel = function(model){
     var username = {
         fieldValue: (model.username || ''),
         fieldStatus: formFieldStatus.Required,
-        fieldDataType: DataTypes.STRING
+        fieldDataType: JsDataType.STRING
     };
 
     var password = {
         fieldValue: (model.password || ''),
         fieldStatus: formFieldStatus.Required,
-        fieldDataType: DataTypes.STRING
+        fieldDataType: JsDataType.STRING
     };
 
     return Object.freeze({

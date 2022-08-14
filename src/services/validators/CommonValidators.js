@@ -1,10 +1,10 @@
 'use strict'
-import DataTypes from '../../library/stringLiterals/JsDataTypes.js';
+import JsDataType from '../../library/stringLiterals/JsDataType.js';
 
 
 //Test:DONE
 var isValidJson = function(input){
-    if(typeof input !== DataTypes.STRING)
+    if(typeof input !== JsDataType.STRING)
     {
         return false;
     }

@@ -1,19 +1,19 @@
-import DataTypes from '../../library/stringLiterals/JsDataTypes.js';
+import JsDataType from '../../library/stringLiterals/JsDataType.js';
 
 //Test: DONE
 var isTypeString = function (input) {
-    var result = (typeof input === DataTypes.STRING);
+    var result = (typeof input === JsDataType.STRING);
     return result;
 }
 //Test: DONE
 var isTypeBoolean = function (input) {
-    var result = (typeof input === DataTypes.BOOLEAN)
+    var result = (typeof input === JsDataType.BOOLEAN)
     return result;
 }
 //Test: DONE
 var isTypeNumber = function (input) {
     var isNumeric = !isNaN(input);
-    var isTypeNumber = (typeof input === DataTypes.NUMBER);
+    var isTypeNumber = (typeof input === JsDataType.NUMBER);
     var result = (isNumeric && isTypeNumber)
     return result;
 }
@@ -33,23 +33,23 @@ var isTypeDecimal = function (input) {
 }
 //Test: DONE
 var isTypeNull = function (input) {
-    var result = (typeof input === DataTypes.OBJECT && input !== undefined && input === null && !Array.isArray(input) && input !== DataTypes.NULL)
+    var result = (typeof input === JsDataType.OBJECT && input !== undefined && input === null && !Array.isArray(input) && input !== JsDataType.NULL)
     return result;
 }
 //Test: DONE
 var isTypeFunction = function (input) {
-    var result = (typeof input ===DataTypes.FUNCTION)
+    var result = (typeof input ===JsDataType.FUNCTION)
     return result;
 }
 //Test: DONE
 var isTypeObject = function (input) {
-    var result = (typeof input ===DataTypes.OBJECT && input !== undefined && input !== null && !Array.isArray(input) && input !==DataTypes.NULL)
+    var result = (typeof input ===JsDataType.OBJECT && input !== undefined && input !== null && !Array.isArray(input) && input !==JsDataType.NULL)
     return result;
 }
 //Test: DONE
 var isDate = function(input){
     let inputData = input;
-    if(typeof input === DataTypes.STRING ){
+    if(typeof input === JsDataType.STRING ){
         let result = Date.parse(input)
         inputData =(isNaN(result))? result : new Date(result);
     }
