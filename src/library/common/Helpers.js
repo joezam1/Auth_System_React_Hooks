@@ -47,12 +47,12 @@ let formatStringFirstLetterCapital = function(input){
 
 }
 //Test: DONE
-function getHtmlBreakSeparator(input){
+let getHtmlBreakSeparator = function(input){
     let inputIsValid = InputCommonInspector.stringIsValid(input);
     return (inputIsValid ? '<br/>' : '');
 }
 //Test: DONE
-function getmessageFormatForDisplay(input){
+let getmessageFormatForDisplay = function(input){
     if(InputCommonInspector.stringIsValid(input)){
         return input;
     }
@@ -65,7 +65,7 @@ let setUrlRedirect = function(redirectTo){
 }
 
 //Test:DONE
-var getUrlRedirectTo = function(redirectTo){
+let getUrlRedirectTo = function(redirectTo){
     var protocol = window.location.protocol;
     var host = window.location.host;
     var pathName = window.location.pathname;
@@ -76,13 +76,14 @@ var getUrlRedirectTo = function(redirectTo){
 }
 
 //Test:DONE
-var safeJsonParse = function (input) {
+let safeJsonParse = function (input) {
     var value = input;
     if (CommonValidators.isValidJson(input)) {
         value = JSON.parse(input);
     }
     return value;
 }
+
 
 let service= Object.freeze({
     removeLeadingAndTrailinsSpaces : removeLeadingAndTrailinsSpaces,
@@ -97,3 +98,7 @@ let service= Object.freeze({
 });
 
 export default service;
+
+//#REGION Private Functions
+
+//#ENDREGION Private Functions

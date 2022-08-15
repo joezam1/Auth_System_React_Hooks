@@ -3,13 +3,13 @@ import JsDataType from '../library/stringLiterals/JsDataType.js';
 
 
 var userLoginViewModel = function(model){
-    var username = {
+    let username = {
         fieldValue: (model.username || ''),
         fieldStatus: formFieldStatus.Required,
         fieldDataType: JsDataType.STRING
     };
 
-    var password = {
+    let password = {
         fieldValue: (model.password || ''),
         fieldStatus: formFieldStatus.Required,
         fieldDataType: JsDataType.STRING

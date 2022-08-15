@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import { useAsync } from 'react-async-hook';
 
 import RouteConfig from '../../../configuration/routes/RouteConfig.js';
 import UserLoginViewModel from '../../viewModels/UserLogin.js';
@@ -20,16 +19,33 @@ import fetchWorkerScript from '../../backgroundWorkers/FetchWorker.js';
 import SessionRefreshInspector from '../../middleware/SessionRefreshInspector.js';
 import IdleSessionInspector from '../../middleware/IdleSessionInspector.js';
 import NotificationService from '../../services/notifications/NotificationService.js';
+import GeolocationServices from '../../services/geoLocation/geoLocationService.js';
+import DeviceDetectorService from '../../services/deviceDetection/DeviceDetectorService.js';
+
+
+
 
 
 export default function Login(){
-
+    const [geoLocationInfo, setGeolocation] = useState();
     const [ notificationInfo, setNotification ] = useState('');
     const [isLoggedIn, setUserLogin] = useState(false);
     const [ usernameErrors, setUsernameErrors ] = useState('');
     const [ passwordErrors, setPasswordErrors ] = useState('');
 
+
     let userInfo = null;
+
+    useEffect(()=>{
+
+        async function getGeolocation(){
+            let result = await GeolocationServices.getGeolocationAsync();
+            setGeolocation(result);
+        }
+        getGeolocation();
+
+    },[]);
+
 
     function loginUserCallback(response){
         console.log('loginUserCallback-response', response);
@@ -42,9 +58,9 @@ export default function Login(){
                 LocalStorageService.setItemInLocalStorage(CookieProperty.NAME, name);
                 LocalStorageService.setItemInLocalStorage(CookieProperty.PATH, properties.path);
                 CookieService.insertCookieInDataStore(name, value, properties);
-                IdleSessionInspector.scanIdleBrowserTime();
-                SessionRefreshInspector.resolveRefreshingExpiringSession(fetchWorkerScript);
-                setUserLogin(true);
+                //IdleSessionInspector.scanIdleBrowserTime();
+                //SessionRefreshInspector.resolveRefreshingExpiringSession(fetchWorkerScript);
+                //setUserLogin(true);
 
             break;
 
@@ -61,13 +77,11 @@ export default function Login(){
             break;
 
             case httpResponseStatus._400badRequest:
-                let messageLoginFailed = NotificationService.loginFailed + response.result;
-                setNotification( messageLoginFailed );
+                setNotification( NotificationService.loginFailed );
             break;
 
             default:
-                let messageLoginNonProcessable = NotificationService.loginNonProcessable  + response.result;
-                setNotification( messageLoginNonProcessable );
+                setNotification( NotificationService.loginNonProcessable  );
             break;
         }
     }
@@ -75,17 +89,21 @@ export default function Login(){
 
     function processUserLoginSession(){
         setNotification('');
-        var form = document.getElementById('loginCustomerForm');
+
+        let form = document.getElementById('loginCustomerForm');
         if(form !==null) {
             console.log('processUserRegistration-form', form);
-            UserLoginDataModel.username = form[0].value;
-            UserLoginDataModel.password = form[1].value;
-
+            UserLoginDataModel.username = (InputCommonInspector.objectIsValid(form[0]) ) ? form[0].value : '';
+            UserLoginDataModel.password = (InputCommonInspector.objectIsValid(form[1]) ) ? form[1].value : '',
+            UserLoginDataModel.geoLocation = geoLocationInfo;
+            UserLoginDataModel.userAgent = window.navigator.userAgent;
+            UserLoginDataModel.deviceAndBrowser = DeviceDetectorService.getDeviceAndBrowserInfo();
             var userLogin = new UserLoginViewModel(UserLoginDataModel);
             console.log('processUserRegistration-userLogin', userLogin);
             userInfo = userLogin;
             if( !inputsAreValid(userLogin)){ return; }
 
+            console.log('UserLoginDataModel:', UserLoginDataModel);
             var loginUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiUsersLoginPathPost;
             RequestMethodsService.postMethod(loginUrl, UserLoginDataModel, loginUserCallback);
         }

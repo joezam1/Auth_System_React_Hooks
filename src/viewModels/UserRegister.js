@@ -3,37 +3,37 @@ import JsDataType from '../library/stringLiterals/JsDataType.js';
 
 
 var userRegisterViewModel = function(model){
-    var firstName ={
+    let firstName ={
         fieldValue: (model.firstName || ''),
         fieldStatus: formFieldStatus.Required,
         fieldDataType: JsDataType.STRING
     };
-    var middleName = {
+    let middleName = {
         fieldValue: (model.middleName || '') ,
         fieldStatus:formFieldStatus.Optional,
         fieldDataType: JsDataType.STRING
     };
-    var lastName = {
+    let lastName = {
         fieldValue: (model.lastName || ''),
         fieldStatus: formFieldStatus.Required,
         fieldDataType: JsDataType.STRING
     };
-    var username = {
+    let username = {
         fieldValue: (model.username || ''),
         fieldStatus: formFieldStatus.Required,
         fieldDataType: JsDataType.STRING
     };
-    var email = {
+    let email = {
         fieldValue: (model.email || '' ),
         fieldStatus:formFieldStatus.Required,
         fieldDataType: JsDataType.STRING
     };
-    var password = {
+    let password = {
         fieldValue: (model.password || ''),
         fieldStatus: formFieldStatus.Required,
         fieldDataType: JsDataType.STRING
     };
-    var confirmPassword = {
+    let confirmPassword = {
         fieldValue: (model.confirmPassword || ''),
         fieldStatus:formFieldStatus.Required,
         fieldDataType: JsDataType.STRING

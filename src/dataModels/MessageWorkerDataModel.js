@@ -8,8 +8,6 @@ let messageWorkerDataModel = {
         headersArray:'',
         jsonPayload:''
     }
-
-
-}
+};
 
 export default messageWorkerDataModel;
