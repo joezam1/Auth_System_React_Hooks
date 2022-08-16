@@ -65,13 +65,11 @@ export default function Logout(){
             break;
 
             case HttpResponseStatus._400badRequest:
-                let messageLogoutFailed = NotificationService.logoutFailed + response.result;
-                setNotification( messageLogoutFailed );
+                setNotification( NotificationService.logoutFailed );
             break;
 
             default:
-                let messageLogoutNonProcessable = NotificationService.logoutNonProcessable + response.result;
-                setNotification(messageLogoutNonProcessable);
+                setNotification( NotificationService.logoutNonProcessable);
             break;
         }
 
@@ -86,7 +84,8 @@ export default function Logout(){
 
         let logoutUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiUserslogoutPathPost;
         let dataModel = {
-            session: sessionCookieValue
+            session: sessionCookieValue,
+            userAgent : window.navigator.userAgent
         }
         let selectedHeaders = {
             x_session_id : sessionCookieValue

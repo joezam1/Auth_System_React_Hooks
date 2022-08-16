@@ -58,9 +58,9 @@ export default function Login(){
                 LocalStorageService.setItemInLocalStorage(CookieProperty.NAME, name);
                 LocalStorageService.setItemInLocalStorage(CookieProperty.PATH, properties.path);
                 CookieService.insertCookieInDataStore(name, value, properties);
-                //IdleSessionInspector.scanIdleBrowserTime();
-                //SessionRefreshInspector.resolveRefreshingExpiringSession(fetchWorkerScript);
-                //setUserLogin(true);
+                IdleSessionInspector.scanIdleBrowserTime();
+                SessionRefreshInspector.resolveRefreshingExpiringSession(fetchWorkerScript);
+                setUserLogin(true);
 
             break;
 
