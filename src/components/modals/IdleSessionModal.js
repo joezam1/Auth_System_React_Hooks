@@ -25,8 +25,8 @@ export default function IdleSessionModal(){
 
     return(<div className="idle-session-modal-section">
         <div className="modal-container">
-            <div className="logout-warning-box">
-                <div className="logout-warning-text">
+            <div className="modal-notification-box">
+                <div className="modal-notification-text">
                     You will be Auto looged out in <b>{countdownValue ? countdownValue + ' seconds.': '' }</b>
                     <br/>
                     Please generate activity in your browser to maintain your session.

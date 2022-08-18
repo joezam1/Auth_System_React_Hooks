@@ -16,13 +16,14 @@ import HttpResponseStatus from '../../library/enumerations/HttpResponseStatus.js
 import IntervalIdName from "../../library/enumerations/IntervalIdName.js";
 import WindowLocationProperty from '../../library/stringLiterals/WindowLocationProperty.js';
 import CookieProperty from "../../library/stringLiterals/CookieProperty.js";
-
-
+import ModalRenderingFactoryService from '../../services/reactRendering/ModalRenderingFactoryService.js';
+import ModalEnums from '../../library/enumerations/Modal.js';
 
 export default function Logout(){
 
     const [ notificationInfo, setNotification ] = useState('');
     const [ isLoggedOut, setLogoutStatus] = useState(false);
+    let _countdown = 10;
 
     useEffect(()=>{
         let cookieName =  LocalStorageService.getItemFromLocalStorage(CookieProperty.NAME);
@@ -52,32 +53,48 @@ export default function Logout(){
 
     function logoutUserCallback(response){
         console.log('logoutUserCallback-response:', response);
+
+        ModalRenderingFactoryService.createRenderer(ModalEnums.logoutSession);
         switch(response.status){
 
             case HttpResponseStatus._200ok:
+                //display MODAL with countdown Notification
                 setNotification(NotificationService.logoutSuccess );
                 delayRedirect();
             break;
 
             case HttpResponseStatus._401unauthorized:
                 setNotification(NotificationService.logoutUnauthorized);
+                 //display MODAL with countdown Notification
                 delayRedirect();
             break;
 
             case HttpResponseStatus._400badRequest:
                 setNotification( NotificationService.logoutFailed );
+                 //display MODAL with countdown Notification
             break;
 
             default:
                 setNotification( NotificationService.logoutNonProcessable);
+                 //display MODAL with countdown Notification
             break;
         }
 
     }
 
     function delayRedirect(){
-        setTimeout(function(){ setLogoutStatus(true);
-        }, SessionConfig.SESSION_DEFAULT_DELAYS_IN_NOTIFICATIONS);
+        console.log('_countdown-BEFORE : ',_countdown);
+        let intervalId = setInterval(function(){
+        _countdown--;
+        console.log('_countdown-AFTER : ',_countdown);
+        LocalStorageService.setItemInLocalStorage(SessionConfig.LOGOUT_SESSION_COUNTDOWN_VALUE , _countdown);
+            if(_countdown === 0 ){
+                setLogoutStatus(true);
+                clearInterval(intervalId);
+                LocalStorageService.removeItemFromLocalStorage(SessionConfig.LOGOUT_SESSION_COUNTDOWN_VALUE);
+            }
+
+        }, SessionConfig.ONE_SECOND_IN_MILLISECONDS);
     }
 
     function processUserLogoutSession( sessionCookieValue){
@@ -94,6 +111,7 @@ export default function Logout(){
     }
 
     if(isLoggedOut){
+        ModalRenderingFactoryService.removeRendererSeparateThread();
         return <Navigate to = {RouteConfig.home} />
     }
 

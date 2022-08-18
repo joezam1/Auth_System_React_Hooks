@@ -78,7 +78,7 @@ export default SessionRefreshInspector;
     }
 
     function updateCookieSession( cookieName, cookiePath, sessionInfo ){
-        debugger;
+
         let newSessionToken = sessionInfo?.sessionToken?.fieldValue;
         console.log('NEW-SESSION-TOKEN:', newSessionToken)
         let expiresInMilliseconds = sessionInfo?.expires?.fieldValue;

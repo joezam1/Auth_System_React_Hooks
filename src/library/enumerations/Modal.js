@@ -1,6 +1,8 @@
 const Modal = Object.freeze({
     idleSession:0,
-    0:'idleSession'
+    logoutSession:1,
+    0:'idleSession',
+    1:'logoutSession'
 });
 
 export default Modal;

@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import IdleSessionModal from "../../components/modals/IdleSessionModal.js";
+import LogoutSessionModal from "../../components/modals/LogoutSessionModal.js";
 import InputCommonInspector from '../validators/InputCommonInspector.js';
 import Modal from '../../library/enumerations/Modal.js';
 
@@ -10,28 +11,22 @@ const ModalRenderingFactoryService = (function(){
     let _modalObject = null;
 
 
-    const CreateRenderer = function(modalEnum){
+    const createRenderer = function(modalEnum){
         if(!InputCommonInspector.objectIsValid(_modalObject)){
             onInit();
         }
-        _mounted = true;
-        switch(modalEnum){
-
-            case Modal.idleSession:
-                _modalObject.render(<IdleSessionModal/>);
-            break;
-        }
+        renderFactory(modalEnum);
     }
 
-    const removeRenderer = function(){
-        if(InputCommonInspector.objectIsValid(_modalObject) && _mounted === true){
-            _mounted = false;
-            _modalObject.unmount();
-            _modalObject = null;
-        }
+    const removeRendererSeparateThread = function(){
+        let timeoutId =setTimeout(()=>{
+            if(InputCommonInspector.objectIsValid(_modalObject) && _mounted === true){
+                _mounted = false;
+                _modalObject.unmount();
+                _modalObject = null;
+            }
+        },1);
     }
-
-
 
     //#REGION Private Functions
 
@@ -39,8 +34,8 @@ const ModalRenderingFactoryService = (function(){
 
         onInit();
         return Object.freeze({
-            CreateRenderer : CreateRenderer,
-            removeRenderer : removeRenderer
+            createRenderer : createRenderer,
+            removeRendererSeparateThread : removeRendererSeparateThread
         });
     }
 
@@ -51,6 +46,20 @@ const ModalRenderingFactoryService = (function(){
             _modalObject =  ReactDOM.createRoot(modalHtmlElement);
         }
         console.log( 'onInit-layerHtmlElement-_modalObject', _modalObject );
+    }
+
+    function renderFactory (modalEnum){
+        _mounted = true;
+        switch(modalEnum){
+
+            case Modal.idleSession:
+                _modalObject.render(<IdleSessionModal/>);
+            break;
+
+            case Modal.logoutSession:
+                _modalObject.render(<LogoutSessionModal/>);
+            break;
+        }
     }
 
     //#ENDREGION Private Functions

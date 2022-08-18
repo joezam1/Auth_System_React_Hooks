@@ -8,6 +8,7 @@ import LocalStorageService from '../services/localStorage/LocalStorageService.js
 import IntervalIdName from '../library/enumerations/IntervalIdName.js';
 import InputCommonInspector from '../services/validators/InputCommonInspector.js';
 import CookieService from '../services/cookieStorage/CookieService.js';
+import CookieProperty from '../library/stringLiterals/CookieProperty.js';
 
 const IdleSessionInspector = (function(){
 
@@ -56,10 +57,10 @@ const IdleSessionInspector = (function(){
             console.log('CheckTime-_idleSecondsCounter:' , _idleSecondsCounter);
             if(_idleSecondsCounter === 0){
                 //Testing Only
-                //ModalRenderingFactoryService.CreateRenderer( Modal.idleSession )
+                //ModalRenderingFactoryService.createRenderer( Modal.idleSession )
                 //LayerRenderingService.startRendering();
                 //Stop Rendering
-                ModalRenderingFactoryService.removeRenderer();
+                ModalRenderingFactoryService.removeRendererSeparateThread();
                 LayerRenderingService.stopRendering();
             }
             if(_idleSecondsCounter >= DISPLAY_LOGOUT_WARNING){
@@ -72,13 +73,13 @@ const IdleSessionInspector = (function(){
             if(_idleSecondsCounter === DISPLAY_LOGOUT_WARNING){
 
                 LayerRenderingService.startRendering();
-                ModalRenderingFactoryService.CreateRenderer( Modal.idleSession )
+                ModalRenderingFactoryService.createRenderer( Modal.idleSession )
             }
 
             if (_idleSecondsCounter >= TOTAL_IDLE_TIMEOUT) {
                 window.clearInterval(_idleBrowserIntervalId);
                 console.log("Time expired!");
-                ModalRenderingFactoryService.removeRenderer();
+                ModalRenderingFactoryService.removeRendererSeparateThread();
                 LayerRenderingService.stopRendering();
 
                 Helpers.setUrlRedirect(RouteConfig.authLogoutPath);
