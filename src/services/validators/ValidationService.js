@@ -36,7 +36,7 @@ let buildErrorMessagesReport = function(errorsReportForTargetObject, targetObjec
     return errorsSectionObjReport;
 }
 
-let service = Object.freeze({
+const service = Object.freeze({
     resolveUserFormValidation : resolveUserFormValidation,
     buildErrorMessagesReport : buildErrorMessagesReport
 });

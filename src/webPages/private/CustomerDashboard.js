@@ -4,7 +4,7 @@ import RouteConfig from '../../../configuration/routes/RouteConfig.js';
 import ButtonPrivateRedirect from '../../components/ButtonPrivateRedirect.js';
 
 
-
+//Test: DONE
 export default function CustomerDashboard(){
 
     return(

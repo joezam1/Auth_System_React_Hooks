@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import RouteConfig from '../../../configuration/routes/RouteConfig.js';
 
-
+//Test: DONE
 export default function CustomerOrders(){
     return(<div className='customer-orders-section'>
 

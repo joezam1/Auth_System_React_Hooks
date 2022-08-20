@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File: IdleSessionModal.js Component: IdleSessionModal It can take a snapshot 1`] = `
+<DocumentFragment>
+   
+  <div
+    class="idle-session-modal-section"
+  >
+    <div
+      class="modal-container"
+    >
+      <div
+        class="modal-notification-box"
+      >
+        <div
+          class="modal-notification-text"
+        >
+          You will be Auto looged out in 
+          <b />
+          <br />
+          Please generate activity in your browser to maintain your session.
+        </div>
+      </div>
+    </div>
+  </div>
+   
+</DocumentFragment>
+`;

@@ -28,7 +28,7 @@ const inspectInputLength = function(objViewModel){
 }
 
 //Test: DONE
-let inspectInputType = function(objViewModel){
+const inspectInputType = function(objViewModel){
     let reportTypeErrors = {};
     for(let key in objViewModel){
 
@@ -73,7 +73,7 @@ let inspectInputType = function(objViewModel){
 }
 
 //Test: DONE
-function inspectInputValue(objViewModel){
+const inspectInputValue = function(objViewModel){
     let dataReportErrors = {};
     let selectedPassword = '';
     for(let key in objViewModel){

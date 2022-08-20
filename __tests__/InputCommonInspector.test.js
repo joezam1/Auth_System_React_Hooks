@@ -149,6 +149,7 @@ describe('File: InputCommonInspector.js', () => {
             expect(result).toBe(false);
         });
     });
+
     describe('Function: errorKeyAndTargetKeyAreEqual ',function(){
 
         test('When Error key and Target Key are equal, Result is TRUE', function(){
@@ -180,7 +181,6 @@ describe('File: InputCommonInspector.js', () => {
             expect(resultComparisson).toBe(false);
         })
     });
-
 
     describe('Function: stringIsValid', function(){
         test('variable with numeric value returns FALSE', function(){
@@ -291,4 +291,41 @@ describe('File: InputCommonInspector.js', () => {
         });
     });
 
+    describe('Function: inputExist', function(){
+        test('When input is NULL it returns FALSE', function(){
+            //Arrange
+            let input = null;
+            //Act
+            let result = InputCommonInspector.inputExist(input);
+            //Assert
+            expect(result).toEqual(false);
+        });
+
+        test('When input is undefined it returns FALSE', function(){
+            //Arrange
+            let input = undefined;
+            //Act
+            let result = InputCommonInspector.inputExist(input);
+            //Assert
+            expect(result).toEqual(false);
+        });
+
+        test('When input is NOT defined it returns FALSE', function(){
+            //Arrange
+            let input;
+            //Act
+            let result = InputCommonInspector.inputExist(input);
+            //Assert
+            expect(result).toEqual(false);
+        });
+
+        test('When input has value it returns TRUE', function(){
+            //Arrange
+            let input = 5;
+            //Act
+            let result = InputCommonInspector.inputExist(input);
+            //Assert
+            expect(result).toEqual(true);
+        });
+    });
 });

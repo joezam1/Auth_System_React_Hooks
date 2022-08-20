@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File: LogoutSessionModal.js Component: LogoutSessionModal It can take a snapshot 1`] = `
+<DocumentFragment>
+   
+  <div
+    class="logout-session-modal-section"
+  >
+    <div
+      class="modal-container"
+    >
+      <div
+        class="modal-notification-box"
+      >
+        <div
+          class="modal-notification-text"
+        >
+          You will be redirected to Home in 
+          <b />
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+   
+</DocumentFragment>
+`;

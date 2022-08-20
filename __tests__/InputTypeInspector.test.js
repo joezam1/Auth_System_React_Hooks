@@ -198,7 +198,6 @@ describe('File: InputTypeInspector.js',()=>{
         });
     });
 
-
     describe('Function: isTypeNull', function(){
         test('Input value NULL returns TRUE',function(){
             //Arrange
@@ -260,7 +259,6 @@ describe('File: InputTypeInspector.js',()=>{
             expect(result).toBe(false);
         });
     });
-
 
     describe('Function: isTypeObject', function(){
         test('Input object returns TRUE', function(){

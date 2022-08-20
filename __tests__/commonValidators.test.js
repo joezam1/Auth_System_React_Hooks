@@ -2,7 +2,7 @@ import CommonValidators from '../src/services/validators/CommonValidators.js';
 import { cleanup } from '@testing-library/react';
 
 
-xdescribe('File: CommonValidators.js', function () {
+describe('File: CommonValidators.js', function () {
     afterEach(cleanup);
     afterEach(() => {
         jest.clearAllMocks();

@@ -1,10 +1,12 @@
 'use strict';
 
+import NavigatorHelper from './NavigatorHelper.js';
+
 const DeviceDetectorService = (function(){
 
     const navigatorModule = {
         options: [],
-        header: [navigator.userAgent.platform, navigator.userAgent, navigator.appVersion, navigator.vendor, window.opera],
+        header: NavigatorHelper.getNavigatorData(),
         dataos: [
             { name: 'Windows Phone', value: 'Windows Phone', version: 'OS' },
             { name: 'Windows', value: 'Win', version: 'NT' },
@@ -30,13 +32,13 @@ const DeviceDetectorService = (function(){
     };
 
 
-    function getDeviceAndBrowserInfo(){
-        let userAgent = navigatorModule.header.join(' ');
+    const getDeviceAndBrowserInfo = function(){
+        let userAgent = navigatorModule.header;
         let os = matchItem(userAgent, navigatorModule.dataos);
         let browser = matchItem(userAgent, navigatorModule.databrowser);
-        let appVersion = navigator.appVersion ;
-        let platform = navigator.platform || navigator.userAgent.platform;
-        let vendor = navigator.vendor;
+        let appVersion = NavigatorHelper.getAppVersion();
+        let platform = NavigatorHelper.getPlatform();
+        let vendor = NavigatorHelper.getVendor();
 
         return {
             os: os,
@@ -47,9 +49,17 @@ const DeviceDetectorService = (function(){
         };
     }
 
+    const getUserAgent = function(){
+        let userAgent = NavigatorHelper.getUserAgent();
+        return userAgent;
+    }
+
     return Object.freeze({
-        getDeviceAndBrowserInfo : getDeviceAndBrowserInfo
+        getDeviceAndBrowserInfo : getDeviceAndBrowserInfo,
+        getUserAgent : getUserAgent
     });
+
+
 })();
 
 export default DeviceDetectorService;

@@ -2,37 +2,37 @@ import JsDataType from '../../library/stringLiterals/JsDataType.js';
 import InputValidationSuffix from '../../library/stringLiterals/InputValidationSuffix.js';
 
 //Test: DONE
-let stringIsNullOrEmpty = function(input){
-    if(valueIsUndefined(input)) {
+const stringIsNullOrEmpty = function (input) {
+    if (valueIsUndefined(input)) {
         return false;
     }
     let isValidType = (typeof input === JsDataType.STRING || typeof input === JsDataType.OBJECT);
-    let isValidValue = (input === null || (input !==null && input.length === 0));
+    let isValidValue = (input === null || (input !== null && input.length === 0));
 
-    if( (isValidType && isValidValue)){
+    if ((isValidType && isValidValue)) {
         return true;
     }
     return false;
 }
-//Test:DONE
 
-let objectIsNullOrEmpty = function(obj){
-    let objType = (typeof(obj));
+//Test:DONE
+const objectIsNullOrEmpty = function (obj) {
+    let objType = (typeof (obj));
     let isObjectType = (typeof obj == JsDataType.OBJECT)
     let isArrayType = Array.isArray(obj);
     let isNotUndefinedType = typeof obj !== 'undefined';
 
-    let isNullValue = ( obj === null)
+    let isNullValue = (obj === null)
 
-    let isObject = ( isObjectType && !isArrayType && isNotUndefinedType );
-    let isEmptyObj = ( isObject && !isNullValue && (Object.keys(obj).length === 0) );
+    let isObject = (isObjectType && !isArrayType && isNotUndefinedType);
+    let isEmptyObj = (isObject && !isNullValue && (Object.keys(obj).length === 0));
 
-    let result =  (isObject && (isEmptyObj || isNullValue))
+    let result = (isObject && (isEmptyObj || isNullValue))
     return result;
 }
 
 //Test : DONE
-let valueIsUndefined = function(value){
+const valueIsUndefined = function (value) {
     let objUndefinedType = typeof value === 'undefined';
     let valueIsUndefined = (value === undefined)
     let result = (objUndefinedType && valueIsUndefined);
@@ -40,11 +40,11 @@ let valueIsUndefined = function(value){
 }
 
 //Test: DONE
-let errorKeyAndTargetKeyAreEqual = function(errorKey, targetKey){
+const errorKeyAndTargetKeyAreEqual = function (errorKey, targetKey) {
     let selectedErrorKey = errorKey;
-    let clearedErrorKey = selectedErrorKey.replace(InputValidationSuffix.REQUIRED,'')
-                                          .replace(InputValidationSuffix.INVALID,'')
-                                          .replace(InputValidationSuffix.DATATYPE,'');
+    let clearedErrorKey = selectedErrorKey.replace(InputValidationSuffix.REQUIRED, '')
+        .replace(InputValidationSuffix.INVALID, '')
+        .replace(InputValidationSuffix.DATATYPE, '');
     let errorKeyLowerCase = clearedErrorKey.toLowerCase();
     let targetObjKeyLowerCase = targetKey.toLowerCase();
     let areEqual = (errorKeyLowerCase === (targetObjKeyLowerCase));
@@ -52,36 +52,48 @@ let errorKeyAndTargetKeyAreEqual = function(errorKey, targetKey){
 }
 
 //Test: DONE
-function stringIsValid(inputStr){
+const stringIsValid = function (inputStr) {
     let isValidType = (typeof inputStr === JsDataType.STRING);
     let isNullOrEmpty = stringIsNullOrEmpty(inputStr);
     let isUndefined = valueIsUndefined(inputStr);
-    if(isValidType && !isNullOrEmpty && !isUndefined) {
+    if (isValidType && !isNullOrEmpty && !isUndefined) {
         return true;
     }
     return false;
 }
+
 //Test: DONE
-function objectIsValid(obj){
+const objectIsValid = function (obj) {
     let isObjectType = (typeof obj == JsDataType.OBJECT)
     let isArrayType = Array.isArray(obj);
     let isNotUndefinedType = typeof obj !== 'undefined';
     let isValidType = (isObjectType && !isArrayType && isNotUndefinedType);
     let isNullOrEmpty = objectIsNullOrEmpty(obj);
     let isUndefined = valueIsUndefined(obj);
-    if(isValidType && !isNullOrEmpty && !isUndefined) {
+    if (isValidType && !isNullOrEmpty && !isUndefined) {
         return true;
     }
     return false;
 }
 
-let service = Object.freeze({
-    stringIsNullOrEmpty : stringIsNullOrEmpty,
-    objectIsNullOrEmpty : objectIsNullOrEmpty,
-    valueIsUndefined : valueIsUndefined,
-    errorKeyAndTargetKeyAreEqual : errorKeyAndTargetKeyAreEqual,
-    stringIsValid : stringIsValid,
-    objectIsValid : objectIsValid
+//Test: DONE
+const inputExist = function(input){
+    if(input !== null && !valueIsUndefined(input)){
+            return true;
+    }
+    return false;
+}
+
+
+
+const service = Object.freeze({
+    stringIsNullOrEmpty: stringIsNullOrEmpty,
+    objectIsNullOrEmpty: objectIsNullOrEmpty,
+    valueIsUndefined: valueIsUndefined,
+    errorKeyAndTargetKeyAreEqual: errorKeyAndTargetKeyAreEqual,
+    stringIsValid: stringIsValid,
+    objectIsValid: objectIsValid,
+    inputExist : inputExist
 });
 
 export default service

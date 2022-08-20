@@ -3,7 +3,7 @@ import JsDataType from '../../library/stringLiterals/JsDataType.js';
 
 
 //Test:DONE
-var isValidJson = function(input){
+const isValidJson = function(input){
     if(typeof input !== JsDataType.STRING)
     {
         return false;
@@ -17,7 +17,7 @@ var isValidJson = function(input){
     return true;
 }
 
-var service = Object.freeze({
+const service = Object.freeze({
     isValidJson:isValidJson
 });
 

@@ -1,33 +1,35 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactRenderer from "./ReactRenderer";
 import TransparentLayer from "../../components/modals/TransparentBackgroundLayer";
-import InputCommonInspector from '../validators/InputCommonInspector.js';
+import TargetHtmlElementId from '../../library/stringLiterals/TargetHtmlElementId.js';
 
 const LayerRenderingService = (function(){
 
-    let _mounted = null;
-    let _backgroundLayerSeparator = null;
-
-
+    //Test: DONE
     const startRendering = function(){
-        if(!InputCommonInspector.objectIsValid(_backgroundLayerSeparator)){
+        if(!ReactRenderer.componentIsMounted()){
             onInit();
         }
-        _mounted = true;
-        _backgroundLayerSeparator.render(<TransparentLayer/>);
+        ReactRenderer.startRendering(<TransparentLayer/>);
     }
-
+    //Test: DONE
     const stopRendering = function(){
-        if(InputCommonInspector.objectIsValid(_backgroundLayerSeparator) && _mounted === true){
-            _mounted = false;
-            _backgroundLayerSeparator.unmount();
-            _backgroundLayerSeparator = null;
+        if(ReactRenderer.componentIsMounted()){
+            ReactRenderer.stopRenderingUsingSeparateThread();
         }
     }
-
 
 
     //#REGION Private Functions
+
+    function onInit(){
+        ReactRenderer.setHtmlTargetElement( TargetHtmlElementId.LAYER);
+        console.log( 'onInit-ReactRenderer.setHtmlTargetElement-TRIGGERED' );
+    }
+
+    //#ENDREGION Private Functions
+
+
 
     function constructor(){
 
@@ -38,16 +40,6 @@ const LayerRenderingService = (function(){
         });
     }
 
-    function onInit(){
-        let layerHtmlElement = document.getElementById('layer')
-        console.log( 'onInit-layerHtmlElement-layer', layerHtmlElement );
-        if(layerHtmlElement !== null && !InputCommonInspector.valueIsUndefined(layerHtmlElement)){
-            _backgroundLayerSeparator =  ReactDOM.createRoot(layerHtmlElement);
-        }
-        console.log( 'onInit-layerHtmlElement-_backgroundLayerSeparator', _backgroundLayerSeparator );
-    }
-
-    //#ENDREGION Private Functions
 
     return constructor();
 })();

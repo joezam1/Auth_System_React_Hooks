@@ -1,14 +1,14 @@
 import LayerRenderingService from '../services/reactRendering/LayerRenderingService.js'
-import ModalRenderingFactoryService from '../services/reactRendering/ModalRenderingFactoryService.js'
+import ModalRenderingService from '../services/reactRendering/ModalRenderingService.js'
 import RouteConfig from '../../configuration/routes/RouteConfig.js';
 import Helpers from '../library/common/Helpers.js';
-import Modal from '../library/enumerations/Modal.js';
 import SessionConfig from '../../configuration/authentication/SessionConfig.js';
 import LocalStorageService from '../services/localStorage/LocalStorageService.js';
 import IntervalIdName from '../library/enumerations/IntervalIdName.js';
 import InputCommonInspector from '../services/validators/InputCommonInspector.js';
 import CookieService from '../services/cookieStorage/CookieService.js';
 import CookieProperty from '../library/stringLiterals/CookieProperty.js';
+import ModalWindowName from '../library/enumerations/ModalWindowName.js';
 
 const IdleSessionInspector = (function(){
 
@@ -56,11 +56,7 @@ const IdleSessionInspector = (function(){
             _idleSecondsCounter++;
             console.log('CheckTime-_idleSecondsCounter:' , _idleSecondsCounter);
             if(_idleSecondsCounter === 0){
-                //Testing Only
-                //ModalRenderingFactoryService.createRenderer( Modal.idleSession )
-                //LayerRenderingService.startRendering();
-                //Stop Rendering
-                ModalRenderingFactoryService.removeRendererSeparateThread();
+                ModalRenderingService.stopRendering();
                 LayerRenderingService.stopRendering();
             }
             if(_idleSecondsCounter >= DISPLAY_LOGOUT_WARNING){
@@ -73,13 +69,13 @@ const IdleSessionInspector = (function(){
             if(_idleSecondsCounter === DISPLAY_LOGOUT_WARNING){
 
                 LayerRenderingService.startRendering();
-                ModalRenderingFactoryService.createRenderer( Modal.idleSession )
+                ModalRenderingService.startRendering( ModalWindowName.idleSession )
             }
 
             if (_idleSecondsCounter >= TOTAL_IDLE_TIMEOUT) {
                 window.clearInterval(_idleBrowserIntervalId);
                 console.log("Time expired!");
-                ModalRenderingFactoryService.removeRendererSeparateThread();
+                ModalRenderingService.stopRendering();
                 LayerRenderingService.stopRendering();
 
                 Helpers.setUrlRedirect(RouteConfig.authLogoutPath);

@@ -16,14 +16,15 @@ import HttpResponseStatus from '../../library/enumerations/HttpResponseStatus.js
 import IntervalIdName from "../../library/enumerations/IntervalIdName.js";
 import WindowLocationProperty from '../../library/stringLiterals/WindowLocationProperty.js';
 import CookieProperty from "../../library/stringLiterals/CookieProperty.js";
-import ModalRenderingFactoryService from '../../services/reactRendering/ModalRenderingFactoryService.js';
-import ModalEnums from '../../library/enumerations/Modal.js';
+import ModalRenderingService from '../../services/reactRendering/ModalRenderingService.js';
+import ModalWindowName from '../../library/enumerations/ModalWindowName.js';
 
+//Tet: DONE
 export default function Logout(){
 
     const [ notificationInfo, setNotification ] = useState('');
     const [ isLoggedOut, setLogoutStatus] = useState(false);
-    let _countdown = 10;
+    let _countdown = 5;
 
     useEffect(()=>{
         let cookieName =  LocalStorageService.getItemFromLocalStorage(CookieProperty.NAME);
@@ -54,29 +55,26 @@ export default function Logout(){
     function logoutUserCallback(response){
         console.log('logoutUserCallback-response:', response);
 
-        ModalRenderingFactoryService.createRenderer(ModalEnums.logoutSession);
+        ModalRenderingService.startRendering(ModalWindowName.logoutSession);
         switch(response.status){
 
             case HttpResponseStatus._200ok:
-                //display MODAL with countdown Notification
-                setNotification(NotificationService.logoutSuccess );
+                let success = NotificationService.logoutSuccess + ' in ' + _countdown + ' seconds.';
+                setNotification(success );
                 delayRedirect();
             break;
 
             case HttpResponseStatus._401unauthorized:
                 setNotification(NotificationService.logoutUnauthorized);
-                 //display MODAL with countdown Notification
                 delayRedirect();
             break;
 
             case HttpResponseStatus._400badRequest:
                 setNotification( NotificationService.logoutFailed );
-                 //display MODAL with countdown Notification
             break;
 
             default:
                 setNotification( NotificationService.logoutNonProcessable);
-                 //display MODAL with countdown Notification
             break;
         }
 
@@ -111,12 +109,12 @@ export default function Logout(){
     }
 
     if(isLoggedOut){
-        ModalRenderingFactoryService.removeRendererSeparateThread();
+        ModalRenderingService.stopRendering();
         return <Navigate to = {RouteConfig.home} />
     }
 
     return(<div className="logout-section">
-            <p>You are Logged Out</p> <span> | </span><Link to={RouteConfig.home}>Go Home</Link>
+            <p>You are Logged Out <span> | </span><Link to={RouteConfig.home}>Go Home</Link> </p>
             <br/>
             <div> {notificationInfo}</div>
     </div>)

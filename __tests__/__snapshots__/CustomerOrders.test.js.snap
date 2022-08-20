@@ -9,6 +9,7 @@ exports[`File: CustomerOrders.js Component CustomerOrders It should take a snaps
     <span>
       This is the customer Orders Section.
     </span>
+    <br />
     <h3>
       Go To
     </h3>

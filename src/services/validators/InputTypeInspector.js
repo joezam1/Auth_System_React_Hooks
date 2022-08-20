@@ -1,64 +1,64 @@
 import JsDataType from '../../library/stringLiterals/JsDataType.js';
 
 //Test: DONE
-var isTypeString = function (input) {
-    var result = (typeof input === JsDataType.STRING);
+const isTypeString = function (input) {
+    let result = (typeof input === JsDataType.STRING);
     return result;
 }
 //Test: DONE
-var isTypeBoolean = function (input) {
-    var result = (typeof input === JsDataType.BOOLEAN)
+const isTypeBoolean = function (input) {
+    let result = (typeof input === JsDataType.BOOLEAN)
     return result;
 }
 //Test: DONE
-var isTypeNumber = function (input) {
-    var isNumeric = !isNaN(input);
-    var isTypeNumber = (typeof input === JsDataType.NUMBER);
-    var result = (isNumeric && isTypeNumber)
+const isTypeNumber = function (input) {
+    let isNumeric = !isNaN(input);
+    let isTypeNumber = (typeof input === JsDataType.NUMBER);
+    let result = (isNumeric && isTypeNumber)
     return result;
 }
 //Test: DONE
-var isTypeInteger = function (input) {
-    var isNumeric = isTypeNumber(input);
-    var isInteger = ((input - Math.floor(input)) === 0)
-    var result = (isNumeric && isInteger)
+const isTypeInteger = function (input) {
+    let isNumeric = isTypeNumber(input);
+    let isInteger = ((input - Math.floor(input)) === 0)
+    let result = (isNumeric && isInteger)
     return result;
 }
 //test: DONE
-var isTypeDecimal = function (input) {
-    var isNumeric = isTypeNumber(input);
-    var isDecimal = ((input - Math.floor(input)) !== 0)
-    var result = (isNumeric && isDecimal)
+const isTypeDecimal = function (input) {
+    let isNumeric = isTypeNumber(input);
+    let isDecimal = ((input - Math.floor(input)) !== 0)
+    let result = (isNumeric && isDecimal)
     return result;
 }
 //Test: DONE
-var isTypeNull = function (input) {
-    var result = (typeof input === JsDataType.OBJECT && input !== undefined && input === null && !Array.isArray(input) && input !== JsDataType.NULL)
+const isTypeNull = function (input) {
+    let result = (typeof input === JsDataType.OBJECT && input !== undefined && input === null && !Array.isArray(input) && input !== JsDataType.NULL)
     return result;
 }
 //Test: DONE
-var isTypeFunction = function (input) {
-    var result = (typeof input ===JsDataType.FUNCTION)
+const isTypeFunction = function (input) {
+    let result = (typeof input ===JsDataType.FUNCTION)
     return result;
 }
 //Test: DONE
-var isTypeObject = function (input) {
-    var result = (typeof input ===JsDataType.OBJECT && input !== undefined && input !== null && !Array.isArray(input) && input !==JsDataType.NULL)
+const isTypeObject = function (input) {
+    let result = (typeof input ===JsDataType.OBJECT && input !== undefined && input !== null && !Array.isArray(input) && input !==JsDataType.NULL)
     return result;
 }
 //Test: DONE
-var isDate = function(input){
+const isDate = function(input){
     let inputData = input;
     if(typeof input === JsDataType.STRING ){
         let result = Date.parse(input)
         inputData =(isNaN(result))? result : new Date(result);
     }
-    var result = (inputData instanceof Date);
+    let result = (inputData instanceof Date);
 
     return result;
 }
 
-var service = Object.freeze({
+const service = Object.freeze({
     isTypeString: isTypeString,
     isTypeBoolean: isTypeBoolean,
     isTypeNumber: isTypeNumber,

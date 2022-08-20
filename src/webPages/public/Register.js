@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link , Navigate } from 'react-router-dom';
-import User from '../../viewModels/UserRegister.js';
+import UserRegister from '../../viewModels/UserRegister.js';
 import UserRole from '../../library/enumerations/UserRole.js';
 import RequestMethodsService from '../../services/httpProtocol/RequestMethodsService.js';
 import EnvConfig from '../../../configuration/environment/EnvConfig.js';
@@ -45,13 +45,11 @@ export default function Register(){
             break;
 
             case httpResponseStatus._400badRequest:
-                let messageRegistrationFailed = NotificationService.registrationFailed + response.result;
-                setNotification(messageRegistrationFailed);
+                setNotification(NotificationService.registrationFailed );
             break;
 
             default:
-                let messageRegistrationNonProcessable = NotificationService.registrationNonProcessable + response.result;
-                setNotification(messageRegistrationNonProcessable);
+                setNotification( NotificationService.registrationNonProcessable );
             break;
         }
     }
@@ -87,7 +85,7 @@ export default function Register(){
                 confirmPassword : (InputCommonInspector.objectIsValid(form[5]) ) ? form[5].value : '',
                 userRole : UserRole.Customer
             };
-            var user = new User(dataModel);
+            var user = new UserRegister(dataModel);
             console.log('processUserRegistration-user', user);
             userInfo = user;
             if( !inputsAreValid(user) ){ return; }
@@ -99,7 +97,7 @@ export default function Register(){
     function inputsAreValid(objModel){
         let errorsReport = ValidationManager.resolveUserFormValidation(objModel);
         if(!InputCommonInspector.objectIsNullOrEmpty(errorsReport)){
-            setNotification(messageErrorsInForm);
+            setNotification(NotificationService.errorsInForm);
             let errorMessagesReport = ValidationManager.buildErrorMessagesReport(errorsReport, objModel);
             setAllErrorMessages(errorMessagesReport);
             return false;

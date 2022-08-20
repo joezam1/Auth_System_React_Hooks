@@ -28,7 +28,7 @@ describe('File: HttpRequests',function(){
 
                 //Act
                 fetchMethod(url, options, responseCallback);
-
+                //Assert
                 expect(fetchMethod).toHaveBeenCalledTimes(1);
             });
     });

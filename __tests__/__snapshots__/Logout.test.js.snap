@@ -7,17 +7,17 @@ exports[`File: Logout.js Function return It should take a snapshot 1`] = `
     class="logout-section"
   >
     <p>
-      You are Logged Out
+      You are Logged Out 
+      <span>
+         | 
+      </span>
+      <a
+        href="/"
+      >
+        Go Home
+      </a>
+       
     </p>
-     
-    <span>
-       | 
-    </span>
-    <a
-      href="/"
-    >
-      Go Home
-    </a>
     <br />
     <div>
        

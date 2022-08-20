@@ -25,7 +25,7 @@ import DeviceDetectorService from '../../services/deviceDetection/DeviceDetector
 
 
 
-
+//Test: DONE
 export default function Login(){
     const [geoLocationInfo, setGeolocation] = useState();
     const [ notificationInfo, setNotification ] = useState('');
@@ -39,7 +39,7 @@ export default function Login(){
     useEffect(()=>{
 
         async function getGeolocation(){
-            let result = await GeolocationServices.getGeolocationAsync();
+            let result = await GeolocationServices.getGeoLocationAsync();
             setGeolocation(result);
         }
         getGeolocation();
@@ -96,7 +96,7 @@ export default function Login(){
             UserLoginDataModel.username = (InputCommonInspector.objectIsValid(form[0]) ) ? form[0].value : '';
             UserLoginDataModel.password = (InputCommonInspector.objectIsValid(form[1]) ) ? form[1].value : '',
             UserLoginDataModel.geoLocation = geoLocationInfo;
-            UserLoginDataModel.userAgent = window.navigator.userAgent;
+            UserLoginDataModel.userAgent = DeviceDetectorService.getUserAgent();
             UserLoginDataModel.deviceAndBrowser = DeviceDetectorService.getDeviceAndBrowserInfo();
             var userLogin = new UserLoginViewModel(UserLoginDataModel);
             console.log('processUserRegistration-userLogin', userLogin);

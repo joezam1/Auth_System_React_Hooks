@@ -138,7 +138,6 @@ describe('File: Helpers.js',function(){
         });
     });
 
-
     describe('Function: setUrlRedirect', function(){
         test('When we provide redirection path, the object window.location.href is called OK', function(){
             //Arrange
@@ -169,7 +168,6 @@ describe('File: Helpers.js',function(){
         })
     });
 
-
     describe('Function: getUrlRedirectTo', function () {
         test('URL redirects to path specified',
             function () {
@@ -185,8 +183,6 @@ describe('File: Helpers.js',function(){
                 expect(result).toContain('register');
             });
     });
-
-
 
     describe('Function: safeJsonParse', function () {
 
@@ -236,6 +232,4 @@ describe('File: Helpers.js',function(){
                 expect(resultObj).toStrictEqual(invalidObj);
             });
     });
-
-
 });

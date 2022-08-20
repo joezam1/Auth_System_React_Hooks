@@ -2,7 +2,7 @@ import formFieldStatus from '../library/enumerations/FormFieldStatus.js';
 import JsDataType from '../library/stringLiterals/JsDataType.js';
 
 
-var userRegisterViewModel = function(model){
+let userRegisterViewModel = function(model){
     let firstName ={
         fieldValue: (model.firstName || ''),
         fieldStatus: formFieldStatus.Required,

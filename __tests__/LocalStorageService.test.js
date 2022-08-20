@@ -39,6 +39,7 @@ describe('File: LocalStorageService', function(){
         });
 
     });
+
     describe('Function: getItemFromLocalStorage',function(){
 
         test('When Item Is type STRING it can be retrieved from the local storage db in the browser successfully', function(){

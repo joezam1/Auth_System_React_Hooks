@@ -25,7 +25,6 @@ let getCookieFromDataStoreByName = function(cookieName){
     let selectedCookie = CookieHelper.getCookieValueByName(cookieName);
     return selectedCookie;
 }
-
 //Test: DONE
 let deleteCookieFromDataStoreByNameAndPath = function(cookieName, cookiePath){
     try{

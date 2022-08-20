@@ -7,6 +7,8 @@ import CookieService from '../../services/cookieStorage/CookieService.js';
 import InputCommonInspector from '../../services/validators/InputCommonInspector.js';
 import ButtonPrivateRedirect from '../../components/ButtonPrivateRedirect.js';
 
+
+//Test: DONE
 export default function Home(){
     const [userIsLoggedIn, setUserLogedIn] = useState(false);
 
