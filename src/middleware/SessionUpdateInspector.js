@@ -10,9 +10,9 @@ import inputCommonInspector from "../services/validators/InputCommonInspector.js
 import FetchWorkerHelper from '../backgroundWorkers/FetchWorkerHelper.js';
 import IntervalIdName from '../library/enumerations/IntervalIdName.js';
 
-const SessionRefreshInspector = (function () {
+const SessionUpdateInspector = (function () {
     //Test:DONE
-    const resolveRefreshingExpiringSession = function (fetchWorker) {
+    const resolveUpdatingExpiringSession = function (fetchWorker) {
 
         console.log('resolverefreshinExpiringSession-TRIGGERED')
         console.log('SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS',SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS);
@@ -30,7 +30,7 @@ const SessionRefreshInspector = (function () {
                     console.log('Interval-stopped-ok');
                     return;
                 }
-                WebWorkerManager.startNewWorker(fetchWorker, refreshFetchWorkerOnMessageCallback);
+                WebWorkerManager.startNewWorker(fetchWorker, fetchWorkerOnMessageCallback);
                 let message = getMessageDataForWorker(cookieName , latestCookieValue );
                 WebWorkerManager.sendMessageToWorker(message);
 
@@ -42,12 +42,12 @@ const SessionRefreshInspector = (function () {
     }
 
     return {
-        resolveRefreshingExpiringSession: resolveRefreshingExpiringSession
+        resolveUpdatingExpiringSession : resolveUpdatingExpiringSession
     }
 
 })();
 
-export default SessionRefreshInspector;
+export default SessionUpdateInspector;
 
 //#REGION Private Functions
     function getMessageDataForWorker(cookieName , cookieValue ){
@@ -64,7 +64,7 @@ export default SessionRefreshInspector;
     }
 
 
-    function refreshFetchWorkerOnMessageCallback(event){
+    function fetchWorkerOnMessageCallback(event){
         console.log('sessionWorkerOnMessageCallback-event', event)
         let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperty.NAME);
         let cookiePath = LocalStorageService.getItemFromLocalStorage(CookieProperty.PATH);

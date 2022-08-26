@@ -5,7 +5,7 @@ import LocalStorageService from '../../services/localStorage/LocalStorageService
 import CookieProperty from '../../library/stringLiterals/CookieProperty.js';
 import CookieService from '../../services/cookieStorage/CookieService.js';
 import InputCommonInspector from '../../services/validators/InputCommonInspector.js';
-import ButtonPrivateRedirect from '../../components/ButtonPrivateRedirect.js';
+import LinkButtonPrivateRedirect from '../../components/LinkButtonPrivateRedirect.js';
 
 
 //Test: DONE
@@ -20,7 +20,7 @@ export default function Home(){
         }
     }, []);
 
-    let privateComponent =  userIsLoggedIn ? <li> <ButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboard} buttonText=" Go to Customer " />  </li>  : '';
+    let privateComponent =  userIsLoggedIn ? <li> <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboard} buttonText=" Go to Customer " />  </li>  : '';
 
   return(
       <div className="home">

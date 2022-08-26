@@ -73,12 +73,10 @@ const IdleSessionInspector = (function(){
             }
 
             if (_idleSecondsCounter >= TOTAL_IDLE_TIMEOUT) {
-                window.clearInterval(_idleBrowserIntervalId);
-                console.log("Time expired!");
-                ModalRenderingService.stopRendering();
-                LayerRenderingService.stopRendering();
-
-                Helpers.setUrlRedirect(RouteConfig.authLogoutPath);
+                resolveLogoutUser(_countdown , _idleSecondsCounter);
+            }
+            if(_countdown <= 0 ){
+                resolveLogoutUser(_countdown , _idleSecondsCounter);
             }
         }
     }
@@ -89,3 +87,23 @@ const IdleSessionInspector = (function(){
 })();
 
 export default IdleSessionInspector;
+
+//#REGION Private Functions
+
+function resolveLogoutUser(countdown){
+    console.log("resolveLogoutUser-countdown", countdown);
+
+    let storageName = IntervalIdName[IntervalIdName.idleBrowserIntervalId];
+    let intervalId =  LocalStorageService.getItemFromLocalStorage(storageName);
+
+    console.log("resolveLogoutUser-intervalId", intervalId);
+    console.log("Time expired!");
+
+    window.clearInterval(intervalId);
+    LocalStorageService.removeItemFromLocalStorage(storageName);
+    ModalRenderingService.stopRendering();
+    LayerRenderingService.stopRendering();
+
+    Helpers.setUrlRedirect(RouteConfig.authLogoutPath);
+}
+//#ENDREGION Private Functions

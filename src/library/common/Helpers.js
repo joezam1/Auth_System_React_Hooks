@@ -85,6 +85,12 @@ let safeJsonParse = function (input) {
 }
 
 
+const convertLocaleDateToUTCDate = function(localeDAteAsDate ){
+    //To convert to UTC datetime by subtracting the current Timezone offset
+    let utcDate =  new Date(localeDAteAsDate.getTime() + (localeDAteAsDate.getTimezoneOffset()*60000));
+    return utcDate;
+}
+
 let service= Object.freeze({
     removeLeadingAndTrailinsSpaces : removeLeadingAndTrailinsSpaces,
     getDateUTCFormat : getDateUTCFormat,
@@ -94,7 +100,8 @@ let service= Object.freeze({
     getmessageFormatForDisplay : getmessageFormatForDisplay,
     setUrlRedirect : setUrlRedirect,
     getUrlRedirectTo : getUrlRedirectTo,
-    safeJsonParse : safeJsonParse
+    safeJsonParse : safeJsonParse,
+    convertLocaleDateToUTCDate : convertLocaleDateToUTCDate
 });
 
 export default service;

@@ -25,7 +25,7 @@ exports[`File: CustomerOrders.js Component CustomerOrders It should take a snaps
     <span>
       <a
         data-testid="link-customer-order-dashboard-id"
-        href="/customerDashboard"
+        href="/private/customer/dashboard"
       >
         Customer Dashboard
       </a>

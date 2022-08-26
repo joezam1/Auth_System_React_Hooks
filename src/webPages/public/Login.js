@@ -16,13 +16,13 @@ import CookieProperty from '../../library/stringLiterals/CookieProperty.js';
 import SessionValidatorService from '../../services/privateWebPagesMediator/SessionValidatorService.js';
 
 import fetchWorkerScript from '../../backgroundWorkers/FetchWorker.js';
-import SessionRefreshInspector from '../../middleware/SessionRefreshInspector.js';
+import SessionUpdateInspector from '../../middleware/SessionUpdateInspector.js';
 import IdleSessionInspector from '../../middleware/IdleSessionInspector.js';
 import NotificationService from '../../services/notifications/NotificationService.js';
 import GeolocationServices from '../../services/geoLocation/geoLocationService.js';
 import DeviceDetectorService from '../../services/deviceDetection/DeviceDetectorService.js';
-
-
+import TokenType from '../../library/enumerations/TokenType.js';
+import JwtUpdateInspector from '../../middleware/JwtUpdateInspector.js';
 
 
 //Test: DONE
@@ -37,7 +37,8 @@ export default function Login(){
     let userInfo = null;
 
     useEffect(()=>{
-
+        let componentName = Login.name;
+        console.log('login-componentName', componentName);
         async function getGeolocation(){
             let result = await GeolocationServices.getGeoLocationAsync();
             setGeolocation(result);
@@ -52,15 +53,25 @@ export default function Login(){
 
         switch(response.status){
             case httpResponseStatus._200ok:
-                let name = response.result.name;
-                let value = response.result.value;
-                let properties = response.result.properties;
+
+                let data = response.result;
+                let name = data.session.fieldValue.name;
+                let value = data.session.fieldValue.value;
+                let properties = data.session.fieldValue.properties;
                 LocalStorageService.setItemInLocalStorage(CookieProperty.NAME, name);
                 LocalStorageService.setItemInLocalStorage(CookieProperty.PATH, properties.path);
                 CookieService.insertCookieInDataStore(name, value, properties);
-                IdleSessionInspector.scanIdleBrowserTime();
-                SessionRefreshInspector.resolveRefreshingExpiringSession(fetchWorkerScript);
-                setUserLogin(true);
+
+                let _jwtAccessToken = TokenType[TokenType.jwtAccessToken];
+                LocalStorageService.setItemInLocalStorage(_jwtAccessToken , data.jwtAccessToken.fieldValue );
+                let _jwtRefreshToken = TokenType[TokenType.jwtRefreshToken];
+                LocalStorageService.setItemInLocalStorage(_jwtRefreshToken, data.jwtRefreshToken.fieldValue);
+
+                JwtUpdateInspector.resolveUpdateExpiringJwtToken(fetchWorkerScript);
+
+                //IdleSessionInspector.scanIdleBrowserTime();
+                //SessionUpdateInspector.resolveUpdatingExpiringSession(fetchWorkerScript);
+                //setUserLogin(true);
 
             break;
 

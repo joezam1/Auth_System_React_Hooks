@@ -3,7 +3,8 @@ const routeConfiguration = Object.freeze({
     apiUsersLoginPathPost: '/api/users/login',
     apiUserslogoutPathPost: '/api/users/logout',
     apiSessionsUpdatePut:'/api/sessions/update',
-    apiSessionsSessionTokenGet:'/api/sessions/sessiontoken'
+    apiSessionsSessionTokenGet:'/api/sessions/sessiontoken',
+    apiJsonWebTokenUpdatePut:'/api/jsonwebtokens/update',
 });
 
 export default routeConfiguration;

@@ -83,7 +83,7 @@ export default function Register(){
                 email : (InputCommonInspector.objectIsValid(form[3]) ) ? form[3].value : '',
                 password : (InputCommonInspector.objectIsValid(form[4]) ) ? form[4].value: '',
                 confirmPassword : (InputCommonInspector.objectIsValid(form[5]) ) ? form[5].value : '',
-                userRole : UserRole.Customer
+                userRole : UserRole.BaseCustomer
             };
             var user = new UserRegister(dataModel);
             console.log('processUserRegistration-user', user);

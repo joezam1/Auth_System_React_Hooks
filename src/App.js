@@ -14,6 +14,16 @@ import CustomerOrders from './webPages/private/CustomerOrders';
 //Test:DONE
 export default function App() {
 
+    console.log('Home', Home);
+    console.log('Register', Register());
+    console.log('<Register/>', <Register/>);
+    let registerComponent = <Register/>
+    let registerName = registerComponent.type.name;
+    console.log('componentName-<Register/>-registerName', registerName )
+
+    let loginComponent = <Login/>;
+    let loginComponentName = loginComponent.type.name;
+    console.log('Login-function-Name', loginComponentName);
     WindowEventManager.resolveWindowNavigationEvent();
 
     return (<div className="app">

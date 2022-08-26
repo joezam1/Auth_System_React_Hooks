@@ -1,11 +1,11 @@
 import { cleanup } from '@testing-library/react';
-import WindowEventManager from "../src/middleware/WindowEventsManager";
-import LocalStorageService from "../src/services/localStorage/LocalStorageService";
-import SessionRefreshInspector from "../src/middleware/SessionRefreshInspector";
+import WindowEventManager from "../src/middleware/WindowEventsManager.js";
+import LocalStorageService from "../src/services/localStorage/LocalStorageService.js";
+import SessionUpdateInspector from "../src/middleware/SessionUpdateInspector.js";
 
 
 jest.mock('../src/services/localStorage/LocalStorageService.js');
-jest.mock('../src/middleware/SessionRefreshInspector.js');
+jest.mock('../src/middleware/SessionUpdateInspector.js');
 
 
 describe('File: WindowEventsManager.js', function(){
@@ -32,13 +32,13 @@ describe('File: WindowEventsManager.js', function(){
             let mockIntervalName = 'test';
             LocalStorageService.getItemFromLocalStorage = jest.fn().mockReturnValueOnce( mockIntervalName );
             LocalStorageService.removeItemFromLocalStorage = jest.fn();
-            SessionRefreshInspector.resolveRefreshingExpiringSession = jest.fn();
+            SessionUpdateInspector.resolveUpdatingExpiringSession = jest.fn();
             //Act
             WindowEventManager.resolveWindowNavigationEvent();
             //Assert
             expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(2);
             expect( LocalStorageService.removeItemFromLocalStorage ).toHaveBeenCalledTimes(1);
-            expect( SessionRefreshInspector.resolveRefreshingExpiringSession ).toHaveBeenCalledTimes(1);
+            expect( SessionUpdateInspector.resolveUpdatingExpiringSession ).toHaveBeenCalledTimes(1);
 
         });
 
@@ -58,13 +58,13 @@ describe('File: WindowEventsManager.js', function(){
             let mockIntervalName = { name:'test' };
             LocalStorageService.getItemFromLocalStorage = jest.fn().mockReturnValueOnce( mockIntervalName );
             LocalStorageService.removeItemFromLocalStorage = jest.fn();
-            SessionRefreshInspector.resolveRefreshingExpiringSession = jest.fn();
+            SessionUpdateInspector.resolveUpdatingExpiringSession = jest.fn();
             //Act
             WindowEventManager.resolveWindowNavigationEvent();
             //Assert
             expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(2);
             expect( LocalStorageService.removeItemFromLocalStorage ).toHaveBeenCalledTimes(1);
-            expect( SessionRefreshInspector.resolveRefreshingExpiringSession ).toHaveBeenCalledTimes(1);
+            expect( SessionUpdateInspector.resolveUpdatingExpiringSession ).toHaveBeenCalledTimes(1);
 
         });
 
@@ -85,13 +85,13 @@ describe('File: WindowEventsManager.js', function(){
             let mockIntervalName;
             LocalStorageService.getItemFromLocalStorage = jest.fn().mockReturnValueOnce( mockIntervalName );
             LocalStorageService.removeItemFromLocalStorage = jest.fn();
-            SessionRefreshInspector.resolveRefreshingExpiringSession = jest.fn();
+            SessionUpdateInspector.resolveUpdatingExpiringSession = jest.fn();
             //Act
             WindowEventManager.resolveWindowNavigationEvent();
             //Assert
             expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(2);
             expect( LocalStorageService.removeItemFromLocalStorage ).toHaveBeenCalledTimes(0);
-            expect( SessionRefreshInspector.resolveRefreshingExpiringSession ).toHaveBeenCalledTimes(0);
+            expect( SessionUpdateInspector.resolveUpdatingExpiringSession ).toHaveBeenCalledTimes(0);
 
         });
 
@@ -113,13 +113,13 @@ describe('File: WindowEventsManager.js', function(){
             let mockIntervalName = 'test-id';
             LocalStorageService.getItemFromLocalStorage = jest.fn().mockReturnValueOnce( mockIntervalName );
             LocalStorageService.removeItemFromLocalStorage = jest.fn();
-            SessionRefreshInspector.resolveRefreshingExpiringSession = jest.fn();
+            SessionUpdateInspector.resolveUpdatingExpiringSession = jest.fn();
             //Act
             WindowEventManager.resolveWindowNavigationEvent();
             //Assert
             expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(2);
             expect( LocalStorageService.removeItemFromLocalStorage ).toHaveBeenCalledTimes(1);
-            expect( SessionRefreshInspector.resolveRefreshingExpiringSession ).toHaveBeenCalledTimes(1);
+            expect( SessionUpdateInspector.resolveUpdatingExpiringSession ).toHaveBeenCalledTimes(1);
 
         });
 
