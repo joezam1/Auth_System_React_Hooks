@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SessionConfig from '../../../configuration/authentication/SessionConfig.js';
 import LocalStorageService from "../../services/localStorage/LocalStorageService.js";
 
-
+//Test: DONE
 export default function LogoutSessionModal(){
     const [countdown, setCountdown] = useState();
 

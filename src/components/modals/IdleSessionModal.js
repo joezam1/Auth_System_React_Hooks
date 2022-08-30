@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import SessionConfig from '../../../configuration/authentication/SessionConfig.js';
 import LocalStorageService from "../../services/localStorage/LocalStorageService";
 
+
+
+//Test: DONE
 export default function IdleSessionModal(){
 
 

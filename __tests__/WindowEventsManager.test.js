@@ -32,13 +32,13 @@ describe('File: WindowEventsManager.js', function(){
             let mockIntervalName = 'test';
             LocalStorageService.getItemFromLocalStorage = jest.fn().mockReturnValueOnce( mockIntervalName );
             LocalStorageService.removeItemFromLocalStorage = jest.fn();
-            SessionUpdateInspector.resolveUpdatingExpiringSession = jest.fn();
+            SessionUpdateInspector.resolveUpdateExpiringSession = jest.fn();
             //Act
             WindowEventManager.resolveWindowNavigationEvent();
             //Assert
-            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(2);
+            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(3);
             expect( LocalStorageService.removeItemFromLocalStorage ).toHaveBeenCalledTimes(1);
-            expect( SessionUpdateInspector.resolveUpdatingExpiringSession ).toHaveBeenCalledTimes(1);
+            expect( SessionUpdateInspector.resolveUpdateExpiringSession ).toHaveBeenCalledTimes(1);
 
         });
 
@@ -58,13 +58,13 @@ describe('File: WindowEventsManager.js', function(){
             let mockIntervalName = { name:'test' };
             LocalStorageService.getItemFromLocalStorage = jest.fn().mockReturnValueOnce( mockIntervalName );
             LocalStorageService.removeItemFromLocalStorage = jest.fn();
-            SessionUpdateInspector.resolveUpdatingExpiringSession = jest.fn();
+            SessionUpdateInspector.resolveUpdateExpiringSession = jest.fn();
             //Act
             WindowEventManager.resolveWindowNavigationEvent();
             //Assert
-            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(2);
+            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(3);
             expect( LocalStorageService.removeItemFromLocalStorage ).toHaveBeenCalledTimes(1);
-            expect( SessionUpdateInspector.resolveUpdatingExpiringSession ).toHaveBeenCalledTimes(1);
+            expect( SessionUpdateInspector.resolveUpdateExpiringSession ).toHaveBeenCalledTimes(1);
 
         });
 
@@ -85,13 +85,13 @@ describe('File: WindowEventsManager.js', function(){
             let mockIntervalName;
             LocalStorageService.getItemFromLocalStorage = jest.fn().mockReturnValueOnce( mockIntervalName );
             LocalStorageService.removeItemFromLocalStorage = jest.fn();
-            SessionUpdateInspector.resolveUpdatingExpiringSession = jest.fn();
+            SessionUpdateInspector.resolveUpdateExpiringSession = jest.fn();
             //Act
             WindowEventManager.resolveWindowNavigationEvent();
             //Assert
-            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(2);
+            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(3);
             expect( LocalStorageService.removeItemFromLocalStorage ).toHaveBeenCalledTimes(0);
-            expect( SessionUpdateInspector.resolveUpdatingExpiringSession ).toHaveBeenCalledTimes(0);
+            expect( SessionUpdateInspector.resolveUpdateExpiringSession ).toHaveBeenCalledTimes(0);
 
         });
 
@@ -113,13 +113,13 @@ describe('File: WindowEventsManager.js', function(){
             let mockIntervalName = 'test-id';
             LocalStorageService.getItemFromLocalStorage = jest.fn().mockReturnValueOnce( mockIntervalName );
             LocalStorageService.removeItemFromLocalStorage = jest.fn();
-            SessionUpdateInspector.resolveUpdatingExpiringSession = jest.fn();
+            SessionUpdateInspector.resolveUpdateExpiringSession = jest.fn();
             //Act
             WindowEventManager.resolveWindowNavigationEvent();
             //Assert
-            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(2);
+            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(3);
             expect( LocalStorageService.removeItemFromLocalStorage ).toHaveBeenCalledTimes(1);
-            expect( SessionUpdateInspector.resolveUpdatingExpiringSession ).toHaveBeenCalledTimes(1);
+            expect( SessionUpdateInspector.resolveUpdateExpiringSession ).toHaveBeenCalledTimes(1);
 
         });
 

@@ -12,6 +12,7 @@ import ModalWindowName from '../library/enumerations/ModalWindowName.js';
 
 const IdleSessionInspector = (function(){
 
+    //Test: DONE
     const scanIdleBrowserTime = function(){
 
         let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperty.NAME);
@@ -22,7 +23,7 @@ const IdleSessionInspector = (function(){
         }
 
         const WARNING_MESSAGE_COUNTDOWN_IN_SECONDS = SessionConfig.IDLE_SESSION_COUNTDOWN_SIXTY_SECONDS_IN_MILLISECONDS / SessionConfig.ONE_SECOND_IN_MILLISECONDS;
-        const SCANNER_INTERVAL_FREQUENCY = SessionConfig.ONE_SECOND_IN_MILLISECONDS;
+        //const SCANNER_INTERVAL_FREQUENCY = SessionConfig.ONE_SECOND_IN_MILLISECONDS;
         const MINIMUM_IDLE_TIMEOUT_THREE_MINUTES_IN_SECONDS = 60 * 2; //seconds
         const TOTAL_IDLE_TIMEOUT = (MINIMUM_IDLE_TIMEOUT_THREE_MINUTES_IN_SECONDS - 0 )
         const DISPLAY_LOGOUT_WARNING = TOTAL_IDLE_TIMEOUT - WARNING_MESSAGE_COUNTDOWN_IN_SECONDS;
@@ -46,7 +47,7 @@ const IdleSessionInspector = (function(){
 
         _idleBrowserIntervalId = window.setInterval(()=>{
             startIdleTimeScanner();
-        }, SCANNER_INTERVAL_FREQUENCY);
+        }, SessionConfig.ONE_SECOND_IN_MILLISECONDS);
 
         let storageName = IntervalIdName[IntervalIdName.idleBrowserIntervalId];
         LocalStorageService.setItemInLocalStorage(storageName, _idleBrowserIntervalId);
@@ -92,10 +93,8 @@ export default IdleSessionInspector;
 
 function resolveLogoutUser(countdown){
     console.log("resolveLogoutUser-countdown", countdown);
-
     let storageName = IntervalIdName[IntervalIdName.idleBrowserIntervalId];
     let intervalId =  LocalStorageService.getItemFromLocalStorage(storageName);
-
     console.log("resolveLogoutUser-intervalId", intervalId);
     console.log("Time expired!");
 

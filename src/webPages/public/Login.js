@@ -69,9 +69,9 @@ export default function Login(){
 
                 JwtUpdateInspector.resolveUpdateExpiringJwtToken(fetchWorkerScript);
 
-                //IdleSessionInspector.scanIdleBrowserTime();
-                //SessionUpdateInspector.resolveUpdatingExpiringSession(fetchWorkerScript);
-                //setUserLogin(true);
+                IdleSessionInspector.scanIdleBrowserTime();
+                SessionUpdateInspector.resolveUpdateExpiringSession(fetchWorkerScript);
+                setUserLogin(true);
 
             break;
 

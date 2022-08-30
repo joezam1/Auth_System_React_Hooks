@@ -50,7 +50,7 @@ function resolveUpdateExpiringSessionInterval(){
 
         clearInterval(updateIntervalId);
         LocalStorageService.removeItemFromLocalStorage(intervalIdName);
-        SessionUpdateInspector.resolveUpdatingExpiringSession(FetchWorker);
+        SessionUpdateInspector.resolveUpdateExpiringSession(FetchWorker);
     }
 }
 

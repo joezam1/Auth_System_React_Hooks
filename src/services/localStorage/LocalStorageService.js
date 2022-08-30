@@ -1,5 +1,4 @@
 import InputTypeInspector from '../validators/InputTypeInspector.js';
-import InputCommonInspector from '../validators/InputCommonInspector.js';
 import LocalStorageHelper from './LocalStorageHelper.js';
 
 const LocalStorageService = (function(){

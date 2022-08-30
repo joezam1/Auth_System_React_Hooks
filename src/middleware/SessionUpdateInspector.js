@@ -12,7 +12,7 @@ import IntervalIdName from '../library/enumerations/IntervalIdName.js';
 
 const SessionUpdateInspector = (function () {
     //Test:DONE
-    const resolveUpdatingExpiringSession = function (fetchWorker) {
+    const resolveUpdateExpiringSession = function (fetchWorker) {
 
         console.log('resolverefreshinExpiringSession-TRIGGERED')
         console.log('SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS',SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS);
@@ -42,7 +42,7 @@ const SessionUpdateInspector = (function () {
     }
 
     return {
-        resolveUpdatingExpiringSession : resolveUpdatingExpiringSession
+        resolveUpdateExpiringSession : resolveUpdateExpiringSession
     }
 
 })();

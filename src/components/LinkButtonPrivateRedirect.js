@@ -3,6 +3,8 @@ import SessionValidatorService from "../services/privateWebPagesMediator/Session
 import InputCommonInspector from '../services/validators/InputCommonInspector.js';
 import InputTypeInspector from '../services/validators/InputTypeInspector.js';
 
+
+//Test: DONE
 export default function LinkButtonPrivateRedirect(props){
 
     function executePrivateRedirect(){

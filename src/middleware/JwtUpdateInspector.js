@@ -16,13 +16,14 @@ import EncryptDecryptService from '../services/encryption/EncryptDecryptService.
 
 const JwtUpdateInspector = (function () {
 
+    //Test: DONE
     const resolveUpdateExpiringJwtToken = function(fetchWorker){
 
         console.log('resolveUpdateExpiringJwtToken-TRIGGERED')
         console.log('JwtConfig.JWT_REFRESH_TOKEN_REFRESH_FREQUENCY_IN_MILLISECONDS', JwtConfig.JWT_REFRESH_TOKEN_REFRESH_FREQUENCY_IN_MILLISECONDS );
         let _accessTokenName = TokenType[TokenType.jwtAccessToken];
         let _refreshTokenName = TokenType[TokenType.jwtRefreshToken];
-        //let jwtAccessToken = LocalStorageService.getItemFromLocalStorage( _accessTokenName);
+
         let initialJwtRefreshTokenValue = LocalStorageService.getItemFromLocalStorage( _refreshTokenName);
         if(InputCommonInspector.inputExist(initialJwtRefreshTokenValue))
         {
@@ -46,8 +47,6 @@ const JwtUpdateInspector = (function () {
             let jwtIntervalIdName = IntervalIdName[IntervalIdName.jwtTokenUpdateIntervalId];
             LocalStorageService.setItemInLocalStorage( jwtIntervalIdName , jwtUpdateTimerId);
         }
-
-
     }
 
     return {
@@ -90,10 +89,6 @@ function fetchWorkerCallback(event){
         console.log('jwtInfo', jwtInfo);
         let _jwtAccessToken = jwtInfo.jwtAccessToken.fieldValue;
         let _jwtRefreshToken = jwtInfo.jwtRefreshToken.fieldValue;
-        //let encryptedJwtAccessTokenPayload = JwtTokenService.getPayloadFromDecodedJWT(_jwtAccessToken);
-        //let decryptedJwtAccessTokenPayload = EncryptDecryptService.decryptWithAES(encryptedJwtAccessTokenPayload);
-        //let jwtAccessTokenPayload = JSON.parse(decryptedJwtAccessTokenPayload);
-
 
         let encryptedJwtRefreshTokenPayload = JwtTokenService.getPayloadFromDecodedJWT(_jwtRefreshToken);
         let decryptedJwtRefreshTokenPayload = EncryptDecryptService.decryptWithAES(encryptedJwtRefreshTokenPayload);
@@ -113,11 +108,10 @@ function fetchWorkerCallback(event){
 
             LocalStorageService.removeItemFromLocalStorage(_accessTokenName);
             LocalStorageService.setItemInLocalStorage(_accessTokenName, _jwtAccessToken );
-
             LocalStorageService.removeItemFromLocalStorage(_refreshTokenName);
             LocalStorageService.setItemInLocalStorage(_refreshTokenName, _jwtRefreshToken );
             console.log('fetchWorkerCallback-_jwtRefreshToken', _jwtRefreshToken);
-
+            WebWorkerManager.terminateActiveWorker();
             return;
         }
     }
@@ -126,7 +120,6 @@ function fetchWorkerCallback(event){
 }
 
 function removeAllStorageData(accessTokenName, refreshTokenName){
-
     LocalStorageService.removeItemFromLocalStorage( accessTokenName);
     LocalStorageService.removeItemFromLocalStorage( refreshTokenName);
     let jwtIntervalIdName = IntervalIdName[IntervalIdName.jwtTokenUpdateIntervalId];
@@ -134,6 +127,8 @@ function removeAllStorageData(accessTokenName, refreshTokenName){
 
     clearInterval(_jwtIntervalId);
     LocalStorageService.removeItemFromLocalStorage(jwtIntervalIdName);
+
+    WebWorkerManager.terminateActiveWorker();
 }
 
 //#ENDREGION Private Functions
