@@ -11,9 +11,13 @@ import Logout from './webPages/public/Logout.js';
 import CustomerDashboard from './webPages/private/CustomerDashboard';
 import CustomerOrders from './webPages/private/CustomerOrders';
 
+import ComponentConfig from '../configuration/components/ComponentConfig';
+
+
 //Test:DONE
 export default function App() {
 
+    //======================================================
     console.log('Home', Home);
     console.log('Register', Register());
     console.log('<Register/>', <Register/>);
@@ -24,6 +28,15 @@ export default function App() {
     let loginComponent = <Login/>;
     let loginComponentName = loginComponent.type.name;
     console.log('Login-function-Name', loginComponentName);
+    //======================================================
+
+    let linkButton = ComponentConfig._LinkButtonPrivateRedirect;
+    let linkButtonName = linkButton.type.name;
+    console.log('TEST-linkButtonName:', linkButtonName);
+
+     //======================================================
+
+
     WindowEventManager.resolveWindowNavigationEvent();
 
     return (<div className="app">

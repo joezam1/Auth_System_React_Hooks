@@ -1,5 +1,5 @@
 import UserRole from '../../src/library/enumerations/UserRole.js';
-import AuthorizationAction from '../../src/library/stringLiterals/AuthorizationAction.js';
+import RolePermission from '../../src/library/stringLiterals/RolePermission';
 import RouteConfig from '../routes/RouteConfig.js';
 
 import CustomerDashboard from "../webPages/private/CustomerDashboard";
@@ -15,17 +15,18 @@ const RoleBasedAccessControlConfig = (function(){
     let _customerDashboardComponent = null;
     let _customerOrdersComponent = null;
     let _linkButtonPrivateRedirect = null;
+
     const privateRoutes = [
         {
             route: RouteConfig.storeOrders,
             roles:[
                 {
                     name: UserRole.Editor,
-                    actions:[ AuthorizationAction.READ, AuthorizationAction.WRITE ]
+                    actions:[ RolePermission.READ, RolePermission.WRITE ]
                 },
                 {
                     name: UserRole.Admin,
-                    actions:[ AuthorizationAction.READ, AuthorizationAction.WRITE, AuthorizationAction.DELETE ]
+                    actions:[ RolePermission.READ, RolePermission.WRITE, RolePermission.DELETE ]
                 }
             ]
         },
@@ -34,11 +35,11 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name:UserRole.Editor ,
-                    actions:[AuthorizationAction.READ, AuthorizationAction.WRITE]
+                    actions:[RolePermission.READ, RolePermission.WRITE]
                 },
                 {
                     name:UserRole.Admin,
-                    actions:[ AuthorizationAction.READ, AuthorizationAction.WRITE, AuthorizationAction.DELETE ]
+                    actions:[ RolePermission.READ, RolePermission.WRITE, RolePermission.DELETE ]
                 }
             ]
         },
@@ -47,11 +48,11 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name:UserRole.CommercialAnalyst ,
-                    actions:[AuthorizationAction.READ , AuthorizationAction.WRITE]
+                    actions:[RolePermission.READ , RolePermission.WRITE]
                 },
                 {
                     name:UserRole.Admin,
-                    actions:[ AuthorizationAction.READ, AuthorizationAction.WRITE, AuthorizationAction.DELETE ]
+                    actions:[ RolePermission.READ, RolePermission.WRITE, RolePermission.DELETE ]
                 }
             ]
         },
@@ -60,11 +61,11 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name:UserRole.Advertiser ,
-                    actions:[AuthorizationAction.READ, AuthorizationAction.WRITE]
+                    actions:[RolePermission.READ, RolePermission.WRITE]
                 },
                 {
                     name:UserRole.Admin,
-                    actions:[ AuthorizationAction.READ, AuthorizationAction.WRITE, AuthorizationAction.DELETE ]
+                    actions:[ RolePermission.READ, RolePermission.WRITE, RolePermission.DELETE ]
                 }
             ]
         },
@@ -73,19 +74,19 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name:UserRole.BaseCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.SilverCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.GoldCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.PremiumCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 }
             ]
         },
@@ -94,19 +95,19 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name:UserRole.BaseCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.SilverCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.GoldCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.PremiumCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 }
             ]
         },
@@ -115,7 +116,7 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name:UserRole.SilverCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 }
             ]
         },
@@ -124,7 +125,7 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name:UserRole.GoldCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 }
             ]
         },
@@ -133,7 +134,7 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name:UserRole.PremiumCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 }
             ]
         },
@@ -142,7 +143,7 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name:UserRole.PremiumCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 }
             ]
         },
@@ -151,11 +152,11 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name:UserRole.BaseCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.SilverCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 }
             ]
         },
@@ -164,11 +165,11 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name:UserRole.GoldCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.PremiumCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 }
             ]
         },
@@ -177,7 +178,7 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name:UserRole.PremiumCustomer,
-                    actions:[AuthorizationAction.READ]
+                    actions:[RolePermission.READ]
                 }
             ]
         }
@@ -198,19 +199,19 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name: UserRole.BaseCustomer,
-                    actions:[AuthorizationAction.READ ]
+                    actions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.SilverCustomer,
-                    actions:[AuthorizationAction.READ ]
+                    actions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.GoldCustomer,
-                    actions:[AuthorizationAction.READ ]
+                    actions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.PremiumCustomer,
-                    actions:[AuthorizationAction.READ ]
+                    actions:[RolePermission.READ ]
                 }
             ]
         },
@@ -219,19 +220,19 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name: UserRole.BaseCustomer,
-                    actions:[AuthorizationAction.READ ]
+                    actions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.SilverCustomer,
-                    actions:[AuthorizationAction.READ ]
+                    actions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.GoldCustomer,
-                    actions:[AuthorizationAction.READ ]
+                    actions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.PremiumCustomer,
-                    actions:[AuthorizationAction.READ ]
+                    actions:[RolePermission.READ ]
                 }
             ]
         },
@@ -240,45 +241,45 @@ const RoleBasedAccessControlConfig = (function(){
             roles:[
                 {
                     name: UserRole.BaseCustomer,
-                    actions:[AuthorizationAction.READ ]
+                    actions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.SilverCustomer,
-                    actions:[AuthorizationAction.READ ]
+                    actions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.GoldCustomer,
-                    actions:[AuthorizationAction.READ ]
+                    actions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.PremiumCustomer,
-                    actions:[AuthorizationAction.READ ]
+                    actions:[RolePermission.READ ]
                 },
                 {
                     name:UserRole.Editor ,
-                    actions:[AuthorizationAction.READ, AuthorizationAction.WRITE]
+                    actions:[RolePermission.READ, RolePermission.WRITE]
                 },
                 {
                     name:UserRole.Moderator ,
-                    actions:[AuthorizationAction.READ, AuthorizationAction.WRITE]
+                    actions:[RolePermission.READ, RolePermission.WRITE]
                 },
                 {
                     name:UserRole.Advertiser ,
-                    actions:[AuthorizationAction.READ, AuthorizationAction.WRITE]
+                    actions:[RolePermission.READ, RolePermission.WRITE]
                 },
                 ,
                 {
                     name:UserRole.TechnicalAnalyst ,
-                    actions:[AuthorizationAction.READ, AuthorizationAction.WRITE]
+                    actions:[RolePermission.READ, RolePermission.WRITE]
                 },
                 ,
                 {
                     name:UserRole.CommercialAnalyst ,
-                    actions:[AuthorizationAction.READ, AuthorizationAction.WRITE]
+                    actions:[RolePermission.READ, RolePermission.WRITE]
                 },
                 {
                     name:UserRole.Admin,
-                    actions:[ AuthorizationAction.READ, AuthorizationAction.WRITE, AuthorizationAction.DELETE ]
+                    actions:[ RolePermission.READ, RolePermission.WRITE, RolePermission.DELETE ]
                 }
             ]
         }
