@@ -10,9 +10,6 @@ import HttpRequestMethod from '../library/enumerations/HttpRequestMethod.js';
 import FetchWorkerHelper from '../backgroundWorkers/FetchWorkerHelper.js';
 import httpResponseStatus from '../library/enumerations/HttpResponseStatus.js';
 import JwtTokenService from '../services/authorization/JwtTokenService.js';
-import Helpers from '../library/common/Helpers.js';
-import EncryptDecryptService from '../services/encryption/EncryptDecryptService.js';
-
 
 const JwtUpdateInspector = (function () {
 
@@ -20,18 +17,14 @@ const JwtUpdateInspector = (function () {
     const resolveUpdateExpiringJwtToken = function(fetchWorker){
 
         console.log('resolveUpdateExpiringJwtToken-TRIGGERED')
-        console.log('JwtConfig.JWT_REFRESH_TOKEN_REFRESH_FREQUENCY_IN_MILLISECONDS', JwtConfig.JWT_REFRESH_TOKEN_REFRESH_FREQUENCY_IN_MILLISECONDS );
-        let _accessTokenName = TokenType[TokenType.jwtAccessToken];
-        let _refreshTokenName = TokenType[TokenType.jwtRefreshToken];
-
-        let initialJwtRefreshTokenValue = LocalStorageService.getItemFromLocalStorage( _refreshTokenName);
+        console.log('JwtConfig.JWT_REFRESH_TOKEN_UPDATE_FREQUENCY_IN_MILLISECONDS', JwtConfig.JWT_REFRESH_TOKEN_UPDATE_FREQUENCY_IN_MILLISECONDS );
+        let initialJwtRefreshTokenValue =JwtTokenService.getTokenFromLocalStorage(TokenType.jwtRefreshToken);
         if(InputCommonInspector.inputExist(initialJwtRefreshTokenValue))
         {
             let jwtUpdateTimerId = setInterval(function(){
 
-                let currentJwtAccessToken = LocalStorageService.getItemFromLocalStorage( _accessTokenName);
-                let currentJwtRefreshToken = LocalStorageService.getItemFromLocalStorage( _refreshTokenName);
-
+                let currentJwtAccessToken = JwtTokenService.getTokenFromLocalStorage(TokenType.jwtAccessToken);
+                let currentJwtRefreshToken = JwtTokenService.getTokenFromLocalStorage(TokenType.jwtRefreshToken);
                 if(!InputCommonInspector.stringIsValid(currentJwtRefreshToken)){
                     clearInterval(jwtUpdateTimerId);
                     console.log('Interval-stopped-ok');
@@ -42,7 +35,7 @@ const JwtUpdateInspector = (function () {
                 let message = getMessageDataForWorker( currentJwtAccessToken , currentJwtRefreshToken);
                 WebWorkerManager.sendMessageToWorker(message);
 
-            }, JwtConfig.JWT_REFRESH_TOKEN_REFRESH_FREQUENCY_IN_MILLISECONDS);
+            }, JwtConfig.JWT_REFRESH_TOKEN_UPDATE_FREQUENCY_IN_MILLISECONDS);
 
             let jwtIntervalIdName = IntervalIdName[IntervalIdName.jwtTokenUpdateIntervalId];
             LocalStorageService.setItemInLocalStorage( jwtIntervalIdName , jwtUpdateTimerId);
@@ -52,7 +45,6 @@ const JwtUpdateInspector = (function () {
     return {
         resolveUpdateExpiringJwtToken : resolveUpdateExpiringJwtToken
     }
-
 })();
 
 
@@ -80,48 +72,43 @@ function getMessageDataForWorker(jwtAccessToken, jwtRefreshToken){
 
 function fetchWorkerCallback(event){
     console.log('sessionWorkerOnMessageCallback-event', event);
-    let _accessTokenName = TokenType[TokenType.jwtAccessToken];
-    let _refreshTokenName = TokenType[TokenType.jwtRefreshToken];
-
-    let eventStatus = event.data.data.status;
+    let eventStatus = event?.data?.data?.status;
     if(eventStatus === httpResponseStatus._200ok){
         let jwtInfo = event?.data?.data?.result;
         console.log('jwtInfo', jwtInfo);
         let _jwtAccessToken = jwtInfo.jwtAccessToken.fieldValue;
         let _jwtRefreshToken = jwtInfo.jwtRefreshToken.fieldValue;
 
-        let encryptedJwtRefreshTokenPayload = JwtTokenService.getPayloadFromDecodedJWT(_jwtRefreshToken);
-        let decryptedJwtRefreshTokenPayload = EncryptDecryptService.decryptWithAES(encryptedJwtRefreshTokenPayload);
-        let jwtRefreshTokenPayload = JSON.parse(decryptedJwtRefreshTokenPayload);
-
+        let jwtRefreshTokenPayload = JwtTokenService.decryptEncryptedJwtPayload(_jwtRefreshToken)
         console.log('jwtRefreshTokenPayload', jwtRefreshTokenPayload);
-
         let jwtRefreshTokenLocaleDateExpired = new Date(jwtRefreshTokenPayload.tokenUTCDateExpiry)
-        let jwtRefreshTokenUTCDateExpired = Helpers.convertLocaleDateToUTCDate(jwtRefreshTokenLocaleDateExpired);
+        let tokenIsExpired = JwtTokenService.isJwtExpired(jwtRefreshTokenLocaleDateExpired);
 
-        let jwtRefreshTokenUtcDateExpiredTime =  jwtRefreshTokenUTCDateExpired.getTime();
-        let localeDateNow = new Date();
-        let dateNuwUtc = Helpers.convertLocaleDateToUTCDate(localeDateNow);
-        let dateNowUtcTime = dateNuwUtc.getTime();
+        if(!tokenIsExpired){
 
-        if(jwtRefreshTokenUtcDateExpiredTime > dateNowUtcTime){
-
-            LocalStorageService.removeItemFromLocalStorage(_accessTokenName);
-            LocalStorageService.setItemInLocalStorage(_accessTokenName, _jwtAccessToken );
-            LocalStorageService.removeItemFromLocalStorage(_refreshTokenName);
-            LocalStorageService.setItemInLocalStorage(_refreshTokenName, _jwtRefreshToken );
-            console.log('fetchWorkerCallback-_jwtRefreshToken', _jwtRefreshToken);
-            WebWorkerManager.terminateActiveWorker();
+            updateJwtStorageData( _jwtAccessToken, _jwtRefreshToken );
             return;
         }
     }
 
-    removeAllStorageData(_accessTokenName , _refreshTokenName);
+    removeAllStorageData();
 }
 
-function removeAllStorageData(accessTokenName, refreshTokenName){
-    LocalStorageService.removeItemFromLocalStorage( accessTokenName);
-    LocalStorageService.removeItemFromLocalStorage( refreshTokenName);
+function updateJwtStorageData( jwtAccessTokenValue , jwtRefreshTokenValue){
+
+    JwtTokenService.deleteTokenFromLocalStorage(TokenType.jwtAccessToken);
+    JwtTokenService.saveTokenToLocalStorage(TokenType.jwtAccessToken, jwtAccessTokenValue);
+    JwtTokenService.deleteTokenFromLocalStorage(TokenType.jwtRefreshToken);
+    JwtTokenService.saveTokenToLocalStorage(TokenType.jwtRefreshToken, jwtRefreshTokenValue);
+
+    console.log('fetchWorkerCallback-jwtRefreshTokenValue', jwtRefreshTokenValue);
+    WebWorkerManager.terminateActiveWorker();
+}
+
+function removeAllStorageData(){
+
+    JwtTokenService.deleteTokenFromLocalStorage(TokenType.jwtAccessToken);
+    JwtTokenService.deleteTokenFromLocalStorage(TokenType.jwtRefreshToken);
     let jwtIntervalIdName = IntervalIdName[IntervalIdName.jwtTokenUpdateIntervalId];
     let _jwtIntervalId = LocalStorageService.getItemFromLocalStorage ( jwtIntervalIdName );
 

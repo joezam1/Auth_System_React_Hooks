@@ -23,7 +23,7 @@ import GeolocationServices from '../../services/geoLocation/geoLocationService.j
 import DeviceDetectorService from '../../services/deviceDetection/DeviceDetectorService.js';
 import TokenType from '../../library/enumerations/TokenType.js';
 import JwtUpdateInspector from '../../middleware/JwtUpdateInspector.js';
-
+import JwtTokenService from '../../services/authorization/JwtTokenService.js';
 
 //Test: DONE
 export default function Login(){
@@ -62,10 +62,8 @@ export default function Login(){
                 LocalStorageService.setItemInLocalStorage(CookieProperty.PATH, properties.path);
                 CookieService.insertCookieInDataStore(name, value, properties);
 
-                let _jwtAccessToken = TokenType[TokenType.jwtAccessToken];
-                LocalStorageService.setItemInLocalStorage(_jwtAccessToken , data.jwtAccessToken.fieldValue );
-                let _jwtRefreshToken = TokenType[TokenType.jwtRefreshToken];
-                LocalStorageService.setItemInLocalStorage(_jwtRefreshToken, data.jwtRefreshToken.fieldValue);
+                JwtTokenService.saveTokenToLocalStorage(TokenType.jwtAccessToken, data.jwtAccessToken.fieldValue);
+                JwtTokenService.saveTokenToLocalStorage(TokenType.jwtRefreshToken, data.jwtRefreshToken.fieldValue);
 
                 JwtUpdateInspector.resolveUpdateExpiringJwtToken(fetchWorkerScript);
 

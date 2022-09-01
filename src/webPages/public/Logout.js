@@ -18,6 +18,8 @@ import WindowLocationProperty from '../../library/stringLiterals/WindowLocationP
 import CookieProperty from "../../library/stringLiterals/CookieProperty.js";
 import ModalRenderingService from '../../services/reactRendering/ModalRenderingService.js';
 import ModalWindowName from '../../library/enumerations/ModalWindowName.js';
+import TokenType from "../../library/enumerations/TokenType.js";
+
 
 //Tet: DONE
 export default function Logout(){
@@ -28,27 +30,16 @@ export default function Logout(){
 
     useEffect(()=>{
         let cookieName =  LocalStorageService.getItemFromLocalStorage(CookieProperty.NAME);
-        let cookiePath = LocalStorageService.getItemFromLocalStorage(CookieProperty.PATH);
-        let cookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
+        let cookiePath =  LocalStorageService.getItemFromLocalStorage(CookieProperty.PATH);
+        let cookieValue = CookieService.getCookieFromDataStoreByName(cookieName , cookiePath);
+        let _accessTokenName = TokenType[TokenType.jwtAccessToken];
+        let _refreshTokenName = TokenType[TokenType.jwtRefreshToken];
+        let _accessToken = LocalStorageService.getItemFromLocalStorage ( _accessTokenName);
+        let _refreshToken =  LocalStorageService.getItemFromLocalStorage( _refreshTokenName);
         if( InputCommonInspector.stringIsValid( cookieValue) ){
-            CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName, cookiePath);
-            LocalStorageService.removeItemFromLocalStorage(CookieProperty.NAME);
-            LocalStorageService.removeItemFromLocalStorage(CookieProperty.PATH);
-
-            let intervalTimerIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId]
-            let intervalTimerId = LocalStorageService.getItemFromLocalStorage( intervalTimerIdName );
-            clearInterval(intervalTimerId);
-            LocalStorageService.removeItemFromLocalStorage( intervalTimerIdName );
-
-            let intervalIdleBrowserIdName = IntervalIdName[IntervalIdName.idleBrowserIntervalId];
-            let idleIntervalId = LocalStorageService.getItemFromLocalStorage(intervalIdleBrowserIdName);
-            clearInterval(idleIntervalId);
-            LocalStorageService.removeItemFromLocalStorage( idleIntervalId );
-
-            LocalStorageService.removeItemFromLocalStorage(SessionConfig.IDLE_SESSION_COUNTDOWN_VALUE);
-            LocalStorageService.removeItemFromLocalStorage ( WindowLocationProperty.REDIRECT )
-
-            processUserLogoutSession(cookieValue);
+            removeAllSessionInformation(cookieName, cookiePath)
+            removeAllJwtTokensInformation( _accessTokenName, _refreshTokenName );
+            processUserLogoutSession(cookieValue , _accessToken , _refreshToken );
         }
     },[]);
 
@@ -95,7 +86,36 @@ export default function Logout(){
         }, SessionConfig.ONE_SECOND_IN_MILLISECONDS);
     }
 
-    function processUserLogoutSession( sessionCookieValue){
+    function removeAllSessionInformation( cookieName,cookiePath ){
+        //Session
+        CookieService.deleteCookieFromDataStoreByNameAndPath(cookieName, cookiePath);
+        LocalStorageService.removeItemFromLocalStorage(CookieProperty.NAME);
+        LocalStorageService.removeItemFromLocalStorage(CookieProperty.PATH);
+
+        let intervalTimerIdName = IntervalIdName[IntervalIdName.sessionUpdateIntervalId]
+        let intervalTimerId = LocalStorageService.getItemFromLocalStorage( intervalTimerIdName );
+        clearInterval(intervalTimerId);
+        LocalStorageService.removeItemFromLocalStorage( intervalTimerIdName );
+
+        let intervalIdleBrowserIdName = IntervalIdName[IntervalIdName.idleBrowserIntervalId];
+        let idleIntervalId = LocalStorageService.getItemFromLocalStorage(intervalIdleBrowserIdName);
+        clearInterval(idleIntervalId);
+        LocalStorageService.removeItemFromLocalStorage( idleIntervalId );
+
+        LocalStorageService.removeItemFromLocalStorage(SessionConfig.IDLE_SESSION_COUNTDOWN_VALUE);
+        LocalStorageService.removeItemFromLocalStorage ( WindowLocationProperty.REDIRECT )
+    }
+
+    function removeAllJwtTokensInformation( accessTokenName, refreshTokenName){
+         //==JWT
+         LocalStorageService.removeItemFromLocalStorage ( accessTokenName);
+         LocalStorageService.removeItemFromLocalStorage( refreshTokenName);
+         let jwtIntervalIdName = IntervalIdName[IntervalIdName.jwtTokenUpdateIntervalId];
+         let jwtUpdateIntervalId = LocalStorageService.getItemFromLocalStorage ( jwtIntervalIdName );
+         clearInterval(jwtUpdateIntervalId);
+         LocalStorageService.removeItemFromLocalStorage(jwtIntervalIdName);
+    }
+    function processUserLogoutSession( sessionCookieValue , jwtAccessToken , jwtRefreshToken ){
 
         let logoutUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiUserslogoutPathPost;
         let dataModel = {
@@ -103,8 +123,12 @@ export default function Logout(){
             userAgent : window.navigator.userAgent
         }
         let selectedHeaders = {
-            x_session_id : sessionCookieValue
+            x_session_id : sessionCookieValue,
+            Authorization : 'Bearer '+ jwtAccessToken,
+            Refresh_token : jwtRefreshToken
         }
+
+
         RequestMethodsService.deleteMethod(logoutUrl, dataModel, logoutUserCallback, selectedHeaders);
     }
 

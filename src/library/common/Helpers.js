@@ -75,14 +75,6 @@ let getUrlRedirectTo = function(redirectTo){
     return urlRedirect;
 }
 
-//Test:DONE
-let safeJsonParse = function (input) {
-    var value = input;
-    if (CommonValidators.isValidJson(input)) {
-        value = JSON.parse(input);
-    }
-    return value;
-}
 
 
 const convertLocaleDateToUTCDate = function(localeDAteAsDate ){
@@ -100,7 +92,6 @@ let service= Object.freeze({
     getmessageFormatForDisplay : getmessageFormatForDisplay,
     setUrlRedirect : setUrlRedirect,
     getUrlRedirectTo : getUrlRedirectTo,
-    safeJsonParse : safeJsonParse,
     convertLocaleDateToUTCDate : convertLocaleDateToUTCDate
 });
 

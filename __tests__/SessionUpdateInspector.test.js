@@ -38,7 +38,7 @@ describe('File SessionUpdateInspector', function(){
             SessionUpdateInspector.resolveUpdateExpiringSession(worker);
             //Assert
             expect(setInterval).toHaveBeenCalledTimes(1);
-            expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), SessionConfig.SESSION_REFRESH_FREQUENCY_IN_MILLISECONDS);
+            expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), SessionConfig.SESSION_UPDATE_FREQUENCY_IN_MILLISECONDS);
 
             expect(LocalStorageService.getItemFromLocalStorage).toHaveBeenCalledTimes(1);
             expect(CookieService.getCookieFromDataStoreByName).toHaveBeenCalledTimes(1);

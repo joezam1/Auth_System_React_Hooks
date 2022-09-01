@@ -44,7 +44,7 @@ function resolveAllMiddlewareWindowIntervalsTracked(){
 }
 
 function resolveUpdateExpiringSessionInterval(){
-    let intervalIdName = IntervalIdName[IntervalIdName.sessionRefreshIntervalId];
+    let intervalIdName = IntervalIdName[IntervalIdName.sessionUpdateIntervalId];
     let updateIntervalId = LocalStorageService.getItemFromLocalStorage ( intervalIdName );
     if(InputCommonInspector.objectIsValid( updateIntervalId ) || InputCommonInspector.stringIsValid(updateIntervalId) ){
 

@@ -1,8 +1,8 @@
 const IntervalIdName = Object.freeze({
-    sessionRefreshIntervalId:0,
+    sessionUpdateIntervalId:0,
     idleBrowserIntervalId:1,
     jwtTokenUpdateIntervalId:2,
-    0:'sessionrefreshIntervalId',
+    0:'sessionUpdateIntervalId',
     1:'idleBrowserIntervalId',
     2:'jwtTokenUpdateIntervalId'
 });

@@ -23,7 +23,7 @@ describe('File: JwtUpdateInspector.js', function(){
             let result = JwtUpdateInspector.resolveUpdateExpiringJwtToken(mockWebWorker);
             //Assert
             expect(setInterval).toHaveBeenCalledTimes(1);
-            expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), JwtConfig.JWT_REFRESH_TOKEN_REFRESH_FREQUENCY_IN_MILLISECONDS);
+            expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), JwtConfig.JWT_REFRESH_TOKEN_UPDATE_FREQUENCY_IN_MILLISECONDS);
 
         });
     });

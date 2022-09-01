@@ -1,5 +1,4 @@
-
-import Helpers from '../../library/common/Helpers';
+import CommonValidators from '../validators/CommonValidators.js';
 import InputCommonInspector from '../validators/InputCommonInspector.js';
 
 
@@ -12,7 +11,7 @@ function fetchMethod(url, options, responseCallback) {
         })
         .then(function (result) {
             console.log('result:', result);
-            var responseObj = Helpers.safeJsonParse(result);
+            var responseObj = CommonValidators.safeJsonParse(result);
             console.log('responseObj:', responseObj);
             if (InputCommonInspector.objectIsValid(responseObj) && InputCommonInspector.stringIsValid(responseObj.replacementToken)) {
                 //TODO: setAccessTokenReplacement(responseOjb.replacementToken);
