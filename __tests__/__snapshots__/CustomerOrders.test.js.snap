@@ -13,23 +13,16 @@ exports[`File: CustomerOrders.js Component CustomerOrders It should take a snaps
     <h3>
       Go To
     </h3>
-    <span>
-      <a
-        data-testid="link-customer-order-home-id"
-        href="/"
+    <div
+      class="button-private-redirect-section"
+    >
+      <button
+        data-testid="button-private-redirect-id"
+        type="button"
       >
-         Home 
-      </a>
-    </span>
-    <br />
-    <span>
-      <a
-        data-testid="link-customer-order-dashboard-id"
-        href="/private/customer/dashboard"
-      >
-        Customer Dashboard
-      </a>
-    </span>
+          Customer Dashboard  
+      </button>
+    </div>
     <br />
   </div>
     

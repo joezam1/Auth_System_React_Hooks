@@ -1,4 +1,4 @@
-const routeConfiguration = Object.freeze({
+const serverRouteConfiguration = Object.freeze({
     apiUsersRegisterPathPost : '/api/users/register',
     apiUsersLoginPathPost: '/api/users/login',
     apiUserslogoutPathPost: '/api/users/logout',
@@ -7,4 +7,4 @@ const routeConfiguration = Object.freeze({
     apiJsonWebTokenUpdatePut:'/api/jsonwebtokens/update',
 });
 
-export default routeConfiguration;
+export default serverRouteConfiguration;

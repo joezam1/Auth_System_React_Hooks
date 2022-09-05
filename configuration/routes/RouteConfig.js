@@ -1,21 +1,21 @@
 const routeConfiguration = Object.freeze({
-    home:'/',
+    homePath:'/',
     authLoginPath:'/auth/login',
     authRegisterPath:'/auth/register',
     authLogoutPath:'/auth/logout',
-    privateCustomerDashboard:'/private/customer/dashboard',
-    privateCustomerOrders:'/private/customer/orders',
-    privateCustomerSilverOffers:'/private/customer/silverOffers',
-    privateCustomerGoldOffers:'/private/customer/goldOffers',
-    privateCustomerPremiumOffers:'/private/customer/premiumOffers',
-    privateCustomerPremiumClubMember:'/private/customer/premiumClubMember',
-    privateCustomerNewsletter:'/private/customer/newsletter',
-    privateCustomerManagerOrders:'/private/customer/ManagerOrders',
-    privateCustomerContactSuppliers:'/private/customer/contact/suppliers',
-    storeOrders:'/store/orders',
-    storeInvoices:'/store/invoices',
-    storeProducts:'/store/products',
-    storeAdvertising:'/store/advertising'
+    privateCustomerDashboardPath:'/private/customer/dashboard',
+    privateCustomerOrdersPath:'/private/customer/orders',
+    privateCustomerSilverOffersPath:'/private/customer/silverOffers',
+    privateCustomerGoldOffersPath:'/private/customer/goldOffers',
+    privateCustomerPremiumOffersPath:'/private/customer/premiumOffers',
+    privateCustomerPremiumClubMemberPath:'/private/customer/premiumClubMember',
+    privateCustomerNewsletterPath:'/private/customer/newsletter',
+    privateCustomerManagerOrdersPath:'/private/customer/ManagerOrders',
+    privateCustomerContactSuppliersPath:'/private/customer/contact/suppliers',
+    storeOrdersPath:'/store/orders',
+    storeInvoicesPath:'/store/invoices',
+    storeWarehousePath:'/store/warehouse',
+    storeAdvertisingPath:'/store/advertising'
 
 });
 

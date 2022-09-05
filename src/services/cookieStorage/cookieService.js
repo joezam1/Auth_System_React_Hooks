@@ -9,15 +9,16 @@ let insertCookieInDataStore = function(cookieName, cookieValue, optionsObject){
         console.log('optionsObject', optionsObject)
         let properties = {
             path: optionsObject.path,
-            maxAge : optionsObject.maxAge
+            maxAge : optionsObject.maxAge,
+            sameSite: 'Lax'
         }
-        CookieHelper.setCookie(cookieName, cookieValue, properties.path, properties.maxAge);
-        return 'OK';
+        CookieHelper.setCookie(cookieName, cookieValue, properties.path, properties.sameSite, properties.maxAge);
+        return 'ok';
     }
     catch(error){
         let errorMessage= new Error('Failed to save the cookie to the storage: ', error);
         console.log('errorMessage', errorMessage);
-        return errorMessage;
+        return error;
     }
 }
 //Test: DONE

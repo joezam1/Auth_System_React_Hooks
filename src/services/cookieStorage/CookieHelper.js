@@ -1,13 +1,13 @@
 import jsCookie from 'js-cookie';
 
-let setCookie = function (cookieName, cookieValue, path, milliseconds= null) {
+let setCookie = function (cookieName, cookieValue, path, sameSite, milliseconds= null) {
     var expires = "";
     if (milliseconds) {
        var date = new Date();
        date.setTime(date.getTime() + (milliseconds));
        expires = "Expires=" + date.toUTCString();
     }
-    document.cookie = cookieName + "=" + cookieValue + ';Path='+ path+';'+  expires;
+    document.cookie = cookieName + "=" + cookieValue + ';Path='+ path+';' +'SameSite='+sameSite+';' +  expires;
  }
 
  let setCookieWithExpiryTime = function(sessionCookieName, sessionCookieValue, path, utcDateExpired) {

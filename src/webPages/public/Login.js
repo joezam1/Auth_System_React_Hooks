@@ -13,16 +13,14 @@ import RequestMethodsService from '../../services/httpProtocol/RequestMethodsSer
 import CookieService from '../../services/cookieStorage/CookieService.js';
 import LocalStorageService from '../../services/localStorage/LocalStorageService.js';
 import CookieProperty from '../../library/stringLiterals/CookieProperty.js';
-import SessionValidatorService from '../../services/privateWebPagesMediator/SessionValidatorService.js';
-
-import fetchWorkerScript from '../../backgroundWorkers/FetchWorker.js';
+import SessionAuthenticationService from '../../services/privateWebPagesMediator/SessionAuthenticationService.js';
+import SessionFetchApiWorker from '../../backgroundWorkers/SessionFetchApiWorker.js';
 import SessionUpdateInspector from '../../middleware/SessionUpdateInspector.js';
 import IdleSessionInspector from '../../middleware/IdleSessionInspector.js';
 import NotificationService from '../../services/notifications/NotificationService.js';
 import GeolocationServices from '../../services/geoLocation/geoLocationService.js';
 import DeviceDetectorService from '../../services/deviceDetection/DeviceDetectorService.js';
 import TokenType from '../../library/enumerations/TokenType.js';
-import JwtUpdateInspector from '../../middleware/JwtUpdateInspector.js';
 import JwtTokenService from '../../services/authorization/JwtTokenService.js';
 
 //Test: DONE
@@ -60,15 +58,14 @@ export default function Login(){
                 let properties = data.session.fieldValue.properties;
                 LocalStorageService.setItemInLocalStorage(CookieProperty.NAME, name);
                 LocalStorageService.setItemInLocalStorage(CookieProperty.PATH, properties.path);
-                CookieService.insertCookieInDataStore(name, value, properties);
-
+                let resultCookieStorage = CookieService.insertCookieInDataStore(name, value, properties);
+                console.log('resultCookieStorage', resultCookieStorage)
                 JwtTokenService.saveTokenToLocalStorage(TokenType.jwtAccessToken, data.jwtAccessToken.fieldValue);
                 JwtTokenService.saveTokenToLocalStorage(TokenType.jwtRefreshToken, data.jwtRefreshToken.fieldValue);
 
-                JwtUpdateInspector.resolveUpdateExpiringJwtToken(fetchWorkerScript);
-
-                IdleSessionInspector.scanIdleBrowserTime();
-                SessionUpdateInspector.resolveUpdateExpiringSession(fetchWorkerScript);
+                //IdleSessionInspector.scanIdleBrowserTime();
+                console.log('SessionFetchApiWorker', SessionFetchApiWorker);
+                SessionUpdateInspector.resolveUpdateExpiringSession(SessionFetchApiWorker);
                 setUserLogin(true);
 
             break;
@@ -136,12 +133,13 @@ export default function Login(){
     }
 
     if (isLoggedIn) {
-        SessionValidatorService.redirectPrivateWebpagesMediator(RouteConfig.privateCustomerDashboard )
+        console.log('LOGIN-PAGE-isLoggedIn', isLoggedIn);
+        SessionAuthenticationService.redirectPrivateWebpagesMediator(RouteConfig.privateCustomerDashboardPath )
     }
     return(
         <div className="register-container">
                <h3>Login</h3>
-               <span><Link to={RouteConfig.home} data-testid="link-login-home-id"> Home </Link></span><br/>
+               <span><Link to={RouteConfig.homePath} data-testid="link-login-home-id"> Home </Link></span><br/>
                <span><Link to={RouteConfig.authRegisterPath} data-testid="link-login-register-id">Register</Link></span>
                <br />
                <fieldset>

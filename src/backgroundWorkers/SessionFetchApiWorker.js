@@ -1,8 +1,7 @@
-const FetcApihWorker = function () {
-
+const SessionFetchApiWorker = function () {
     self.onmessage = function (event) {
 
-        console.log('FetchWorker-self.onmessage-event', event);
+        console.log('SessionFetchApiWorker-self.onmessage-event', event);
         if (event && event.data) {
             let message = event.data;
             let switchMessage = message.switchMessage;
@@ -15,13 +14,13 @@ const FetcApihWorker = function () {
         }
     };
 
-
     //#REGION Private Functions
 
     let xmlttpRequestMethod = function(requestVerb ,requestUrl, body, headersArray, isAsync){
 
         let httpRequest = new XMLHttpRequest();
         httpRequest.open(requestVerb, requestUrl, isAsync);
+
         httpRequest.setRequestHeader('Content-type', 'application/json');
         httpRequest.setRequestHeader( 'Accept', 'application/json')
         if(headersArray !=null && headersArray != undefined && Array.isArray(headersArray)){
@@ -32,28 +31,24 @@ const FetcApihWorker = function () {
 
         httpRequest.onreadystatechange = function() {
                 if (httpRequest.readyState === 4) {
-
                     let responseResult = safeJsonParse(httpRequest.responseText);
                     let responseObj = {
-                        name: `${requestVerb}_FetchWorker_HTTP_Response `,
+                        name: `${requestVerb}_SessionFetchApiWorker_HTTP_Response`,
                         status: httpRequest.status,
                         statusText: httpRequest.statusText,
                         data: responseResult
                     }
-                    console.log('Fetc-hWorker-HTTPResponse',responseObj)
+
+                    console.log('SESSION-httpRequest.onreadystatechange-HTTP-RESPONSE',responseObj)
                     self.postMessage(responseObj);
                 }
             }
         httpRequest.send(body);
-
-
-        httpRequest.onerror = function(error) {
-            console.log('Fetc-hWorker-HTTPResponse-ERROR',error)
-                    self.postMessage(error);
-        };
     }
 
-    let isValidJson = function(input){
+
+
+    var isValidJson = function(input){
         try{
             JSON.parse(input);
         }
@@ -63,8 +58,8 @@ const FetcApihWorker = function () {
         return true;
     }
 
-    let safeJsonParse = function (input) {
-        let value = input;
+    var safeJsonParse = function (input) {
+        var value = input;
         if (isValidJson(input)) {
             value = JSON.parse(input);
         }
@@ -73,9 +68,9 @@ const FetcApihWorker = function () {
     //#ENDREGION Private Functions
 }
 
-let codeString = FetcApihWorker.toString();
-let codeObj = codeString.substring(codeString.indexOf("{") + 1, codeString.lastIndexOf("}"));
-const blob = new Blob([codeObj], { type: "application/javascript" });
-const worker_script =(typeof( URL.createObjectURL ) == 'function' ) ? URL.createObjectURL(blob) : '';
+let SessionCodeString = SessionFetchApiWorker.toString();
+let SessionCodeObj = SessionCodeString.substring(SessionCodeString.indexOf("{") + 1, SessionCodeString.lastIndexOf("}"));
+const blob = new Blob([SessionCodeObj], { type: "application/javascript" });
+const sessionWorker_script =(typeof( URL.createObjectURL ) == 'function' ) ? URL.createObjectURL(blob) : '';
 
-module.exports = worker_script;
+module.exports = sessionWorker_script;

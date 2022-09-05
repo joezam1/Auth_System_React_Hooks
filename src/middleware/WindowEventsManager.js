@@ -1,10 +1,9 @@
 import IntervalIdName from '../library/enumerations/IntervalIdName.js';
 import LocalStorageService from '../services/localStorage/LocalStorageService.js';
 import InputCommonInspector from '../services/validators/InputCommonInspector.js';
-import FetchWorker from '../backgroundWorkers/FetchWorker.js';
+import SessionFetchApiWorker from '../backgroundWorkers/SessionFetchApiWorker.js';
 import SessionUpdateInspector from './SessionUpdateInspector.js';
 import IdleSessionInspector from './IdleSessionInspector.js';
-import JwtUpdateInspector from './JwtUpdateInspector.js';
 
 const WindowEventManager = (function () {
 
@@ -38,40 +37,36 @@ function resolveAllMiddlewareWindowIntervalsTracked(){
     console.log('resolveAllMiddlewareWindowIntervalsTracked-STARTED');
 
     resolveUpdateExpiringSessionInterval();
-    resolveUpdateExpiringJsonWebTokenInterval();
-    resolveIdleBrowserTimeoutInterval();
+    //resolveIdleBrowserTimeoutInterval();
     console.log('resolveAllMiddlewareWindowIntervalsTracked-END');
 }
 
 function resolveUpdateExpiringSessionInterval(){
+    console.log('resolveUpdateExpiringSessionInterval-STARTED');
+
     let intervalIdName = IntervalIdName[IntervalIdName.sessionUpdateIntervalId];
     let updateIntervalId = LocalStorageService.getItemFromLocalStorage ( intervalIdName );
-    if(InputCommonInspector.objectIsValid( updateIntervalId ) || InputCommonInspector.stringIsValid(updateIntervalId) ){
+    if(InputCommonInspector.inputExist( updateIntervalId ) || InputCommonInspector.stringIsValid(updateIntervalId) ){
 
         clearInterval(updateIntervalId);
         LocalStorageService.removeItemFromLocalStorage(intervalIdName);
-        SessionUpdateInspector.resolveUpdateExpiringSession(FetchWorker);
+        SessionUpdateInspector.resolveUpdateExpiringSession(SessionFetchApiWorker);
     }
+    console.log('resolveUpdateExpiringSessionInterval-END');
 }
 
-function resolveUpdateExpiringJsonWebTokenInterval(){
-    let jwtIntervalIdName = IntervalIdName[IntervalIdName.jwtTokenUpdateIntervalId];
-    let jwtUpdateIntervalId = LocalStorageService.getItemFromLocalStorage ( jwtIntervalIdName );
-    if(InputCommonInspector.objectIsValid( jwtUpdateIntervalId ) || InputCommonInspector.stringIsValid(jwtUpdateIntervalId) ){
 
-        clearInterval(jwtUpdateIntervalId);
-        LocalStorageService.removeItemFromLocalStorage(jwtIntervalIdName);
-        JwtUpdateInspector.resolveUpdateExpiringJwtToken(FetchWorker);
-    }
-}
+
 
 function resolveIdleBrowserTimeoutInterval(){
+    console.log('resolveIdleBrowserTimeoutInterval-STARTED');
     let storageName = IntervalIdName[IntervalIdName.idleBrowserIntervalId];
     let idleIntervalId = LocalStorageService.getItemFromLocalStorage(storageName);
-    if(InputCommonInspector.objectIsValid( idleIntervalId ) || InputCommonInspector.stringIsValid(idleIntervalId) ){
+    if(InputCommonInspector.inputExist( idleIntervalId ) || InputCommonInspector.stringIsValid(idleIntervalId) ){
 
         clearInterval(idleIntervalId);
         LocalStorageService.removeItemFromLocalStorage(storageName);
         IdleSessionInspector.scanIdleBrowserTime();
     }
+    console.log('resolveIdleBrowserTimeoutInterval-END');
 }

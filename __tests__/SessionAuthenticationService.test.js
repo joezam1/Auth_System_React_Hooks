@@ -1,4 +1,4 @@
-import SessionValidatorService from '../src/services/privateWebPagesMediator/SessionValidatorService.js';
+import SessionAuthenticationService from '../src/services/privateWebPagesMediator/SessionAuthenticationService.js';
 import CookieService from '../src/services/cookieStorage/CookieService.js';
 import RouteConfig from '../configuration/routes/RouteConfig.js';
 import LocalStorageService from '../src/services/localStorage/LocalStorageService.js';
@@ -10,7 +10,7 @@ jest.mock('../src/services/localStorage/LocalStorageService.js');
 jest.mock('../src/backgroundWorkers/WebWorkerManager.js');
 jest.mock('../src/library/common/Helpers.js');
 
-describe('File: SessionValidatorService.js', function(){
+describe('File: SessionAuthenticationService.js', function(){
     afterAll(()=>{
         jest.resetAllMocks();
     });
@@ -19,7 +19,7 @@ describe('File: SessionValidatorService.js', function(){
             //Arrange
             let cookieName = 'test-cookie'
             let cookieValue = '123456';
-            let urlRedirect = RouteConfig.home;
+            let urlRedirect = RouteConfig.homePath;
             LocalStorageService.setItemInLocalStorage = jest.fn().mockReturnValueOnce(0);
             LocalStorageService.getItemFromLocalStorage = jest.fn().mockReturnValueOnce(cookieName);
             CookieService.getCookieFromDataStoreByName = jest.fn().mockReturnValueOnce(cookieValue);
@@ -29,7 +29,7 @@ describe('File: SessionValidatorService.js', function(){
 
             //Act
 
-            let result = SessionValidatorService.redirectPrivateWebpagesMediator(urlRedirect);
+            let result = SessionAuthenticationService.redirectPrivateWebpagesMediator(urlRedirect);
 
             //Assert
             expect(LocalStorageService.setItemInLocalStorage).toBeCalledTimes(1);
@@ -49,12 +49,12 @@ describe('File: SessionValidatorService.js', function(){
             CookieService.getCookieFromDataStoreByName = jest.fn().mockReturnValueOnce(cookieValue);
             WebWorkerManager.startNewWorker = jest.fn();
             WebWorkerManager.sendMessageToWorker = jest.fn();
-            let urlRedirect = RouteConfig.home;
+            let urlRedirect = RouteConfig.homePath;
             let logoutRedirect = RouteConfig.authLogoutPath;
             Helpers.setUrlRedirect = jest.fn().mockReturnValueOnce(logoutRedirect);
             //Act
 
-            let result = SessionValidatorService.redirectPrivateWebpagesMediator(urlRedirect);
+            let result = SessionAuthenticationService.redirectPrivateWebpagesMediator(urlRedirect);
 
             //Assert
             expect(LocalStorageService.setItemInLocalStorage).toBeCalledTimes(1);

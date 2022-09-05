@@ -20,7 +20,7 @@ export default function Home(){
         }
     }, []);
 
-    let privateComponent =  userIsLoggedIn ? <li> <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboard} buttonText=" Go to Customer " />  </li>  : '';
+    let privateComponent =  userIsLoggedIn ? <li> <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboardPath} buttonText=" Go to Customer " />  </li>  : '';
 
   return(
       <div className="home">

@@ -158,7 +158,7 @@ describe('File: Helpers.js',function(){
                 reload: null,
                 replace: null,
             };
-            let redirectLocation = RouteConfig.privateCustomerDashboard;
+            let redirectLocation = RouteConfig.privateCustomerDashboardPath;
             let finalUrl = global.window.location.protocol + '//'+global.window.location.host +''+ redirectLocation;
             //Act
 

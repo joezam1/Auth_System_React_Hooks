@@ -1,4 +1,5 @@
 import CommonValidators from '../validators/CommonValidators.js';
+import InputCommonInspector from '../validators/InputCommonInspector.js';
 import EncryptDecryptService from '../encryption/EncryptDecryptService.js';
 import Helpers from '../../library/common/Helpers.js';
 import TokenType from '../../library/enumerations/TokenType.js';
@@ -38,6 +39,9 @@ const JwtTokenService = (function(){
 
     //Tet: DONE
     const decryptEncryptedJwtPayload = function(selectedJwtToken){
+        if(!InputCommonInspector.inputExist(selectedJwtToken)){
+            return null;
+        }
 
         let encryptedJwtTokenPayload = getPayloadFromDecodedJWT(selectedJwtToken);
         let decryptedJwtTokenPayload = EncryptDecryptService.decryptWithAES(encryptedJwtTokenPayload);

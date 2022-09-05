@@ -134,11 +134,11 @@ export default function Logout(){
 
     if(isLoggedOut){
         ModalRenderingService.stopRendering();
-        return <Navigate to = {RouteConfig.home} />
+        return <Navigate to = {RouteConfig.homePath} />
     }
 
     return(<div className="logout-section">
-            <p>You are Logged Out <span> | </span><Link to={RouteConfig.home}>Go Home</Link> </p>
+            <p>You are Logged Out <span> | </span><Link to={RouteConfig.homePath}>Go Home</Link> </p>
             <br/>
             <div> {notificationInfo}</div>
     </div>)

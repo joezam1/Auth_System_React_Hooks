@@ -121,7 +121,7 @@ export default function Register(){
     return(
      <div className="register-container">
             <h3>Register</h3>
-            <span><Link to={ RouteConfig.home } data-testid="link-register-home-id"> Home </Link></span>
+            <span><Link to={ RouteConfig.homePath } data-testid="link-register-home-id"> Home </Link></span>
             <br/>
             <span><Link to={ RouteConfig.authLoginPath } data-testid="link-register-login-id"> Login </Link></span>
             <br />

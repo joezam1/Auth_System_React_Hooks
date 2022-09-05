@@ -1,299 +1,170 @@
 import UserRole from '../../src/library/enumerations/UserRole.js';
 import RolePermission from '../../src/library/stringLiterals/RolePermission';
 import RouteConfig from '../routes/RouteConfig.js';
-
-import CustomerDashboard from "../webPages/private/CustomerDashboard";
-import CustomerOrders from "../../src/webPages/private/CustomerOrders";
-import LinkButtonPrivateRedirect from "../../src/components/LinkButtonPrivateRedirect";
-
-
-
-
+import ComponentConfig from '../components/ComponentConfig.js';
 
 const RoleBasedAccessControlConfig = (function(){
 
-    let _customerDashboardComponent = null;
-    let _customerOrdersComponent = null;
-    let _linkButtonPrivateRedirect = null;
-
     const privateRoutes = [
+
         {
-            route: RouteConfig.storeOrders,
-            roles:[
-                {
-                    name: UserRole.Editor,
-                    actions:[ RolePermission.READ, RolePermission.WRITE ]
-                },
-                {
-                    name: UserRole.Admin,
-                    actions:[ RolePermission.READ, RolePermission.WRITE, RolePermission.DELETE ]
-                }
-            ]
-        },
-        {
-            route: RouteConfig.storeInvoices,
-            roles:[
-                {
-                    name:UserRole.Editor ,
-                    actions:[RolePermission.READ, RolePermission.WRITE]
-                },
-                {
-                    name:UserRole.Admin,
-                    actions:[ RolePermission.READ, RolePermission.WRITE, RolePermission.DELETE ]
-                }
-            ]
-        },
-        {
-            route:RouteConfig.storeProducts,
-            roles:[
-                {
-                    name:UserRole.CommercialAnalyst ,
-                    actions:[RolePermission.READ , RolePermission.WRITE]
-                },
-                {
-                    name:UserRole.Admin,
-                    actions:[ RolePermission.READ, RolePermission.WRITE, RolePermission.DELETE ]
-                }
-            ]
-        },
-        {
-            route:RouteConfig.storeAdvertising,
-            roles:[
-                {
-                    name:UserRole.Advertiser ,
-                    actions:[RolePermission.READ, RolePermission.WRITE]
-                },
-                {
-                    name:UserRole.Admin,
-                    actions:[ RolePermission.READ, RolePermission.WRITE, RolePermission.DELETE ]
-                }
-            ]
-        },
-        {
-            route:RouteConfig.privateCustomerDashboard,
+            route: RouteConfig.privateCustomerDashboardPath,
             roles:[
                 {
                     name:UserRole.BaseCustomer,
-                    actions:[RolePermission.READ]
+                    approvedPermissions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.SilverCustomer,
-                    actions:[RolePermission.READ]
+                    approvedPermissions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.GoldCustomer,
-                    actions:[RolePermission.READ]
+                    approvedPermissions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.PremiumCustomer,
-                    actions:[RolePermission.READ]
+                    approvedPermissions:[RolePermission.READ]
                 }
             ]
         },
         {
-            route:RouteConfig.privateCustomerOrders,
+            route:RouteConfig.privateCustomerOrdersPath,
             roles:[
                 {
                     name:UserRole.BaseCustomer,
-                    actions:[RolePermission.READ]
+                    approvedPermissions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.SilverCustomer,
-                    actions:[RolePermission.READ]
+                    approvedPermissions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.GoldCustomer,
-                    actions:[RolePermission.READ]
+                    approvedPermissions:[RolePermission.READ]
                 },
                 {
                     name:UserRole.PremiumCustomer,
-                    actions:[RolePermission.READ]
+                    approvedPermissions:[RolePermission.READ]
                 }
             ]
         },
         {
-            route:RouteConfig.privateCustomerSilverOffers,
+            route:RouteConfig.privateCustomerSilverOffersPath,
             roles:[
                 {
                     name:UserRole.SilverCustomer,
-                    actions:[RolePermission.READ]
-                }
-            ]
-        },
-        {
-            route:RouteConfig.privateCustomerGoldOffers,
-            roles:[
-                {
-                    name:UserRole.GoldCustomer,
-                    actions:[RolePermission.READ]
-                }
-            ]
-        },
-        {
-            route:RouteConfig.privateCustomerPremiumOffers,
-            roles:[
-                {
-                    name:UserRole.PremiumCustomer,
-                    actions:[RolePermission.READ]
-                }
-            ]
-        },
-        {
-            route:RouteConfig.privateCustomerPremiumClubMember,
-            roles:[
-                {
-                    name:UserRole.PremiumCustomer,
-                    actions:[RolePermission.READ]
-                }
-            ]
-        },
-        {
-            route:RouteConfig.privateCustomerNewsletter,
-            roles:[
-                {
-                    name:UserRole.BaseCustomer,
-                    actions:[RolePermission.READ]
-                },
-                {
-                    name:UserRole.SilverCustomer,
-                    actions:[RolePermission.READ]
-                }
-            ]
-        },
-        {
-            route:RouteConfig.privateCustomerManagerOrders,
-            roles:[
-                {
-                    name:UserRole.GoldCustomer,
-                    actions:[RolePermission.READ]
-                },
-                {
-                    name:UserRole.PremiumCustomer,
-                    actions:[RolePermission.READ]
-                }
-            ]
-        },
-        {
-            route:RouteConfig.privateCustomerContactSuppliers,
-            roles:[
-                {
-                    name:UserRole.PremiumCustomer,
-                    actions:[RolePermission.READ]
+                    approvedPermissions:[RolePermission.READ]
                 }
             ]
         }
 
-
-
-
-
-
-
-
-
-    ];
+    ]
 
     const privateComponents = [
         {
-            component: _customerDashboardComponent.type.name,
+            component: ComponentConfig._CustomerDashboard.type.name,
             roles:[
                 {
-                    name: UserRole.BaseCustomer,
-                    actions:[RolePermission.READ ]
+                    name:UserRole.BaseCustomer,
+                    approvedPermissions:[ RolePermission.READ]
                 },
                 {
                     name: UserRole.SilverCustomer,
-                    actions:[RolePermission.READ ]
+                    approvedPermissions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.GoldCustomer,
-                    actions:[RolePermission.READ ]
+                    approvedPermissions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.PremiumCustomer,
-                    actions:[RolePermission.READ ]
+                    approvedPermissions:[RolePermission.READ ]
                 }
             ]
         },
         {
-            component : _customerOrdersComponent.type.name,
+            component : ComponentConfig._CustomerOrders.type.name,
             roles:[
                 {
                     name: UserRole.BaseCustomer,
-                    actions:[RolePermission.READ ]
+                    approvedPermissions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.SilverCustomer,
-                    actions:[RolePermission.READ ]
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE ]
                 },
                 {
                     name: UserRole.GoldCustomer,
-                    actions:[RolePermission.READ ]
+                    approvedPermissions:[RolePermission.READ , RolePermission.CREATE, RolePermission.EDIT, RolePermission.DELETE]
                 },
                 {
                     name: UserRole.PremiumCustomer,
-                    actions:[RolePermission.READ ]
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE, RolePermission.CREATE, RolePermission.EDIT, RolePermission.DELETE ]
                 }
             ]
         },
         {
-            component:_linkButtonPrivateRedirect.type.name,
+            component:ComponentConfig._SilverOffers,
+            roles:[
+                {
+                    name:UserRole.SilverCustomer,
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE]
+                }
+            ]
+        },
+        {
+            component:ComponentConfig._LinkButtonPrivateRedirect.type.name,
             roles:[
                 {
                     name: UserRole.BaseCustomer,
-                    actions:[RolePermission.READ ]
+                    approvedPermissions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.SilverCustomer,
-                    actions:[RolePermission.READ ]
+                    approvedPermissions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.GoldCustomer,
-                    actions:[RolePermission.READ ]
+                    approvedPermissions:[RolePermission.READ ]
                 },
                 {
                     name: UserRole.PremiumCustomer,
-                    actions:[RolePermission.READ ]
+                    approvedPermissions:[RolePermission.READ ]
                 },
                 {
                     name:UserRole.Editor ,
-                    actions:[RolePermission.READ, RolePermission.WRITE]
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE, RolePermission.EDIT]
                 },
                 {
                     name:UserRole.Moderator ,
-                    actions:[RolePermission.READ, RolePermission.WRITE]
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE]
                 },
                 {
                     name:UserRole.Advertiser ,
-                    actions:[RolePermission.READ, RolePermission.WRITE]
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE]
                 },
-                ,
                 {
                     name:UserRole.TechnicalAnalyst ,
-                    actions:[RolePermission.READ, RolePermission.WRITE]
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE]
                 },
-                ,
                 {
                     name:UserRole.CommercialAnalyst ,
-                    actions:[RolePermission.READ, RolePermission.WRITE]
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE]
                 },
                 {
                     name:UserRole.Admin,
-                    actions:[ RolePermission.READ, RolePermission.WRITE, RolePermission.DELETE ]
+                    approvedPermissions:[ RolePermission.READ, RolePermission.WRITE, RolePermission.EDIT, RolePermission.DELETE ]
                 }
             ]
         }
-    ];
 
+    ]
 
-
-    //#REGION Private Functions
-    function onInit(){
-        _customerDashboardComponent = <CustomerDashboard/>;
-        _customerOrdersComponent = <CustomerOrders/>;
-        _linkButtonPrivateRedirect = <LinkButtonPrivateRedirect/>
+    return {
+        privateRoutes : privateRoutes,
+        privateComponents : privateComponents
     }
-    //#ENDREGION Private Functions
 })();
 
 

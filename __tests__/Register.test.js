@@ -29,7 +29,7 @@ describe('File: Register.js', function(){
             fireEvent.click(link);
             var initialPath = window.location.pathname;
             var pathname = link.pathname;
-            expect(pathname).toBe(RouteConfig.home);
+            expect(pathname).toBe(RouteConfig.homePath);
             expect(link).toBe(link1);
         });
 

@@ -18,6 +18,16 @@ exports[`File: CustomerDashboard.js Component CustomerDashboard It should take a
           Go to Orders  
       </button>
     </div>
+    <div
+      class="button-private-redirect-section"
+    >
+      <button
+        data-testid="button-private-redirect-id"
+        type="button"
+      >
+          Go to Silver  Offers  
+      </button>
+    </div>
     <br />
     <a
       href="/auth/logout"

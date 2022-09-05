@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import RouteConfig from '../configuration/routes/RouteConfig.js';
 
-import CustomerDashboard from '../src/webPages/private/CustomerDashboard.js';
+import CustomerDashboard from '../src/webPages/private/customer/CustomerDashboard.js';
 
 
 describe('File: CustomerDashboard.js', function(){

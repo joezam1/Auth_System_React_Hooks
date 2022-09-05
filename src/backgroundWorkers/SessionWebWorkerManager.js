@@ -1,16 +1,20 @@
 import InputCommonInspector from "../services/validators/InputCommonInspector";
-const WebWorkerManager = (function () {
-
-    let activeWorker = null;
 
 
-    const createNewWorker = function (workerFileScript, callback) {
-        console.log('createWorker-activeWorker', activeWorker);
-        if (browserSupportsWorker() && !InputCommonInspector.inputExist(activeWorker) ) {
-            activeWorker = new Worker(workerFileScript);
-            console.log(`BEGIN-createNewWorker-${workerFileScript}`);
 
-            activeWorker.onmessage = function(event) {
+
+const SessionWebWorkerManager = (function () {
+
+    let sessionWorker = null;
+
+
+    const createNewWorker = function (sessionWorkerFileScript, callback) {
+        console.log('createWorker-sessionWorker', sessionWorker);
+        if (browserSupportsWorker() && !InputCommonInspector.inputExist(sessionWorker) ) {
+            sessionWorker = new Worker(sessionWorkerFileScript);
+            console.log('BEGIN-createNewWorker', sessionWorker);
+
+            sessionWorker.onmessage = function(event) {
                 console.log(`web-worker-onmessage-MESSAGE RECEIVED:`, event);
                 if (InputCommonInspector.inputExist(callback)) {
                     console.log('callback-isValid');
@@ -18,7 +22,7 @@ const WebWorkerManager = (function () {
                 }
             }
 
-            activeWorker.onerror = function (error) {
+            sessionWorker.onerror = function (error) {
                 console.log(`[error] ${error.message}`);
                 console.log(`[SOCKET] ${error.message}`);
                 callback(error);
@@ -31,19 +35,19 @@ const WebWorkerManager = (function () {
     const sendMessageToWorker = function (messageObj) {
         console.log('WORKER-MANAGER- sendMessageToWorker- messageObj:', messageObj)
         if (browserSupportsWorker()) {
-            activeWorker.postMessage(messageObj);
+            sessionWorker.postMessage(messageObj);
         }
 
     }
 
     const terminateActiveWorker = function () {
-        console.log('BEGIN-terminateActiveWorker-activeWorker', activeWorker);
-        if ((InputCommonInspector.inputExist(activeWorker))) {
-            activeWorker.terminate();
-            activeWorker = undefined;
-            console.log('END-terminateActiveWorker-activeWorker', activeWorker);
+        console.log('BEGIN-terminateActiveWorker-sessionWorker', sessionWorker);
+        if ((InputCommonInspector.inputExist(sessionWorker))) {
+            sessionWorker.terminate();
+            sessionWorker = undefined;
+            console.log('END-terminateActiveWorker-sessionWorker', sessionWorker);
         }
-        console.log('terminateActiveWorker-activeWorker', activeWorker);
+        console.log('terminateActiveWorker-sessionWorker', sessionWorker);
     }
 
 
@@ -66,4 +70,4 @@ const WebWorkerManager = (function () {
 })();
 
 
-export default WebWorkerManager
+export default SessionWebWorkerManager
