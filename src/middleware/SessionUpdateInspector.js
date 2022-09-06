@@ -14,6 +14,8 @@ import JwtUpdateInspectorHelper from './JwtUpdateInspectorHelper.js';
 import JwtTokenService from '../services/authorization/JwtTokenService.js';
 import TokenType from "../library/enumerations/TokenType.js";
 import BackgroundWorker from "../library/enumerations/BackgroundWorker.js";
+import httpResponseStatus from "../library/enumerations/HttpResponseStatus.js";
+
 
 const SessionUpdateInspector = (function () {
     //Test:DONE
@@ -86,16 +88,48 @@ function createMessageDataForSharedWorker(cookieName, cookieValue) {
 
 function sessionSharedFetchWorkerOnMessageCallback(event) {
     console.log('sessionWorkerOnMessageCallback-event', event);
+    let responseStatus = event?.data?.status;
+    switch(responseStatus){
+        case httpResponseStatus._200ok:
+            let _sessionInfo = event?.data?.data?.result;
+            let jwtIsUpdated = JwtUpdateInspectorHelper.resolveJwtUpdate(_sessionInfo);
+            let sessionIsValid = inputCommonInspector.objectIsValid(_sessionInfo);
+            let sessionIsUpdated = SessionUpdateInspectorHelper.resolveSessionUpdate(_sessionInfo);
+            if ( jwtIsUpdated && sessionIsValid && sessionIsUpdated ){
+                return;
+            }
+        break;
 
-    let _sessionInfo = event?.data?.data?.result;
-    let jwtIsUpdated = JwtUpdateInspectorHelper.resolveJwtUpdate(_sessionInfo);
-    let sessionIsValid = inputCommonInspector.objectIsValid(_sessionInfo);
-    let sessionIsUpdated = SessionUpdateInspectorHelper.resolveSessionUpdate(_sessionInfo);
-    if ( jwtIsUpdated && sessionIsValid && sessionIsUpdated ){
+        case httpResponseStatus._401unauthorized:
+            removeAllStorageData();
+        break;
 
-        return;
+        case httpResponseStatus._403forbidden:
+            removeAllStorageData();
+        break;
+
+        case httpResponseStatus._400badRequest:
+            removeAllStorageData();
+        break;
+
+        default:
+            //For Any other Case we Verify the CALLBACK RESPONSE is from the backend API
+            let sessionFetchWorker = BackgroundWorker[BackgroundWorker.SessionFetchApiWorker];
+            if(isValidHttpResponseFromSelectedWorker( sessionFetchWorker, event )){
+                removeAllStorageData();
+            }
+        break;
+
     }
-    removeAllStorageData();
+}
+
+function isValidHttpResponseFromSelectedWorker(selectedWorker, event){
+    if( inputCommonInspector.inputExist(event?.data?.name)  &&
+         event?.data?.name.includes( selectedWorker ) &&
+        event?.data?.status !== 0 && event?.data?.statusText !== '' ){
+            return true;
+    }
+    return false;
 }
 
 function removeAllStorageData() {

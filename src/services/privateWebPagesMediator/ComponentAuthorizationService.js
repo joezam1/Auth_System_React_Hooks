@@ -7,7 +7,7 @@ import InputCommonInspector from '../validators/InputCommonInspector.js';
 const ComponentAuthorizationService = (function(){
 
     let _userRolesArray = null;
-    //let _userRolesArray = [9,11];
+    let _userInfo = null;
 
     const roleIsAuthorized = function(componentName){
         console.log('roleIsAuthorized-componentName', componentName);
@@ -37,6 +37,9 @@ const ComponentAuthorizationService = (function(){
         let permissionsArray = findApprovedPermissions(allRolesFound);
         return permissionsArray;
     }
+    const getUserInfo = function(){
+        return _userInfo;
+    }
 
     //#REGION Private Functions
     function onInit(){
@@ -45,6 +48,7 @@ const ComponentAuthorizationService = (function(){
             let decryptedPayload = JwtTokenService.decryptEncryptedJwtPayload(jwtAccessToken);
             let allUserRoles = decryptedPayload.userInfo.roles;
             _userRolesArray = allUserRoles;
+            _userInfo = decryptedPayload.userInfo;
         }
     }
 
@@ -106,6 +110,7 @@ const ComponentAuthorizationService = (function(){
 
         onInit();
         return{
+            getUserInfo : getUserInfo,
             roleIsAuthorized : roleIsAuthorized,
             routeIsAuthorized : routeIsAuthorized,
             getAllApprovedPermissions : getAllApprovedPermissions

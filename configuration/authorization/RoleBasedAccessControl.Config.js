@@ -57,8 +57,34 @@ const RoleBasedAccessControlConfig = (function(){
                     approvedPermissions:[RolePermission.READ]
                 }
             ]
+        },
+        {
+            route:RouteConfig.privateCustomerGoldOffersPath,
+            roles:[
+                {
+                    name:UserRole.GoldCustomer,
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE]
+                }
+            ]
+        },
+        {
+            route:RouteConfig.privateCustomerPremiumOffersPath,
+            roles:[
+                {
+                    name:UserRole.PremiumCustomer,
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE]
+                }
+            ]
+        },
+        {
+            route:RouteConfig.privateCustomerPremiumClubMemberPath,
+            roles:[
+                {
+                    name:UserRole.PremiumCustomer,
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE]
+                }
+            ]
         }
-
     ]
 
     const privateComponents = [
@@ -105,10 +131,37 @@ const RoleBasedAccessControlConfig = (function(){
             ]
         },
         {
-            component:ComponentConfig._SilverOffers,
+            component:ComponentConfig._SilverOffers.type.name,
             roles:[
                 {
                     name:UserRole.SilverCustomer,
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE]
+                }
+            ]
+        },
+        {
+            component:ComponentConfig._GoldOffers.type.name,
+            roles:[
+                {
+                    name:UserRole.GoldCustomer,
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE]
+                }
+            ]
+        },
+        {
+            component:ComponentConfig._PremiumOffers.type.name,
+            roles:[
+                {
+                    name:UserRole.PremiumCustomer,
+                    approvedPermissions:[RolePermission.READ, RolePermission.WRITE]
+                }
+            ]
+        },
+        {
+            component:ComponentConfig._PremiumClubMember.type.name,
+            roles:[
+                {
+                    name:UserRole.PremiumCustomer,
                     approvedPermissions:[RolePermission.READ, RolePermission.WRITE]
                 }
             ]

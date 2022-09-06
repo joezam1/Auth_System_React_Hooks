@@ -1,19 +1,13 @@
-import React , {useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
-import RouteConfig from '../../../../configuration/routes/RouteConfig.js'
-import LinkButtonPrivateRedirect from '../../../components/LinkButtonPrivateRedirect.js'
+import React, {useEffect, useState} from "react";
+import LinkButtonPrivateRedirect from "../../../components/LinkButtonPrivateRedirect";
+import RouteConfig from '../../../../configuration/routes/RouteConfig.js';
 import ComponentAuthorizationService from "../../../services/privateWebPagesMediator/ComponentAuthorizationService";
 import UserRole from "../../../library/enumerations/UserRole";
 import RolePermission from "../../../library/stringLiterals/RolePermission";
 import Helpers from '../../../library/common/Helpers.js';
 
 
-
-
-
-//Test: DONE
-export default function CustomerDashboard(){
-
+export default function GoldOffers(){
     const [username, setUsername]= useState('');
     const [customerType, setCustomerType] = useState('');
     const [authorization, setAuthorization] = useState('hide');
@@ -25,18 +19,21 @@ export default function CustomerDashboard(){
     const [canReadWrite, setReadWrite]= useState('hide');
     const [canReadWriteCreate, setReadWriteCreate]= useState('hide');
 
+
     useEffect(()=>{
         let userInfo = ComponentAuthorizationService.getUserInfo();
         console.log('userInfo:', userInfo);
         setUsername(userInfo.username);
         setCustomerType( UserRole[userInfo.roles[0]] );
-        let roleIsAuthorized = ComponentAuthorizationService.roleIsAuthorized(CustomerDashboard.name);
+        let roleIsAuthorized = ComponentAuthorizationService.roleIsAuthorized(SilverOffers.name);
         console.log('LinkButtonPrivateRedirect-useEffect-roleIsAuthorized', roleIsAuthorized);
         if(roleIsAuthorized){ setAuthorization('block') ; }
-        let allPermissions = ComponentAuthorizationService.getAllApprovedPermissions(CustomerDashboard.name)
+        let allPermissions = ComponentAuthorizationService.getAllApprovedPermissions(SilverOffers.name)
         console.log('CustomerOrders-allPermissions', allPermissions);
         resolveApprovedPermissions(allPermissions);
+
     }, []);
+
 
 
     function resolveApprovedPermissions(permissionsArray){
@@ -59,37 +56,38 @@ export default function CustomerDashboard(){
         setReadWrite(readWriteLatest);
         setReadWriteCreate(readWriteCreateLatest);
     }
-    return(
-        <div className={"section-Customer-dashboard webpage "+ authorization}>
 
-            <div className='outerLayout'>
+    return(
+    <div className={ "customer-silver-offers-section webpage " + authorization}>
+         <div className='outerLayout'>
             <div className='header-container'>
                 <div className='header-title'>
                     <span>  Hi <strong> {username}</strong></span>
                 </div>
                 <div className='header-title'>
                     <span> Status: <strong> {Helpers.formatStringFirstLetterCapital(customerType) } </strong> </span>
-                    <span className='floatRight'>  <Link to={RouteConfig.authLogoutPath}>Logout</Link></span>
                 </div>
             </div>
 
-            <div className= {'container ' + canRead} >
-                <h2>Customer Dashboard</h2>
+            <div className='container'>
+                <h2>GOLD OFFERS Section.</h2>
                 <div className='top-navigation-bar'>
                     <h3>Go To</h3>
-                    <div className=''>
-                        <ul className=''>
-                            <li className='inlineBlock'>  <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerOrdersPath} buttonText=" Go to Orders " /></li>
-                            <li className='inlineBlock'>  <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerSilverOffersPath} buttonText=" Go to Silver  Offers " /></li>
-                            <li className='inlineBlock'>  <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerGoldOffersPath} buttonText=" Go to Gold  Offers " /></li>
-                            <li className='inlineBlock'>  <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerPremiumOffersPath} buttonText=" Go to Premium  Offers " /></li>
-                            <li className='inlineBlock'>  <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerPremiumClubMemberPath} buttonText=" Go to Premium Club Member " /></li>
-
-                        </ul>
-                    </div>
+                    <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboardPath} buttonText=" Customer Dashboard " />
                 </div>
             </div>
+
+            <div className="flex-container">
+                <div className="product">item1</div>
+                <div className="product">item2</div>
+                <div className="product">item3</div>
+                <div className="product">item4</div>
+                <div className="product">item5</div>
+                <div className="product">item6</div>
+            </div>
+            <div className= {'container ' + canRead}>
+                <span>Page 1 </span>
+            </div>
         </div>
-    </div>
-    )
+    </div>)
 }

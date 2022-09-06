@@ -27,6 +27,6 @@ export default function LinkButtonPrivateRedirect(props){
     }
 
     return(<div className={"button-private-redirect-section " + authorization}>
-        <button type="button" onClick={()=>{ executePrivateRedirect();  }} data-testid="button-private-redirect-id"> {props.buttonText} </button>
+        <button type="button" className="btnRedirect" onClick={()=>{ executePrivateRedirect();  }} data-testid="button-private-redirect-id"> {props.buttonText} </button>
     </div>)
 }

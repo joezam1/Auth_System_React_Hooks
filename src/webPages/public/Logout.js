@@ -60,6 +60,11 @@ export default function Logout(){
                 delayRedirect();
             break;
 
+            case HttpResponseStatus._403forbidden:
+                setNotification(NotificationService.logoutForbidden);
+                delayRedirect();
+            break;
+
             case HttpResponseStatus._400badRequest:
                 setNotification( NotificationService.logoutFailed );
             break;

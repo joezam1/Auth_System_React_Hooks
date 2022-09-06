@@ -3,23 +3,28 @@ import RouteConfig from '../../../../configuration/routes/RouteConfig.js';
 import LinkButtonPrivateRedirect from '../../../components/LinkButtonPrivateRedirect.js';
 import ComponentAuthorizationService from '../../../services/privateWebPagesMediator/ComponentAuthorizationService.js';
 import RolePermission from '../../../library/stringLiterals/RolePermission.js';
-
-
+import UserRole from '../../../library/enumerations/UserRole.js';
+import Helpers from '../../../library/common/Helpers.js';
 
 //Test: DONE
 export default function CustomerOrders() {
+    const [username, setUsername]= useState('');
+    const [customerType, setCustomerType] = useState('');
     const [authorization, setAuthorization] = useState('hide');
     const [canRead, setStateRead] = useState('hide');
     const [canWrite, setStateWrite]= useState('hide');
     const [canCreate, setStateCreate] = useState('hide');
     const [canEdit, setStateEdit] = useState('hide')
     const [canDelete, setStateDelete] = useState('hide');
-    //const [canEditDelete, setStateEditDelete] = useState('hide');
     const [canReadWrite, setReadWrite]= useState('hide');
+    const [canWriteCreate, setWriteCreate]= useState('hide');
     const [canReadWriteCreate, setReadWriteCreate]= useState('hide');
 
     useEffect(()=>{
-
+        let userInfo = ComponentAuthorizationService.getUserInfo();
+        console.log('userInfo:', userInfo);
+        setUsername(userInfo.username);
+        setCustomerType( UserRole[userInfo.roles[0]] );
         let roleIsAuthorized = ComponentAuthorizationService.roleIsAuthorized(CustomerOrders.name);
         console.log('LinkButtonPrivateRedirect-useEffect-roleIsAuthorized', roleIsAuthorized);
         if(roleIsAuthorized){ setAuthorization('block') ; }
@@ -30,8 +35,9 @@ export default function CustomerOrders() {
     }, []);
 
     function resolveApprovedPermissions(permissionsArray){
-        let readWriteLatest = '';
-        let readWriteCreateLatest = '';
+        let readWriteLatest = 'hide';
+        let readWriteCreateLatest = 'hide';
+        let writeCreateLatest = 'hide';
         for( let a = 0; a < permissionsArray.length; a++ ){
             if(permissionsArray[a] === RolePermission.READ){ setStateRead(permissionsArray[a]); }
             if(permissionsArray[a] === RolePermission.WRITE){ setStateWrite(permissionsArray[a]); }
@@ -45,53 +51,39 @@ export default function CustomerOrders() {
             if(permissionsArray[a] === RolePermission.READ || permissionsArray[a] === RolePermission.WRITE || permissionsArray[a] === RolePermission.CREATE){
                 readWriteCreateLatest = permissionsArray[a];
             }
+            if( permissionsArray[a] === RolePermission.WRITE || permissionsArray[a] === RolePermission.CREATE){
+                writeCreateLatest = permissionsArray[a];
+            }
         }
         setReadWrite(readWriteLatest);
         setReadWriteCreate(readWriteCreateLatest);
+        setWriteCreate(writeCreateLatest);
     }
 
-    return (<div className={'customer-orders-section ' + authorization}>
 
-        <span>This is the customer Orders Section.</span>
-        <br />
-        <h3>Go To</h3>
-
-        <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboardPath} buttonText=" Customer Dashboard " />
-        <br />
-        <br />
-
-        <div className={ canRead} >
-            Can READ
+    return (<div className={'customer-orders-section webpage ' + authorization}>
+    <div className='outerLayout'>
+        <div className='header-container'>
+            <div className='header-title'>
+                <span>  Hi <strong> {username}</strong></span>
+            </div>
+            <div className='header-title'>
+                <span> Status: <strong> {Helpers.formatStringFirstLetterCapital(customerType) } </strong> </span>
+            </div>
         </div>
-        <div className={ canReadWrite} >
-            Can READ/WRITE
-        </div>
-
-        <div className={ canReadWriteCreate} >
-            Can READ/WRITE/CREATE
-        </div>
-
-        <div className={ canWrite} >
-            Can WRITE
+        <div className={'container ' + canRead}>
+            <h2>Customer Orders Section.</h2>
+            <div className='top-navigation-bar'>
+                <h3>Go To</h3>
+                <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboardPath} buttonText=" Customer Dashboard " />
+            </div>
         </div>
 
 
-        <div className={ canCreate} >
-            Can CREATE
-        </div>
-
-        <div className={ canEdit} >
-            Can EDIT
-        </div>
-
-        <div className={ canDelete} >
-            Can DELETE
-        </div>
-
-        <div className='container'>
+        <div className={'container ' + canWriteCreate }>
             <button type="button" id="button3" name="add" className= { "btnCreate "+ canCreate}> Add New Order </button>
 
-            <button type="button" id="button5" name="edit" className={ "btnWrite " + canWrite}> Write Notes</button>
+            <button type="button" id="button5" name="edit" className={ "btnWrite " + canWrite}> Write in Calendar</button>
         </div>
 
         <div className="table-container">
@@ -118,27 +110,54 @@ export default function CustomerOrders() {
                         </div>
                     </div>
                 </div>
+
                 <div className='tableBody'>
                     <div className='row'>
                         <div className='tableData'>
                         <input type="checkbox" id="check" name="selector" value=""/>
                         </div>
                         <div className='tableData'>
-                           <span>2022-04-03 08:23:45</span>
+                           <span>2022-06-03 08:14:35</span>
                         </div>
                         <div className='tableData'>
-                            <span>#695-632547-052</span>
+                            <span>#885-638147-111</span>
                         </div>
                         <div className='tableData'>
-                            <span> US$ 45,635.80</span>
+                            <span> US$ 88,345.80</span>
                         </div>
                         <div className='tableData'>
                             <span>Unprocessed</span>
                         </div>
                         <div className='tableData'>
-                            <button type="button" id="button1" name="edit" className={ canEdit} >EDIT</button>
-                            <span className={ canEdit}> | </span>
-                            <button type="button" id="button2" name="delete" className={canDelete} >DELETE</button>
+                            <button type="button" id="button5" name="edit" className={ "btnWrite " + canWrite}> NOTES</button>
+
+                            <button type="button" id="button1" name="edit" className={ "btonEdit "+ canEdit} >EDIT</button>
+
+                            <button type="button" id="button2" name="delete" className={"btnDelete " + canDelete}>DELETE</button>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='tableData'>
+                        <input type="checkbox" id="check" name="selector" value=""/>
+                        </div>
+                        <div className='tableData'>
+                           <span>2022-05-23 04:13:33</span>
+                        </div>
+                        <div className='tableData'>
+                            <span>#771-683447-997</span>
+                        </div>
+                        <div className='tableData'>
+                            <span> US$ 23,341.22</span>
+                        </div>
+                        <div className='tableData'>
+                            <span>Unprocessed</span>
+                        </div>
+                        <div className='tableData'>
+                            <button type="button" id="button5" name="edit" className={ "btnWrite " + canWrite}> NOTES</button>
+
+                            <button type="button" id="button1" name="edit" className={ "btonEdit "+ canEdit} >EDIT</button>
+
+                            <button type="button" id="button2" name="delete" className={"btnDelete " + canDelete}>DELETE</button>
                         </div>
                     </div>
                     <div className='row'>
@@ -149,18 +168,16 @@ export default function CustomerOrders() {
                            <span>2022-04-03 08:23:45</span>
                         </div>
                         <div className='tableData'>
-                            <span>#695-632547-052</span>
+                            <span>#890-632547-052</span>
                         </div>
                         <div className='tableData'>
                             <span> US$ 45,635.80</span>
                         </div>
                         <div className='tableData'>
-                            <span>Unprocessed</span>
+                            <span>In Transit</span>
                         </div>
                         <div className='tableData'>
-                            <button type="button" id="button1" name="edit" className={ canEdit}>EDIT</button>
-                            <span className={ canEdit}> | </span>
-                            <button type="button" id="button2" name="delete" className={canDelete} >DELETE</button>
+                            <button type="button" id="button5" name="edit" className={ "btnWrite " + canWrite}> NOTES</button>
                         </div>
                     </div>
                     <div className='row'>
@@ -171,40 +188,16 @@ export default function CustomerOrders() {
                            <span>2022-04-03 08:23:45</span>
                         </div>
                         <div className='tableData'>
-                            <span>#695-632547-052</span>
-                        </div>
-                        <div className='tableData'>
-                            <span> US$ 45,635.80</span>
-                        </div>
-                        <div className='tableData'>
-                            <span>Unprocessed</span>
-                        </div>
-                        <div className='tableData'>
-                            <button type="button" id="button1" name="edit" className={ canEdit} >EDIT</button>
-                            <span className={ canEdit}> | </span>
-                            <button type="button" id="button2" name="delete" className={canDelete}>DELETE</button>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='tableData'>
-                        <input type="checkbox" id="check" name="selector" value=""/>
-                        </div>
-                        <div className='tableData'>
-                           <span>2022-04-03 08:23:45</span>
-                        </div>
-                        <div className='tableData'>
-                            <span>#695-333547-052</span>
+                            <span>#844-350014-244</span>
                         </div>
                         <div className='tableData'>
                             <span> US$ 121,655.80</span>
                         </div>
                         <div className='tableData'>
-                            <span>Unprocessed</span>
+                            <span>In Transit</span>
                         </div>
                         <div className='tableData'>
-                            <button type="button" id="button1" name="edit" className={ canEdit}>EDIT</button>
-                            <span className={ canEdit}> | </span>
-                            <button type="button" id="button2" name="delete" className={canDelete}>DELETE</button>
+                            <button type="button" id="button5" name="edit" className={ "btnWrite " + canWrite}> NOTES</button>
                         </div>
                     </div>
 
@@ -217,7 +210,7 @@ export default function CustomerOrders() {
                            <span>2022-04-03 08:23:45</span>
                         </div>
                         <div className='tableData'>
-                            <span>#695-535497-992</span>
+                            <span>#222-878497-992</span>
                         </div>
                         <div className='tableData'>
                             <span> US$ 32,687.80</span>
@@ -226,13 +219,16 @@ export default function CustomerOrders() {
                             <span>Completed</span>
                         </div>
                         <div className='tableData'>
-                            <button type="button" id="button1" name="edit" className={ canEdit}>EDIT</button>
-                            <span className={ canEdit}> | </span>
-                            <button type="button" id="button2" name="delete" className={canDelete} >DELETE</button>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>)
+
+        <div className= {'container ' + canRead}>
+             <span>Page 1 </span>
+        </div>
+    </div>
+</div>)
 }

@@ -9,7 +9,8 @@ const notificationService = Object.freeze({
 
     logoutSuccess : 'Logout Successfull. You will be Redirected to Home',
     logoutFailed : 'Error: Logout Failed ',
-    logoutUnauthorized : 'You are now Logged Out.You will be Redirected to Home in 5 Seconds.',
+    logoutUnauthorized : 'You are now Logged Out. No Valid Authentication. You will be Redirected to Home in 5 Seconds.',
+    logoutForbidden : 'You are now Logged Out.No Sufficient Authorization. You will be Redirected to Home in 5 Seconds.',
     logoutNonProcessable : 'Registration non-processable: '
 });
 

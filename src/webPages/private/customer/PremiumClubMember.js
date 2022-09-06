@@ -12,7 +12,7 @@ import Helpers from '../../../library/common/Helpers.js';
 
 
 //Test: DONE
-export default function CustomerDashboard(){
+export default function PremiumClubMember(){
 
     const [username, setUsername]= useState('');
     const [customerType, setCustomerType] = useState('');
@@ -30,10 +30,10 @@ export default function CustomerDashboard(){
         console.log('userInfo:', userInfo);
         setUsername(userInfo.username);
         setCustomerType( UserRole[userInfo.roles[0]] );
-        let roleIsAuthorized = ComponentAuthorizationService.roleIsAuthorized(CustomerDashboard.name);
+        let roleIsAuthorized = ComponentAuthorizationService.roleIsAuthorized(PremiumClubMember.name);
         console.log('LinkButtonPrivateRedirect-useEffect-roleIsAuthorized', roleIsAuthorized);
         if(roleIsAuthorized){ setAuthorization('block') ; }
-        let allPermissions = ComponentAuthorizationService.getAllApprovedPermissions(CustomerDashboard.name)
+        let allPermissions = ComponentAuthorizationService.getAllApprovedPermissions(PremiumClubMember.name)
         console.log('CustomerOrders-allPermissions', allPermissions);
         resolveApprovedPermissions(allPermissions);
     }, []);
@@ -74,19 +74,10 @@ export default function CustomerDashboard(){
             </div>
 
             <div className= {'container ' + canRead} >
-                <h2>Customer Dashboard</h2>
+                <h2>PREMIUM Club Member</h2>
                 <div className='top-navigation-bar'>
                     <h3>Go To</h3>
-                    <div className=''>
-                        <ul className=''>
-                            <li className='inlineBlock'>  <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerOrdersPath} buttonText=" Go to Orders " /></li>
-                            <li className='inlineBlock'>  <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerSilverOffersPath} buttonText=" Go to Silver  Offers " /></li>
-                            <li className='inlineBlock'>  <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerGoldOffersPath} buttonText=" Go to Gold  Offers " /></li>
-                            <li className='inlineBlock'>  <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerPremiumOffersPath} buttonText=" Go to Premium  Offers " /></li>
-                            <li className='inlineBlock'>  <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerPremiumClubMemberPath} buttonText=" Go to Premium Club Member " /></li>
-
-                        </ul>
-                    </div>
+                    <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboardPath} buttonText=" Customer Dashboard " />
                 </div>
             </div>
         </div>

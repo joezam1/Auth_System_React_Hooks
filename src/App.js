@@ -18,8 +18,9 @@ import Logout from './webPages/public/Logout.js';
 import CustomerDashboard from '../src/webPages/private/customer/CustomerDashboard.js';
 import CustomerOrders from '../src/webPages/private/customer/CustomerOrders.js';
 import SilverOffers from '../src/webPages/private/customer/SilverOffers.js';
-
-
+import GoldOffers from './webPages/private/customer/GoldOffers';
+import PremiumOffers from './webPages/private/customer/PremiumOffers';
+import PremiumClubMember from './webPages/private/customer/PremiumClubMember';
 //Test:DONE
 export default function App() {
 
@@ -35,7 +36,11 @@ export default function App() {
 
                 <Route exact path={RouteConfig.privateCustomerDashboardPath} element={<CustomerDashboard/>} />
                 <Route exact path={RouteConfig.privateCustomerOrdersPath} element={<CustomerOrders/>} />
-                <Route exact path = {RouteConfig.privateCustomerSilverOffersPath} element={<SilverOffers/>} />
+                <Route exact path={RouteConfig.privateCustomerSilverOffersPath} element={<SilverOffers/>} />
+                <Route exact path={RouteConfig.privateCustomerGoldOffersPath} element={<GoldOffers/>}/>
+                <Route exact path={RouteConfig.privateCustomerPremiumOffersPath} element={<PremiumOffers/>} />
+                <Route exact path={RouteConfig.privateCustomerPremiumClubMemberPath} element={<PremiumClubMember/>} />
+
             </Routes>
         </BrowserRouter>
 
