@@ -1,7 +1,7 @@
 const path = require('path');
-//const Envconfig = require('./configuration/environment/EnvConfig.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 
 var jsEntryPath = path.join(__dirname, './index.js');
 var htmlEntryPath = path.resolve(__dirname, './index.html');
@@ -11,6 +11,7 @@ var htmlTemplate = { template: htmlEntryPath }
 const htmlPlugin = new HtmlWebpackPlugin(htmlTemplate);
 
 const cleanWebpackPlugin = new CleanWebpackPlugin();
+const nodePolyfillPlugin = new NodePolyfillPlugin();
 
 
 module.exports = {
@@ -23,8 +24,18 @@ module.exports = {
         publicPath: "/",
     },
     resolve:{
+
         fallback:{
-            "path": require.resolve("path-browserify")
+            "path": require.resolve("path-browserify"),
+            "http": false,
+            "browser": false,
+             "https": false,
+            "stream": false,
+             "url": false,
+            "buffer": false,
+            "timers": false,
+            "crypto": false,
+            "crypto-browserify": require.resolve('crypto-browserify')
         }
     },
     module: {
@@ -47,7 +58,7 @@ module.exports = {
         historyApiFallback: true,
         port: 8080
     },
-    plugins: [htmlPlugin, cleanWebpackPlugin],
+    plugins: [htmlPlugin, cleanWebpackPlugin, nodePolyfillPlugin ],
     resolve: {
         extensions: ['.css', '.scss', '.js', '.jsx']
     }

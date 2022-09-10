@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File: PremiumClubMember.js Component PremiumClubMember It should take a snapshot 1`] = `
+<DocumentFragment>
+   
+  <div
+    class="section-Customer-dashboard webpage hide"
+  >
+    <div
+      class="outerLayout"
+    >
+      <div
+        class="header-container"
+      >
+        <div
+          class="header-title"
+        >
+          <span>
+              Hi 
+            <strong>
+               
+            </strong>
+          </span>
+        </div>
+        <div
+          class="header-title"
+        >
+          <span>
+             Status: 
+            <strong>
+                
+            </strong>
+             
+          </span>
+          <span
+            class="floatRight"
+          >
+              
+            <a
+              href="/auth/logout"
+            >
+              Logout
+            </a>
+          </span>
+        </div>
+      </div>
+      <div
+        class="container hide"
+      >
+        <h2>
+          PREMIUM Club Member
+        </h2>
+        <div
+          class="top-navigation-bar"
+        >
+          <h3>
+            Go To
+          </h3>
+          <div
+            class="button-private-redirect-section hide"
+          >
+            <button
+              class="btnRedirect"
+              data-testid="button-private-redirect-id"
+              type="button"
+            >
+                Customer Dashboard  
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+</DocumentFragment>
+`;

@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`File: PremiumOffers.js Component PremiumOffers It should take a snapshot 1`] = `
+<DocumentFragment>
+   
+  <div
+    class="customer-silver-offers-section webpage hide"
+  >
+    <div
+      class="outerLayout"
+    >
+      <div
+        class="header-container"
+      >
+        <div
+          class="header-title"
+        >
+          <span>
+              Hi 
+            <strong>
+               
+            </strong>
+          </span>
+        </div>
+        <div
+          class="header-title"
+        >
+          <span>
+             Status: 
+            <strong>
+                
+            </strong>
+             
+          </span>
+        </div>
+      </div>
+      <div
+        class="container"
+      >
+        <h2>
+          PREMIUM OFFERS Section.
+        </h2>
+        <div
+          class="top-navigation-bar"
+        >
+          <h3>
+            Go To
+          </h3>
+          <div
+            class="button-private-redirect-section hide"
+          >
+            <button
+              class="btnRedirect"
+              data-testid="button-private-redirect-id"
+              type="button"
+            >
+                Customer Dashboard  
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex-container"
+      >
+        <div
+          class="product"
+        >
+          item1
+        </div>
+        <div
+          class="product"
+        >
+          item2
+        </div>
+        <div
+          class="product"
+        >
+          item3
+        </div>
+        <div
+          class="product"
+        >
+          item4
+        </div>
+        <div
+          class="product"
+        >
+          item5
+        </div>
+        <div
+          class="product"
+        >
+          item6
+        </div>
+      </div>
+      <div
+        class="container hide"
+      >
+        <span>
+          Page 1 
+        </span>
+      </div>
+    </div>
+  </div>
+    
+</DocumentFragment>
+`;

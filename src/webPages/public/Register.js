@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link , Navigate } from 'react-router-dom';
 import UserRegister from '../../viewModels/UserRegister.js';
 import UserRole from '../../library/enumerations/UserRole.js';
@@ -10,6 +10,9 @@ import httpResponseStatus from '../../library/enumerations/HttpResponseStatus.js
 import InputCommonInspector from '../../services/validators/InputCommonInspector.js';
 import ValidationManager from '../../services/validators/ValidationService.js';
 import NotificationService from '../../services/notifications/NotificationService.js';
+import TokenType from '../../library/enumerations/TokenType.js';
+import LocalStorageService from '../../services/localStorage/LocalStorageService.js';
+import AntiforgeryTokenService from '../../services/csrfProtection/AntiForgeryTokenService.js';
 
 //Test:DONE
 export default function Register(){
@@ -22,12 +25,39 @@ export default function Register(){
     const [ emailErrors, setEmailErrors ] = useState('');
     const [ passwordErrors, setPasswordErrors ] = useState('');
     const [ confirmPasswordErrors, setConfirmPasswordErrors ] = useState('');
+    const [ antiforgeryToken, setAntiforgeryToken ] = useState('');
+    const [ antiforgeryTokenClient, setAntiforgeryTokenClient ] = useState('');
+
+
     let userInfo = null;
+
+
+    useEffect(()=>{
+
+        console.log('Register-componentName', Register.name);
+        let tokenTypeName = TokenType[TokenType.antiforgeryToken];
+        let csrfToken = LocalStorageService.getItemFromLocalStorage(tokenTypeName);
+        setAntiforgeryToken(csrfToken);
+
+        async function createCsrfToken(){
+            let csrfToken = await AntiforgeryTokenService.createAntiForgeryTokenAsync();
+            setAntiforgeryTokenClient(csrfToken);
+        }
+
+        createCsrfToken();
+    },[]);
+
+
+
 
     let registerUserCallback = (response) =>{
         console.log('RegisterUserCallback-response', response);
         switch(response.status){
             case httpResponseStatus._201created:
+                let csrfToken = response.csrfToken;
+                let csrfTokenName = TokenType[TokenType.antiforgeryToken];
+                LocalStorageService.removeItemFromLocalStorage(csrfTokenName);
+                LocalStorageService.setItemInLocalStorage(csrfTokenName, csrfToken);
                 setNotificationPromise(NotificationService.registrationSuccess)
                 .then(setRegisterStatusPromise(true));
             break;
@@ -90,7 +120,12 @@ export default function Register(){
             userInfo = user;
             if( !inputsAreValid(user) ){ return; }
             var registerUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiUsersRegisterPathPost;
-            RequestMethodsService.postMethod(registerUrl, dataModel, registerUserCallback);
+
+            let _headers = {
+                x_csrf_token: antiforgeryToken,
+                x_csrf_token_client : antiforgeryTokenClient
+            }
+            RequestMethodsService.postMethod(registerUrl, dataModel, registerUserCallback , _headers);
         }
     }
 

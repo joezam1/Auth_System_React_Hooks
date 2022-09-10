@@ -14,7 +14,6 @@ import CookieService from '../../services/cookieStorage/CookieService.js';
 import LocalStorageService from '../../services/localStorage/LocalStorageService.js';
 import CookieProperty from '../../library/stringLiterals/CookieProperty.js';
 import SessionAuthenticationService from '../../services/privateWebPagesMediator/SessionAuthenticationService.js';
-import SessionFetchApiWorker from '../../backgroundWorkers/SessionFetchApiWorker.js';
 import SessionUpdateInspector from '../../middleware/SessionUpdateInspector.js';
 import IdleSessionInspector from '../../middleware/IdleSessionInspector.js';
 import NotificationService from '../../services/notifications/NotificationService.js';
@@ -22,27 +21,38 @@ import GeolocationServices from '../../services/geoLocation/geoLocationService.j
 import DeviceDetectorService from '../../services/deviceDetection/DeviceDetectorService.js';
 import TokenType from '../../library/enumerations/TokenType.js';
 import JwtTokenService from '../../services/authorization/JwtTokenService.js';
+import AntiforgeryTokenService from '../../services/csrfProtection/AntiForgeryTokenService.js';
 
 //Test: DONE
 export default function Login(){
-    const [geoLocationInfo, setGeolocation] = useState();
+    const [ geoLocationInfo, setGeolocation] = useState();
     const [ notificationInfo, setNotification ] = useState('');
-    const [isLoggedIn, setUserLogin] = useState(false);
+    const [ isLoggedIn, setUserLogin] = useState(false);
     const [ usernameErrors, setUsernameErrors ] = useState('');
     const [ passwordErrors, setPasswordErrors ] = useState('');
+    const [ antiforgeryToken, setAntiforgeryToken ] = useState('');
+    const [ antiforgeryTokenClient, setAntiforgeryTokenClient ] = useState('');
 
 
     let userInfo = null;
 
     useEffect(()=>{
-        let componentName = Login.name;
-        console.log('login-componentName', componentName);
+
+        console.log('login-componentName', Login.name);
+        let tokenTypeName = TokenType[TokenType.antiforgeryToken];
+        let csrfToken = LocalStorageService.getItemFromLocalStorage(tokenTypeName);
+        setAntiforgeryToken(csrfToken);
+
         async function getGeolocation(){
             let result = await GeolocationServices.getGeoLocationAsync();
             setGeolocation(result);
         }
+        async function createCsrfToken(){
+            let csrfToken = await AntiforgeryTokenService.createAntiForgeryTokenAsync();
+            setAntiforgeryTokenClient(csrfToken);
+        }
         getGeolocation();
-
+        createCsrfToken();
     },[]);
 
 
@@ -62,10 +72,11 @@ export default function Login(){
                 console.log('resultCookieStorage', resultCookieStorage)
                 JwtTokenService.saveTokenToLocalStorage(TokenType.jwtAccessToken, data.jwtAccessToken.fieldValue);
                 JwtTokenService.saveTokenToLocalStorage(TokenType.jwtRefreshToken, data.jwtRefreshToken.fieldValue);
-
+                let csrfTokenName = TokenType[TokenType.antiforgeryToken];
+                LocalStorageService.removeItemFromLocalStorage(csrfTokenName);
+                LocalStorageService.setItemInLocalStorage(csrfTokenName, data.csrfToken.fieldValue);
                 //IdleSessionInspector.scanIdleBrowserTime();
-                console.log('SessionFetchApiWorker', SessionFetchApiWorker);
-                SessionUpdateInspector.resolveUpdateExpiringSession(SessionFetchApiWorker);
+                SessionUpdateInspector.resolveUpdateExpiringSession();
                 setUserLogin(true);
 
             break;
@@ -74,7 +85,7 @@ export default function Login(){
                 let responseObj = (typeof response.result === 'object')
                 if(responseObj){
                     setNotification( NotificationService.errorsInForm );
-                    console.log('userInfo', userInfo);
+                    console.log('userInfo: ', userInfo);
                     let errorMessagesReport = ValidationManager.buildErrorMessagesReport(response.result, userInfo);
                     setAllErrorMessages(errorMessagesReport);
                     break;
@@ -83,6 +94,7 @@ export default function Login(){
             break;
 
             case httpResponseStatus._400badRequest:
+                console.log('LOGIN: Failure Error: ', response);
                 setNotification( NotificationService.loginFailed );
             break;
 
@@ -111,7 +123,11 @@ export default function Login(){
 
             console.log('UserLoginDataModel:', UserLoginDataModel);
             var loginUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiUsersLoginPathPost;
-            RequestMethodsService.postMethod(loginUrl, UserLoginDataModel, loginUserCallback);
+            let headers = {
+                x_csrf_token: antiforgeryToken,
+                x_csrf_token_client : antiforgeryTokenClient
+            }
+            RequestMethodsService.postMethod(loginUrl, UserLoginDataModel, loginUserCallback , headers );
         }
     }
 

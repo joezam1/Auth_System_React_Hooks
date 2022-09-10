@@ -32,7 +32,6 @@ describe('File DeviceDetectorService.js', function(){
         });
     });
 
-
     describe('Function: getUserAgent',function(){
         test('When the function is called User Agent Data is provided: ', function(){
             //Arrange

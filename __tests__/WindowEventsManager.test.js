@@ -36,7 +36,7 @@ describe('File: WindowEventsManager.js', function(){
             //Act
             WindowEventManager.resolveWindowNavigationEvent();
             //Assert
-            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(3);
+            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(1);
             expect( LocalStorageService.removeItemFromLocalStorage ).toHaveBeenCalledTimes(1);
             expect( SessionUpdateInspector.resolveUpdateExpiringSession ).toHaveBeenCalledTimes(1);
 
@@ -62,7 +62,7 @@ describe('File: WindowEventsManager.js', function(){
             //Act
             WindowEventManager.resolveWindowNavigationEvent();
             //Assert
-            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(3);
+            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(1);
             expect( LocalStorageService.removeItemFromLocalStorage ).toHaveBeenCalledTimes(1);
             expect( SessionUpdateInspector.resolveUpdateExpiringSession ).toHaveBeenCalledTimes(1);
 
@@ -89,7 +89,7 @@ describe('File: WindowEventsManager.js', function(){
             //Act
             WindowEventManager.resolveWindowNavigationEvent();
             //Assert
-            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(3);
+            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(1);
             expect( LocalStorageService.removeItemFromLocalStorage ).toHaveBeenCalledTimes(0);
             expect( SessionUpdateInspector.resolveUpdateExpiringSession ).toHaveBeenCalledTimes(0);
 
@@ -117,7 +117,7 @@ describe('File: WindowEventsManager.js', function(){
             //Act
             WindowEventManager.resolveWindowNavigationEvent();
             //Assert
-            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(3);
+            expect( LocalStorageService.getItemFromLocalStorage ).toHaveBeenCalledTimes(1);
             expect( LocalStorageService.removeItemFromLocalStorage ).toHaveBeenCalledTimes(1);
             expect( SessionUpdateInspector.resolveUpdateExpiringSession ).toHaveBeenCalledTimes(1);
 

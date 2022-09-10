@@ -7,7 +7,7 @@ import InputTypeInspector from'../validators/InputTypeInspector.js';
 const EncryptDecryptService = (function () {
 
 
-
+    //Test: DONE
     const encryptWithAES = function (plainText) {
         if (!InputTypeInspector.isTypeString(plainText)) {
             return plainText;
@@ -17,7 +17,7 @@ const EncryptDecryptService = (function () {
         return encrypted;
     };
 
-
+    //Test: DONE
     const decryptWithAES = (cipherText) => {
         if (!InputTypeInspector.isTypeString(cipherText)) {
             return cipherText;

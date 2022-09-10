@@ -1,7 +1,6 @@
 import IntervalIdName from '../library/enumerations/IntervalIdName.js';
 import LocalStorageService from '../services/localStorage/LocalStorageService.js';
 import InputCommonInspector from '../services/validators/InputCommonInspector.js';
-import SessionFetchApiWorker from '../backgroundWorkers/SessionFetchApiWorker.js';
 import SessionUpdateInspector from './SessionUpdateInspector.js';
 import IdleSessionInspector from './IdleSessionInspector.js';
 
@@ -50,7 +49,7 @@ function resolveUpdateExpiringSessionInterval(){
 
         clearInterval(updateIntervalId);
         LocalStorageService.removeItemFromLocalStorage(intervalIdName);
-        SessionUpdateInspector.resolveUpdateExpiringSession(SessionFetchApiWorker);
+        SessionUpdateInspector.resolveUpdateExpiringSession();
     }
     console.log('resolveUpdateExpiringSessionInterval-END');
 }

@@ -34,12 +34,16 @@ export default function Logout(){
         let cookieValue = CookieService.getCookieFromDataStoreByName(cookieName , cookiePath);
         let _accessTokenName = TokenType[TokenType.jwtAccessToken];
         let _refreshTokenName = TokenType[TokenType.jwtRefreshToken];
-        let _accessToken = LocalStorageService.getItemFromLocalStorage ( _accessTokenName);
-        let _refreshToken =  LocalStorageService.getItemFromLocalStorage( _refreshTokenName);
+        let _csrfTokenName = TokenType[TokenType.antiforgeryToken];
+        let _accessToken = LocalStorageService.getItemFromLocalStorage ( _accessTokenName );
+        let _refreshToken =  LocalStorageService.getItemFromLocalStorage( _refreshTokenName );
+        let _antiForgeryToken = LocalStorageService.getItemFromLocalStorage( _csrfTokenName );
         if( InputCommonInspector.stringIsValid( cookieValue) ){
             removeAllSessionInformation(cookieName, cookiePath)
             removeAllJwtTokensInformation( _accessTokenName, _refreshTokenName );
-            processUserLogoutSession(cookieValue , _accessToken , _refreshToken );
+            removeAllAntiForgeryTokensInformation( _csrfTokenName );
+
+            processUserLogoutSession(cookieValue , _accessToken , _refreshToken, _antiForgeryToken );
         }
     },[]);
 
@@ -120,7 +124,11 @@ export default function Logout(){
          clearInterval(jwtUpdateIntervalId);
          LocalStorageService.removeItemFromLocalStorage(jwtIntervalIdName);
     }
-    function processUserLogoutSession( sessionCookieValue , jwtAccessToken , jwtRefreshToken ){
+
+    function removeAllAntiForgeryTokensInformation(antiforgeryTokenName){
+        LocalStorageService.removeItemFromLocalStorage( antiforgeryTokenName);
+    }
+    function processUserLogoutSession( sessionCookieValue , jwtAccessToken , jwtRefreshToken , antiforgeryToken){
 
         let logoutUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiUserslogoutPathPost;
         let dataModel = {
@@ -130,7 +138,8 @@ export default function Logout(){
         let selectedHeaders = {
             x_session_id : sessionCookieValue,
             Authorization : 'Bearer '+ jwtAccessToken,
-            Refresh_token : jwtRefreshToken
+            Refresh_token : jwtRefreshToken,
+            x_csrf_token: antiforgeryToken,
         }
 
 

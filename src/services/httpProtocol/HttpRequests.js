@@ -1,5 +1,4 @@
 import CommonValidators from '../validators/CommonValidators.js';
-import InputCommonInspector from '../validators/InputCommonInspector.js';
 
 
 //Test: DONE
@@ -13,14 +12,6 @@ function fetchMethod(url, options, responseCallback) {
             console.log('result:', result);
             var responseObj = CommonValidators.safeJsonParse(result);
             console.log('responseObj:', responseObj);
-            if (InputCommonInspector.objectIsValid(responseObj) && InputCommonInspector.stringIsValid(responseObj.replacementToken)) {
-                //TODO: setAccessTokenReplacement(responseOjb.replacementToken);
-            }
-
-            /*if (InputCommonInspector.objectIsValid(responseObj) && InputCommonInspector.stringIsValid(responseObj.redirectTo)) {
-                window.location.href = Helpers.getUrlRedirectto(responseObj.redirectTo);
-                return;
-            }*/
 
             responseCallback(responseObj);
 

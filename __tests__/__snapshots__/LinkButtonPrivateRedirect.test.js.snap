@@ -4,9 +4,10 @@ exports[`File: LinkButtonPrivateRedirect.js Component LinkButtonPrivateRedirect 
 <DocumentFragment>
    
   <div
-    class="button-private-redirect-section"
+    class="button-private-redirect-section hide"
   >
     <button
+      class="btnRedirect"
       data-testid="button-private-redirect-id"
       type="button"
     >
@@ -21,9 +22,10 @@ exports[`File: LinkButtonPrivateRedirect.js Component: LinkButtonPrivateRedirect
 <DocumentFragment>
    
   <div
-    class="button-private-redirect-section"
+    class="button-private-redirect-section hide"
   >
     <button
+      class="btnRedirect"
       data-testid="button-private-redirect-id"
       type="button"
     >
@@ -38,9 +40,10 @@ exports[`File: LinkButtonPrivateRedirect.js Component: LinkButtonPrivateRedirect
 <DocumentFragment>
    
   <div
-    class="button-private-redirect-section"
+    class="button-private-redirect-section hide"
   >
     <button
+      class="btnRedirect"
       data-testid="button-private-redirect-id"
       type="button"
     >

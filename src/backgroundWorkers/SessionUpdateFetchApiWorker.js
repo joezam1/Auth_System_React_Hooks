@@ -1,7 +1,7 @@
-const SessionFetchApiWorker = function () {
+const SessionUpdateFetchApiWorker = function () {
     self.onmessage = function (event) {
 
-        console.log('SessionFetchApiWorker-self.onmessage-event', event);
+        console.log('SessionUpdateFetchApiWorker-self.onmessage-event', event);
         if (event && event.data) {
             let message = event.data;
             let switchMessage = message.switchMessage;
@@ -33,7 +33,7 @@ const SessionFetchApiWorker = function () {
                 if (httpRequest.readyState === 4) {
                     let responseResult = safeJsonParse(httpRequest.responseText);
                     let responseObj = {
-                        name: `${requestVerb}_SessionFetchApiWorker_HTTP_Response`,
+                        name: `${requestVerb}_SessionUpdateFetchApiWorker_HTTP_Response`,
                         status: httpRequest.status,
                         statusText: httpRequest.statusText,
                         data: responseResult
@@ -44,6 +44,14 @@ const SessionFetchApiWorker = function () {
                 }
             }
         httpRequest.send(body);
+
+
+        httpRequest.onerror = function(error) {
+            console.log('SessionUpdateFetch-Worker-HTTPResponse-ERROR',error);
+            let errorObjSerializable = composeErrorObjectToStringify(error);
+            console.log('SessionUpdateFetch-Worker-HTTPResponse-errorObjSerializable',errorObjSerializable)
+            self.postMessage(errorObjSerializable);
+        };
     }
 
 
@@ -65,12 +73,34 @@ const SessionFetchApiWorker = function () {
         }
         return value;
     }
+
+
+    const composeErrorObjectToStringify = function(errorObj){
+        console.log('composeErrorObjectToStringify-errorObj', errorObj);
+        let newErrorObj = Object.assign({}, errorObj);
+        let propertyExist  =  (('toJSON' in Error.prototype));
+        if (!propertyExist){
+            Object.defineProperty(newErrorObj, 'toJSON', {
+                value: function () {
+                    var alt = {};
+                    Object.getOwnPropertyNames(errorObj).forEach(function (key) {
+                        alt[key] = errorObj[key];
+                    }, errorObj);
+                    return alt;
+                },
+                configurable: true,
+                writable: true
+            });
+        }
+
+        return newErrorObj;
+    }
     //#ENDREGION Private Functions
 }
 
-let SessionCodeString = SessionFetchApiWorker.toString();
-let SessionCodeObj = SessionCodeString.substring(SessionCodeString.indexOf("{") + 1, SessionCodeString.lastIndexOf("}"));
-const blob = new Blob([SessionCodeObj], { type: "application/javascript" });
-const sessionWorker_script =(typeof( URL.createObjectURL ) == 'function' ) ? URL.createObjectURL(blob) : '';
+let SessionUpdateCodeString = SessionUpdateFetchApiWorker.toString();
+let SessionUpdateCodeObj = SessionUpdateCodeString.substring(SessionUpdateCodeString.indexOf("{") + 1, SessionUpdateCodeString.lastIndexOf("}"));
+const blob = new Blob([SessionUpdateCodeObj], { type: "application/javascript" });
+const sessionUpdateWorker_script =(typeof( URL.createObjectURL ) == 'function' ) ? URL.createObjectURL(blob) : '';
 
-module.exports = sessionWorker_script;
+module.exports = sessionUpdateWorker_script;

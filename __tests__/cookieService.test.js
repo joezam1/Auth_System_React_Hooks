@@ -24,7 +24,7 @@ describe('File: CookieService.js',function(){
             //Act
             let result = CookieService.insertCookieInDataStore(cookie.name,cookie.value,cookie.properties);
             //Assert
-            expect(result).toEqual('OK');
+            expect(result).toEqual('ok');
             expect(CookieHelper.setCookie).toHaveBeenCalledTimes(1);
         })
     });

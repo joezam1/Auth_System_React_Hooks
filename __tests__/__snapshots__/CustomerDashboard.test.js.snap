@@ -4,36 +4,149 @@ exports[`File: CustomerDashboard.js Component CustomerDashboard It should take a
 <DocumentFragment>
    
   <div
-    class="section-Customer-dashboard"
+    class="section-Customer-dashboard webpage hide"
   >
-    Customer Dashboard works ok!
-    <br />
     <div
-      class="button-private-redirect-section"
+      class="outerLayout"
     >
-      <button
-        data-testid="button-private-redirect-id"
-        type="button"
+      <div
+        class="header-container"
       >
-          Go to Orders  
-      </button>
-    </div>
-    <div
-      class="button-private-redirect-section"
-    >
-      <button
-        data-testid="button-private-redirect-id"
-        type="button"
+        <div
+          class="header-title"
+        >
+          <span>
+              Hi 
+            <strong>
+               
+            </strong>
+          </span>
+        </div>
+        <div
+          class="header-title"
+        >
+          <span>
+             Status: 
+            <strong>
+                
+            </strong>
+             
+          </span>
+          <span
+            class="floatRight"
+          >
+              
+            <a
+              href="/auth/logout"
+            >
+              Logout
+            </a>
+          </span>
+        </div>
+      </div>
+      <div
+        class="container hide"
       >
-          Go to Silver  Offers  
-      </button>
+        <h2>
+          Customer Dashboard
+        </h2>
+        <div
+          class="top-navigation-bar"
+        >
+          <h3>
+            Go To
+          </h3>
+          <div
+            class=""
+          >
+            <ul
+              class=""
+            >
+              <li
+                class="inlineBlock"
+              >
+                  
+                <div
+                  class="button-private-redirect-section hide"
+                >
+                  <button
+                    class="btnRedirect"
+                    data-testid="button-private-redirect-id"
+                    type="button"
+                  >
+                      Go to Orders  
+                  </button>
+                </div>
+              </li>
+              <li
+                class="inlineBlock"
+              >
+                  
+                <div
+                  class="button-private-redirect-section hide"
+                >
+                  <button
+                    class="btnRedirect"
+                    data-testid="button-private-redirect-id"
+                    type="button"
+                  >
+                      Go to Silver  Offers  
+                  </button>
+                </div>
+              </li>
+              <li
+                class="inlineBlock"
+              >
+                  
+                <div
+                  class="button-private-redirect-section hide"
+                >
+                  <button
+                    class="btnRedirect"
+                    data-testid="button-private-redirect-id"
+                    type="button"
+                  >
+                      Go to Gold  Offers  
+                  </button>
+                </div>
+              </li>
+              <li
+                class="inlineBlock"
+              >
+                  
+                <div
+                  class="button-private-redirect-section hide"
+                >
+                  <button
+                    class="btnRedirect"
+                    data-testid="button-private-redirect-id"
+                    type="button"
+                  >
+                      Go to Premium  Offers  
+                  </button>
+                </div>
+              </li>
+              <li
+                class="inlineBlock"
+              >
+                  
+                <div
+                  class="button-private-redirect-section hide"
+                >
+                  <button
+                    class="btnRedirect"
+                    data-testid="button-private-redirect-id"
+                    type="button"
+                  >
+                      Go to Premium Club Member  
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
-    <br />
-    <a
-      href="/auth/logout"
-    >
-      Logout
-    </a>
   </div>
     
 </DocumentFragment>

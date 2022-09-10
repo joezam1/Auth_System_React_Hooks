@@ -3,6 +3,8 @@ import TokenType from '../library/enumerations/TokenType.js';
 import JwtTokenService from '../services/authorization/JwtTokenService';
 
 
+
+//Test: DONE
 const resolveJwtUpdate = function(jwtInfo){
     console.log('jwtInfo', jwtInfo);
 
@@ -34,7 +36,7 @@ function executeUpdateJwtStorageData( jwtAccessTokenValue , jwtRefreshTokenValue
     JwtTokenService.saveTokenToLocalStorage(TokenType.jwtAccessToken, jwtAccessTokenValue);
     JwtTokenService.deleteTokenFromLocalStorage(TokenType.jwtRefreshToken);
     JwtTokenService.saveTokenToLocalStorage(TokenType.jwtRefreshToken, jwtRefreshTokenValue);
-    console.log('fetchWorkerCallback-jwtRefreshTokenValue', jwtRefreshTokenValue);
+    console.log('executeUpdateJwtStorageData-jwtRefreshTokenValue', jwtRefreshTokenValue);
 
     return true;
 }

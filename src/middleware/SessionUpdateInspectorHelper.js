@@ -3,7 +3,7 @@ import LocalStorageService from '../services/localStorage/LocalStorageService.js
 import CookieProperty from '../library/stringLiterals/CookieProperty.js';
 import InputCommonInspector from '../services/validators/InputCommonInspector.js';
 
-
+//Test: DONE
 const resolveSessionUpdate = function(sessionInfo){
     let newSessionToken = sessionInfo?.sessionToken?.fieldValue;
     console.log('NEW-SESSION-TOKEN:', newSessionToken);

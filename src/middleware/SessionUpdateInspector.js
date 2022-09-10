@@ -1,4 +1,4 @@
-import SessionWebWorkerManager from "../backgroundWorkers/SessionWebWorkerManager.js";
+import SessionUpdateWebWorkerManager from "../backgroundWorkers/SessionUpdateWebWorkerManager.js";
 import LocalStorageService from "../services/localStorage/LocalStorageService";
 import CookieService from "../services/cookieStorage/CookieService";
 import CookieProperty from "../library/stringLiterals/CookieProperty.js";
@@ -19,7 +19,7 @@ import httpResponseStatus from "../library/enumerations/HttpResponseStatus.js";
 
 const SessionUpdateInspector = (function () {
     //Test:DONE
-    const resolveUpdateExpiringSession = function (generalSharedWorker) {
+    const resolveUpdateExpiringSession = function () {
 
         console.log('resolverefreshinExpiringSession-TRIGGERED')
         console.log('SessionConfig.SESSION_UPDATE_FREQUENCY_IN_MILLISECONDS', SessionConfig.SESSION_UPDATE_FREQUENCY_IN_MILLISECONDS);
@@ -39,10 +39,10 @@ const SessionUpdateInspector = (function () {
                     console.log('Interval-stopped-ok');
                     return;
                 }
-                SessionWebWorkerManager.createNewWorker(generalSharedWorker, sessionSharedFetchWorkerOnMessageCallback);
+                SessionUpdateWebWorkerManager.createNewWorker( sessionUpdateFetchWorkerOnMessageCallback );
 
-                let message = createMessageDataForSharedWorker(cookieName, latestCookieValue);
-                SessionWebWorkerManager.sendMessageToWorker(message);
+                let message = createMessageDataForWorker(cookieName, latestCookieValue);
+                SessionUpdateWebWorkerManager.sendMessageToWorker(message);
 
             }, SessionConfig.SESSION_UPDATE_FREQUENCY_IN_MILLISECONDS);
 
@@ -51,16 +51,16 @@ const SessionUpdateInspector = (function () {
         }
     }
 
-    return {
+    return  Object.freeze({
         resolveUpdateExpiringSession: resolveUpdateExpiringSession
-    }
+    });
 
 })();
 
 export default SessionUpdateInspector;
 
 //#REGION Private Functions
-function createMessageDataForSharedWorker(cookieName, cookieValue) {
+function createMessageDataForWorker(cookieName, cookieValue) {
     var sessionUrl = EnvConfig.PROTOCOL + '://' + EnvConfig.TARGET_URL + ServerConfig.apiSessionsUpdatePut;
     let requestMethod = HttpRequestMethod[HttpRequestMethod.PUT];
     let payload = {
@@ -86,7 +86,7 @@ function createMessageDataForSharedWorker(cookieName, cookieValue) {
 }
 
 
-function sessionSharedFetchWorkerOnMessageCallback(event) {
+function sessionUpdateFetchWorkerOnMessageCallback(event) {
     console.log('sessionWorkerOnMessageCallback-event', event);
     let responseStatus = event?.data?.status;
     switch(responseStatus){
@@ -114,8 +114,8 @@ function sessionSharedFetchWorkerOnMessageCallback(event) {
 
         default:
             //For Any other Case we Verify the CALLBACK RESPONSE is from the backend API
-            let sessionFetchWorker = BackgroundWorker[BackgroundWorker.SessionFetchApiWorker];
-            if(isValidHttpResponseFromSelectedWorker( sessionFetchWorker, event )){
+            let sessionUpdateFetchWorker = BackgroundWorker[BackgroundWorker.SessionUpdateFetchApiWorker];
+            if(isValidHttpResponseFromSelectedWorker( sessionUpdateFetchWorker, event )){
                 removeAllStorageData();
             }
         break;
@@ -124,8 +124,10 @@ function sessionSharedFetchWorkerOnMessageCallback(event) {
 }
 
 function isValidHttpResponseFromSelectedWorker(selectedWorker, event){
+    let selectedWorkerLowercase = selectedWorker.toLowerCase();
+    let workerResponseNameLowercase =   event?.data?.name.toLowerCase();
     if( inputCommonInspector.inputExist(event?.data?.name)  &&
-         event?.data?.name.includes( selectedWorker ) &&
+        workerResponseNameLowercase.includes( selectedWorkerLowercase ) &&
         event?.data?.status !== 0 && event?.data?.statusText !== '' ){
             return true;
     }

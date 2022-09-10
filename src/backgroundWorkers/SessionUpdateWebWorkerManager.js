@@ -1,18 +1,16 @@
 import InputCommonInspector from "../services/validators/InputCommonInspector";
+import SessionUpdateFetchApiWorker from './SessionUpdateFetchApiWorker.js';
 
 
 
-
-const SessionWebWorkerManager = (function () {
+const SessionUpdateWebWorkerManager = (function () {
 
     let sessionWorker = null;
-
-
-    const createNewWorker = function (sessionWorkerFileScript, callback) {
+    const createNewWorker = function (callback) {
         console.log('createWorker-sessionWorker', sessionWorker);
         if (browserSupportsWorker() && !InputCommonInspector.inputExist(sessionWorker) ) {
-            sessionWorker = new Worker(sessionWorkerFileScript);
-            console.log('BEGIN-createNewWorker', sessionWorker);
+            sessionWorker = new Worker(SessionUpdateFetchApiWorker);
+            console.log('BEGIN-createNewWorker', SessionUpdateFetchApiWorker);
 
             sessionWorker.onmessage = function(event) {
                 console.log(`web-worker-onmessage-MESSAGE RECEIVED:`, event);
@@ -70,4 +68,4 @@ const SessionWebWorkerManager = (function () {
 })();
 
 
-export default SessionWebWorkerManager
+export default SessionUpdateWebWorkerManager

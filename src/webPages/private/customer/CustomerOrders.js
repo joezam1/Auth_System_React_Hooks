@@ -5,6 +5,8 @@ import ComponentAuthorizationService from '../../../services/privateWebPagesMedi
 import RolePermission from '../../../library/stringLiterals/RolePermission.js';
 import UserRole from '../../../library/enumerations/UserRole.js';
 import Helpers from '../../../library/common/Helpers.js';
+import InputCommonInspector from '../../../services/validators/InputCommonInspector.js';
+
 
 //Test: DONE
 export default function CustomerOrders() {
@@ -23,14 +25,19 @@ export default function CustomerOrders() {
     useEffect(()=>{
         let userInfo = ComponentAuthorizationService.getUserInfo();
         console.log('userInfo:', userInfo);
-        setUsername(userInfo.username);
-        setCustomerType( UserRole[userInfo.roles[0]] );
+        if(InputCommonInspector.inputExist(userInfo)){
+            setUsername(userInfo.username);
+            setCustomerType( UserRole[userInfo.roles[0]] );
+        }
+
         let roleIsAuthorized = ComponentAuthorizationService.roleIsAuthorized(CustomerOrders.name);
         console.log('LinkButtonPrivateRedirect-useEffect-roleIsAuthorized', roleIsAuthorized);
         if(roleIsAuthorized){ setAuthorization('block') ; }
         let allPermissions = ComponentAuthorizationService.getAllApprovedPermissions(CustomerOrders.name)
         console.log('CustomerOrders-allPermissions', allPermissions);
-        resolveApprovedPermissions(allPermissions);
+        if(InputCommonInspector.inputExist(allPermissions)){
+            resolveApprovedPermissions(allPermissions);
+        }
 
     }, []);
 

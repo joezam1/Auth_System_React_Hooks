@@ -4,26 +4,432 @@ exports[`File: CustomerOrders.js Component CustomerOrders It should take a snaps
 <DocumentFragment>
    
   <div
-    class="customer-orders-section"
+    class="customer-orders-section webpage hide"
   >
-    <span>
-      This is the customer Orders Section.
-    </span>
-    <br />
-    <h3>
-      Go To
-    </h3>
     <div
-      class="button-private-redirect-section"
+      class="outerLayout"
     >
-      <button
-        data-testid="button-private-redirect-id"
-        type="button"
+      <div
+        class="header-container"
       >
-          Customer Dashboard  
-      </button>
+        <div
+          class="header-title"
+        >
+          <span>
+              Hi 
+            <strong>
+               
+            </strong>
+          </span>
+        </div>
+        <div
+          class="header-title"
+        >
+          <span>
+             Status: 
+            <strong>
+                
+            </strong>
+             
+          </span>
+        </div>
+      </div>
+      <div
+        class="container hide"
+      >
+        <h2>
+          Customer Orders Section.
+        </h2>
+        <div
+          class="top-navigation-bar"
+        >
+          <h3>
+            Go To
+          </h3>
+          <div
+            class="button-private-redirect-section hide"
+          >
+            <button
+              class="btnRedirect"
+              data-testid="button-private-redirect-id"
+              type="button"
+            >
+                Customer Dashboard  
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="container hide"
+      >
+        <button
+          class="btnCreate hide"
+          id="button3"
+          name="add"
+          type="button"
+        >
+           Add New Order 
+        </button>
+        <button
+          class="btnWrite hide"
+          id="button5"
+          name="edit"
+          type="button"
+        >
+           Write in Calendar
+        </button>
+      </div>
+      <div
+        class="table-container"
+      >
+        <div
+          class="table"
+        >
+          <div
+            class="tableHeading"
+          >
+            <div
+              class="row"
+            >
+              <div
+                class="tableHead"
+              >
+                Selector
+              </div>
+              <div
+                class="tableHead"
+              >
+                Date Order
+              </div>
+              <div
+                class="tableHead"
+              >
+                Order Number
+              </div>
+              <div
+                class="tableHead"
+              >
+                Total Amount
+              </div>
+              <div
+                class="tableHead"
+              >
+                Status
+              </div>
+              <div
+                class="tableHead"
+              >
+                Actions
+              </div>
+            </div>
+          </div>
+          <div
+            class="tableBody"
+          >
+            <div
+              class="row"
+            >
+              <div
+                class="tableData"
+              >
+                <input
+                  id="check"
+                  name="selector"
+                  type="checkbox"
+                  value=""
+                />
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  2022-06-03 08:14:35
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  #885-638147-111
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                   US$ 88,345.80
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  Unprocessed
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <button
+                  class="btnWrite hide"
+                  id="button5"
+                  name="edit"
+                  type="button"
+                >
+                   NOTES
+                </button>
+                <button
+                  class="btonEdit hide"
+                  id="button1"
+                  name="edit"
+                  type="button"
+                >
+                  EDIT
+                </button>
+                <button
+                  class="btnDelete hide"
+                  id="button2"
+                  name="delete"
+                  type="button"
+                >
+                  DELETE
+                </button>
+              </div>
+            </div>
+            <div
+              class="row"
+            >
+              <div
+                class="tableData"
+              >
+                <input
+                  id="check"
+                  name="selector"
+                  type="checkbox"
+                  value=""
+                />
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  2022-05-23 04:13:33
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  #771-683447-997
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                   US$ 23,341.22
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  Unprocessed
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <button
+                  class="btnWrite hide"
+                  id="button5"
+                  name="edit"
+                  type="button"
+                >
+                   NOTES
+                </button>
+                <button
+                  class="btonEdit hide"
+                  id="button1"
+                  name="edit"
+                  type="button"
+                >
+                  EDIT
+                </button>
+                <button
+                  class="btnDelete hide"
+                  id="button2"
+                  name="delete"
+                  type="button"
+                >
+                  DELETE
+                </button>
+              </div>
+            </div>
+            <div
+              class="row"
+            >
+              <div
+                class="tableData"
+              >
+                <input
+                  id="check"
+                  name="selector"
+                  type="checkbox"
+                  value=""
+                />
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  2022-04-03 08:23:45
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  #890-632547-052
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                   US$ 45,635.80
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  In Transit
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <button
+                  class="btnWrite hide"
+                  id="button5"
+                  name="edit"
+                  type="button"
+                >
+                   NOTES
+                </button>
+              </div>
+            </div>
+            <div
+              class="row"
+            >
+              <div
+                class="tableData"
+              >
+                <input
+                  id="check"
+                  name="selector"
+                  type="checkbox"
+                  value=""
+                />
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  2022-04-03 08:23:45
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  #844-350014-244
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                   US$ 121,655.80
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  In Transit
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <button
+                  class="btnWrite hide"
+                  id="button5"
+                  name="edit"
+                  type="button"
+                >
+                   NOTES
+                </button>
+              </div>
+            </div>
+            <div
+              class="row"
+            >
+              <div
+                class="tableData"
+              >
+                <input
+                  id="check"
+                  name="selector"
+                  type="checkbox"
+                  value=""
+                />
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  2022-04-03 08:23:45
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  #222-878497-992
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                   US$ 32,687.80
+                </span>
+              </div>
+              <div
+                class="tableData"
+              >
+                <span>
+                  Completed
+                </span>
+              </div>
+              <div
+                class="tableData"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="container hide"
+      >
+        <span>
+          Page 1 
+        </span>
+      </div>
     </div>
-    <br />
   </div>
     
 </DocumentFragment>

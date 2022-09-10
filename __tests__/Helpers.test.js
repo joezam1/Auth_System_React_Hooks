@@ -185,4 +185,40 @@ describe('File: Helpers.js',function(){
     });
 
 
+
+    describe('Function: convertLocaleDateToUTCDate', function () {
+        test('When Locale Date is provided, it is converted to UTC Date', function () {
+            //Arrange
+            let dateNowLocale = new Date();
+
+            let utcYear = dateNowLocale.getUTCFullYear();
+            let utcMonth = dateNowLocale.getUTCMonth();
+            let utcDay = dateNowLocale.getUTCDay();
+            let utcDate = dateNowLocale.getUTCDate();
+            let utcHours = dateNowLocale.getUTCHours();
+            let utcMinutes = dateNowLocale.getUTCMinutes();
+            let utcSeconds = dateNowLocale.getUTCSeconds();
+
+            //Act
+            let dateNowUTC = helpers.convertLocaleDateToUTCDate(dateNowLocale);
+
+            let dateNowUTCYear = dateNowUTC.getFullYear();
+            let dateNowUTCMonth = dateNowUTC.getMonth();
+            let dateNowUTCDay = dateNowUTC.getDay();
+            let dateNowUTCDate = dateNowUTC.getDate();
+            let dateNowUTCHours = dateNowUTC.getHours();
+            let dateNowUTCMinutes = dateNowUTC.getMinutes();
+            let dateNowUTCSeconds = dateNowUTC.getSeconds();
+
+            //Assert
+            expect(utcYear).toEqual(dateNowUTCYear);
+            expect(utcMonth).toEqual(dateNowUTCMonth);
+            expect(utcDay).toEqual(dateNowUTCDay);
+            expect(utcDate).toEqual(dateNowUTCDate);
+            expect(utcHours).toEqual(dateNowUTCHours);
+            expect(utcMinutes).toEqual(dateNowUTCMinutes);
+            expect(utcSeconds).toEqual(dateNowUTCSeconds);
+
+        });
+    });
 });

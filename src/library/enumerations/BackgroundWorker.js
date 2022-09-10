@@ -1,8 +1,10 @@
 const BackgroundWorker = Object.freeze({
-    FetchWorker:0,
-    SessionFetchApiWorker:1,
-    0:'FetchWorker',
-    1:'SessionFetchApiWorker'
+    SessionAuthenticationFetchApihWorker:0,
+    SessionUpdateFetchApiWorker:1,
+    ResourcesFetchApihWorker:2,
+    0:'SessionAuthenticationFetchApihWorker',
+    1:'SessionUpdateFetchApiWorker',
+    2:'ResourcesFetchApihWorker'
 });
 
 export default BackgroundWorker;

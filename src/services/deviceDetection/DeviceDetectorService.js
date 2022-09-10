@@ -48,12 +48,12 @@ const DeviceDetectorService = (function(){
             vendor : vendor
         };
     }
-
+    //Test: DONE
     const getUserAgent = function(){
         let userAgent = NavigatorHelper.getUserAgent();
         return userAgent;
     }
-
+    //Test: DONE
     return Object.freeze({
         getDeviceAndBrowserInfo : getDeviceAndBrowserInfo,
         getUserAgent : getUserAgent

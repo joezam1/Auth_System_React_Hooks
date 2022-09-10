@@ -1,8 +1,8 @@
-const FetcApihWorker = function () {
+const SessionAuthenticationFetchApihWorker = function () {
 
     self.onmessage = function (event) {
 
-        console.log('FetchWorker-self.onmessage-event', event);
+        console.log('SessionAuthenticationFetchApihWorker-self.onmessage-event', event);
         if (event && event.data) {
             let message = event.data;
             let switchMessage = message.switchMessage;
@@ -35,7 +35,7 @@ const FetcApihWorker = function () {
 
                     let responseResult = safeJsonParse(httpRequest.responseText);
                     let responseObj = {
-                        name: `${requestVerb}_FetchWorker_HTTP_Response `,
+                        name: `${requestVerb}_SessionAuthenticationFetchApihWorker_HTTP_Response `,
                         status: httpRequest.status,
                         statusText: httpRequest.statusText,
                         data: responseResult
@@ -48,8 +48,10 @@ const FetcApihWorker = function () {
 
 
         httpRequest.onerror = function(error) {
-            console.log('Fetc-hWorker-HTTPResponse-ERROR',error)
-                    self.postMessage(error);
+            console.log('Fetc-hWorker-HTTPResponse-ERROR',error);
+            let errorObjSerializable = composeErrorObjectToStringify(error);
+            console.log('Fetch-hWorker-HTTPResponse-errorObjSerializable',errorObjSerializable)
+            self.postMessage(errorObjSerializable);
         };
     }
 
@@ -70,10 +72,33 @@ const FetcApihWorker = function () {
         }
         return value;
     }
+
+
+
+    const composeErrorObjectToStringify = function(errorObj){
+        console.log('composeErrorObjectToStringify-errorObj', errorObj);
+        let newErrorObj = Object.assign({}, errorObj);
+        let propertyExist  =  (('toJSON' in Error.prototype));
+        if (!propertyExist){
+            Object.defineProperty(newErrorObj, 'toJSON', {
+                value: function () {
+                    var alt = {};
+                    Object.getOwnPropertyNames(errorObj).forEach(function (key) {
+                        alt[key] = errorObj[key];
+                    }, errorObj);
+                    return alt;
+                },
+                configurable: true,
+                writable: true
+            });
+        }
+
+        return newErrorObj;
+    }
     //#ENDREGION Private Functions
 }
 
-let codeString = FetcApihWorker.toString();
+let codeString = SessionAuthenticationFetchApihWorker.toString();
 let codeObj = codeString.substring(codeString.indexOf("{") + 1, codeString.lastIndexOf("}"));
 const blob = new Blob([codeObj], { type: "application/javascript" });
 const worker_script =(typeof( URL.createObjectURL ) == 'function' ) ? URL.createObjectURL(blob) : '';

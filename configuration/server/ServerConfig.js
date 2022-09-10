@@ -1,4 +1,5 @@
 const serverRouteConfiguration = Object.freeze({
+    homeResourcesGet:'/api/home/resources',
     apiUsersRegisterPathPost : '/api/users/register',
     apiUsersLoginPathPost: '/api/users/login',
     apiUserslogoutPathPost: '/api/users/logout',

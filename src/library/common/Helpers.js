@@ -75,8 +75,7 @@ let getUrlRedirectTo = function(redirectTo){
     return urlRedirect;
 }
 
-
-
+//Test: DONE
 const convertLocaleDateToUTCDate = function(localeDAteAsDate ){
     //To convert to UTC datetime by subtracting the current Timezone offset
     let utcDate =  new Date(localeDAteAsDate.getTime() + (localeDAteAsDate.getTimezoneOffset()*60000));

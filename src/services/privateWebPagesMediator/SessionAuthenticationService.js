@@ -6,8 +6,7 @@ import CookieService from '../cookieStorage/CookieService.js';
 import LocalStorageService from '../localStorage/LocalStorageService.js';
 import inputCommonInspector from '../validators/InputCommonInspector';
 
-import WebWorkerManager from '../../backgroundWorkers/WebWorkerManager.js';
-import FetchWorker from '../../backgroundWorkers/FetchWorker';
+import SessionAuthenticationWebWorkerManager from '../../backgroundWorkers/SessionAuthenticationWebWorkerManager.js';
 import FetchWorkerHelper from '../../backgroundWorkers/FetchWorkerHelper.js';
 import HttpRequestMethod from '../../library/enumerations/HttpRequestMethod.js';
 import WindowLocationProperty from '../../library/stringLiterals/WindowLocationProperty.js';
@@ -55,10 +54,10 @@ function saveRedirectValueToLocalStorage( redirectTo ){
 }
 
 function resolveSessionAuthenticationUsingWebWorkers(currentSessionToken){
-    WebWorkerManager.createNewWorker(FetchWorker, authenticateSessionFetchWorkerMessageCallback);
+    SessionAuthenticationWebWorkerManager.createNewWorker( authenticateSessionFetchWorkerMessageCallback );
     let apiRequestMessage = createMessageForApiSession(currentSessionToken);
     console.log('resolveSessionAuthenticationUsingWebWorkers-apiRequestMessage', apiRequestMessage);
-    WebWorkerManager.sendMessageToWorker(apiRequestMessage);
+    SessionAuthenticationWebWorkerManager.sendMessageToWorker(apiRequestMessage);
 }
 
 
@@ -100,8 +99,8 @@ function authenticateSessionFetchWorkerMessageCallback(event){
 
         default:
             //For Any other Case we Verify the CALLBACK RESPONSE is from the backend API
-            let fetchWorker = BackgroundWorker[BackgroundWorker.FetchWorker];
-            if(isValidHttpResponseFromSelectedWorker( fetchWorker , event ) ){
+            let sessionAuthenticationFetchWorker = BackgroundWorker[BackgroundWorker.SessionAuthenticationFetchApihWorker ];
+            if(isValidHttpResponseFromSelectedWorker( sessionAuthenticationFetchWorker , event ) ){
                 console.log('it is a verified and valid request from the API.');
                 console.log('No ACTIVE Session FOUND then LOGOUT');
                 console.log('authenticateSessionFetchWorkerMessageCallback-LOGOUT TRIGGERED');
@@ -112,8 +111,10 @@ function authenticateSessionFetchWorkerMessageCallback(event){
 }
 
 function isValidHttpResponseFromSelectedWorker(selectedWorker, event){
+    let selectedWorkerNameLowerCase = selectedWorker.tolowerCase();
+    let workerFileNameLowerCase = event?.data?.name?.tolowerCase();
     if( inputCommonInspector.inputExist(event?.data?.name)  &&
-         event?.data?.name.includes( selectedWorker ) &&
+        workerFileNameLowerCase.includes( selectedWorkerNameLowerCase ) &&
         event?.data?.status !== 0 && event?.data?.statusText !== '' ){
             return true;
     }

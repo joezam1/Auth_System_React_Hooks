@@ -6,6 +6,7 @@ import CookieProperty from '../../library/stringLiterals/CookieProperty.js';
 import CookieService from '../../services/cookieStorage/CookieService.js';
 import InputCommonInspector from '../../services/validators/InputCommonInspector.js';
 import LinkButtonPrivateRedirect from '../../components/LinkButtonPrivateRedirect.js';
+import ResourcesInspector from '../../middleware/ResourcesInspector.js';
 
 
 //Test: DONE
@@ -13,6 +14,7 @@ export default function Home(){
     const [userIsLoggedIn, setUserLogedIn] = useState(false);
 
     useEffect(()=>{
+        ResourcesInspector.resolveLoadResources();
         let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperty.NAME );
         let cookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
         if( InputCommonInspector.stringIsValid(cookieValue)){
@@ -20,11 +22,14 @@ export default function Home(){
         }
     }, []);
 
+
     let privateComponent =  userIsLoggedIn ? <li> <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboardPath} buttonText=" Go to Customer Dashboard" />  </li>  : '';
 
   return(
       <div className="home">
           This is home Section - Public Page
+          <br/>
+
           <ul>
               {privateComponent}
               <li> <Link to={RouteConfig.authRegisterPath} data-testid="link-home-register-id">Register</Link></li>

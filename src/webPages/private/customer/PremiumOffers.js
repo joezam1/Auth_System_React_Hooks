@@ -5,8 +5,10 @@ import ComponentAuthorizationService from "../../../services/privateWebPagesMedi
 import UserRole from "../../../library/enumerations/UserRole";
 import RolePermission from "../../../library/stringLiterals/RolePermission";
 import Helpers from '../../../library/common/Helpers.js';
+import InputCommonInspector from '../../../services/validators/InputCommonInspector.js';
 
 
+//Test: DONE
 export default function PremiumOffers(){
     const [username, setUsername]= useState('');
     const [customerType, setCustomerType] = useState('');
@@ -23,14 +25,19 @@ export default function PremiumOffers(){
     useEffect(()=>{
         let userInfo = ComponentAuthorizationService.getUserInfo();
         console.log('userInfo:', userInfo);
-        setUsername(userInfo.username);
-        setCustomerType( UserRole[userInfo.roles[0]] );
+        if(InputCommonInspector.inputExist()){
+            setUsername(userInfo.username);
+            setCustomerType( UserRole[userInfo.roles[0]] );
+        }
+
         let roleIsAuthorized = ComponentAuthorizationService.roleIsAuthorized(PremiumOffers.name);
         console.log('LinkButtonPrivateRedirect-useEffect-roleIsAuthorized', roleIsAuthorized);
         if(roleIsAuthorized){ setAuthorization('block') ; }
         let allPermissions = ComponentAuthorizationService.getAllApprovedPermissions(PremiumOffers.name)
         console.log('CustomerOrders-allPermissions', allPermissions);
-        resolveApprovedPermissions(allPermissions);
+        if(InputCommonInspector.inputExist()){
+            resolveApprovedPermissions(allPermissions);
+        }
 
     }, []);
 

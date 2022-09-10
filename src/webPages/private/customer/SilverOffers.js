@@ -5,8 +5,9 @@ import ComponentAuthorizationService from "../../../services/privateWebPagesMedi
 import UserRole from "../../../library/enumerations/UserRole";
 import RolePermission from "../../../library/stringLiterals/RolePermission";
 import Helpers from '../../../library/common/Helpers.js';
+import InputCommonInspector from '../../../services/validators/InputCommonInspector.js';
 
-
+//Test: DONE
 export default function SilverOffers(){
     const [username, setUsername]= useState('');
     const [customerType, setCustomerType] = useState('');
@@ -23,14 +24,20 @@ export default function SilverOffers(){
     useEffect(()=>{
         let userInfo = ComponentAuthorizationService.getUserInfo();
         console.log('userInfo:', userInfo);
-        setUsername(userInfo.username);
-        setCustomerType( UserRole[userInfo.roles[0]] );
+        if(InputCommonInspector.inputExist(userInfo)){
+            setUsername(userInfo.username);
+            setCustomerType( UserRole[userInfo.roles[0]] );
+        }
+
         let roleIsAuthorized = ComponentAuthorizationService.roleIsAuthorized(SilverOffers.name);
         console.log('LinkButtonPrivateRedirect-useEffect-roleIsAuthorized', roleIsAuthorized);
         if(roleIsAuthorized){ setAuthorization('block') ; }
         let allPermissions = ComponentAuthorizationService.getAllApprovedPermissions(SilverOffers.name)
         console.log('CustomerOrders-allPermissions', allPermissions);
-        resolveApprovedPermissions(allPermissions);
+        if(InputCommonInspector.inputExist(allPermissions)){
+            resolveApprovedPermissions(allPermissions);
+        }
+
 
     }, []);
 

@@ -9,6 +9,7 @@ exports[`File: App.js Function App it should take a snapshot 1`] = `
       class="home"
     >
       This is home Section - Public Page
+      <br />
       <ul>
         <li>
            

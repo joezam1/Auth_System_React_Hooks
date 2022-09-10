@@ -60,7 +60,7 @@ function getHeaders(selectedHeadersObj) {
     let defaultHeadersObj = {
         'Content-Type':'application/json'
     }
-    let authHeaders = null ; //TODO: getAuthenticationHeaders();
+    let authHeaders = null ;
     let headers = Object.assign({},defaultHeadersObj,authHeaders,selectedHeadersObj)
     return headers;
 }

@@ -6,7 +6,7 @@ import ComponentAuthorizationService from "../../../services/privateWebPagesMedi
 import UserRole from "../../../library/enumerations/UserRole";
 import RolePermission from "../../../library/stringLiterals/RolePermission";
 import Helpers from '../../../library/common/Helpers.js';
-
+import InputCommonInspector from '../../../services/validators/InputCommonInspector.js';
 
 
 
@@ -28,14 +28,20 @@ export default function PremiumClubMember(){
     useEffect(()=>{
         let userInfo = ComponentAuthorizationService.getUserInfo();
         console.log('userInfo:', userInfo);
-        setUsername(userInfo.username);
-        setCustomerType( UserRole[userInfo.roles[0]] );
+        if(InputCommonInspector.inputExist()){
+            setUsername(userInfo.username);
+            setCustomerType( UserRole[userInfo.roles[0]] );
+        }
+
         let roleIsAuthorized = ComponentAuthorizationService.roleIsAuthorized(PremiumClubMember.name);
         console.log('LinkButtonPrivateRedirect-useEffect-roleIsAuthorized', roleIsAuthorized);
         if(roleIsAuthorized){ setAuthorization('block') ; }
         let allPermissions = ComponentAuthorizationService.getAllApprovedPermissions(PremiumClubMember.name)
         console.log('CustomerOrders-allPermissions', allPermissions);
-        resolveApprovedPermissions(allPermissions);
+        if(InputCommonInspector.inputExist()){
+            resolveApprovedPermissions(allPermissions);
+        }
+
     }, []);
 
 
