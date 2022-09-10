@@ -151,9 +151,21 @@ export default function Logout(){
         return <Navigate to = {RouteConfig.homePath} />
     }
 
-    return(<div className="logout-section">
-            <p>You are Logged Out <span> | </span><Link to={RouteConfig.homePath}>Go Home</Link> </p>
-            <br/>
-            <div> {notificationInfo}</div>
-    </div>)
+    return(<div className="logout-section webpage">
+                <div className='outerLayout'>
+                    <div className='header-container'>
+                        <div className='header-title silverBorder'>
+                            <div className='topNavigationBar'>
+                                <div className='floatLeft margin10'>You are Logged Out</div>
+                                <ul className='floatRight'>
+                                    <li className='inlineBlock btnCreate'> <Link to={RouteConfig.homePath} className="noTextDecoration">Go Home</Link></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    {notificationInfo}
+                </div>
+            </div>)
 }

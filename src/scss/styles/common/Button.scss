@@ -1,0 +1,190 @@
+
+
+
+
+
+.btnCreate {
+    border: 1px solid #400f81;
+    border-radius: 5px;
+    color: white;
+    background-color: #ADA2EB;
+    margin: 10px;
+    padding: 4px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+/* unvisited link */
+.btnCreate:link {
+    background-color: #A89AF7;
+}
+
+/* visited link */
+.btnCreatea:visited {
+    background-color: #442FBA;
+}
+
+/* mouse over link */
+.btnCreate:hover {
+    background-color: #D7D1F5;
+}
+
+/* selected link */
+.btnCreate:active {
+    background-color: #0000FF;
+}
+
+
+
+
+
+
+
+
+
+.btnRedirect {
+    background-color: silver;
+    border: 1px solid gray;
+    border-radius: 5px;
+    color: white;
+    margin: 10px;
+    padding: 4px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+/* unvisited link */
+.btnRedirect:link {
+    background-color: #EAECEE;
+}
+
+/* visited link */
+.btnRedirect:visited {
+    background-color: #B2BABB;
+}
+
+/* mouse over link */
+.btnRedirect:hover {
+    background-color: #F2F3F4;
+    border: 1px solid grey;
+    color: black;
+}
+
+/* selected link */
+.btnRedirect:active {
+    color: #0000FF;
+}
+
+
+
+
+
+
+
+
+
+.btnWrite {
+	background-color: #2F0DF0;
+	border: 1px solid #2F0DF0;
+	border-radius: 5px;
+	color: white;
+	margin: 10px;
+	padding: 4px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+/* unvisited link */
+.btnWrite:link {
+	background-color: #FF0000;
+}
+
+/* visited link */
+.btnWrite:visited {
+	color: #00FF00;
+}
+
+/* mouse over link */
+.btnWrite:hover {
+	background-color: #B0AEF7;
+	;
+}
+
+/* selected link */
+.btnWrite:active {
+	background-color: #0000FF;
+}
+
+.btonEdit {
+	border: 1px solid #61BE13;
+	background-color: #3AA32B;
+	border-radius: 5px;
+	color: white;
+	margin: 10px;
+	padding: 4px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+
+
+
+
+
+
+/* unvisited link */
+.btonEdit:link {
+	background-color: #78DD6A;
+}
+
+/* visited link */
+.btonEdit:visited {
+	background-color: #00FF00;
+}
+
+/* mouse over link */
+.btonEdit:hover {
+	background-color: #A1EE96;
+}
+
+/* selected link */
+.btonEdit:active {
+	background-color: #22A211;
+}
+
+
+
+
+
+
+.btnDelete {
+	border: 1px solid red;
+	background-color: red;
+	border-radius: 5px;
+	color: white;
+	margin: 10px;
+	padding: 4px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+
+/* unvisited link */
+.btnDelete:link {
+	background-color: #FF0000;
+}
+
+/* visited link */
+.btnDelete :visited {
+	background-color: #AD120B;
+}
+
+/* mouse over link */
+.btnDelete:hover {
+	background-color: #EE9490;
+}
+
+/* selected link */
+.btnDelete:active {
+	background-color: #D8180F;
+}

@@ -36,7 +36,7 @@ function resolveAllMiddlewareWindowIntervalsTracked(){
     console.log('resolveAllMiddlewareWindowIntervalsTracked-STARTED');
 
     resolveUpdateExpiringSessionInterval();
-    //resolveIdleBrowserTimeoutInterval();
+    resolveIdleBrowserTimeoutInterval();
     console.log('resolveAllMiddlewareWindowIntervalsTracked-END');
 }
 

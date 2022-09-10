@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link , Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import UserRegister from '../../viewModels/UserRegister.js';
 import UserRole from '../../library/enumerations/UserRole.js';
 import RequestMethodsService from '../../services/httpProtocol/RequestMethodsService.js';
@@ -15,56 +15,56 @@ import LocalStorageService from '../../services/localStorage/LocalStorageService
 import AntiforgeryTokenService from '../../services/csrfProtection/AntiForgeryTokenService.js';
 
 //Test:DONE
-export default function Register(){
+export default function Register() {
 
-    const [ notificationInfo, setNotification ] = useState('');
-    const [ isRegistered, setRegisterStatus] = useState(false);
-    const [ firstNameErrors, setFirstNameErrors ] = useState('');
-    const [ lastNameErrors, setLastNameErrors ]= useState('');
-    const [ usernameErrors, setUsernameErrors ] = useState('');
-    const [ emailErrors, setEmailErrors ] = useState('');
-    const [ passwordErrors, setPasswordErrors ] = useState('');
-    const [ confirmPasswordErrors, setConfirmPasswordErrors ] = useState('');
-    const [ antiforgeryToken, setAntiforgeryToken ] = useState('');
-    const [ antiforgeryTokenClient, setAntiforgeryTokenClient ] = useState('');
+    const [notificationInfo, setNotification] = useState('');
+    const [isRegistered, setRegisterStatus] = useState(false);
+    const [firstNameErrors, setFirstNameErrors] = useState('');
+    const [lastNameErrors, setLastNameErrors] = useState('');
+    const [usernameErrors, setUsernameErrors] = useState('');
+    const [emailErrors, setEmailErrors] = useState('');
+    const [passwordErrors, setPasswordErrors] = useState('');
+    const [confirmPasswordErrors, setConfirmPasswordErrors] = useState('');
+    const [antiforgeryToken, setAntiforgeryToken] = useState('');
+    const [antiforgeryTokenClient, setAntiforgeryTokenClient] = useState('');
 
 
     let userInfo = null;
 
 
-    useEffect(()=>{
+    useEffect(() => {
 
         console.log('Register-componentName', Register.name);
         let tokenTypeName = TokenType[TokenType.antiforgeryToken];
         let csrfToken = LocalStorageService.getItemFromLocalStorage(tokenTypeName);
         setAntiforgeryToken(csrfToken);
 
-        async function createCsrfToken(){
+        async function createCsrfToken() {
             let csrfToken = await AntiforgeryTokenService.createAntiForgeryTokenAsync();
             setAntiforgeryTokenClient(csrfToken);
         }
 
         createCsrfToken();
-    },[]);
+    }, []);
 
 
 
 
-    let registerUserCallback = (response) =>{
+    let registerUserCallback = (response) => {
         console.log('RegisterUserCallback-response', response);
-        switch(response.status){
+        switch (response.status) {
             case httpResponseStatus._201created:
                 let csrfToken = response.csrfToken;
                 let csrfTokenName = TokenType[TokenType.antiforgeryToken];
                 LocalStorageService.removeItemFromLocalStorage(csrfTokenName);
                 LocalStorageService.setItemInLocalStorage(csrfTokenName, csrfToken);
                 setNotificationPromise(NotificationService.registrationSuccess)
-                .then(setRegisterStatusPromise(true));
-            break;
+                    .then(setRegisterStatusPromise(true));
+                break;
 
             case httpResponseStatus._401unauthorized:
                 let responseObj = (typeof response.result === 'object')
-                if(responseObj){
+                if (responseObj) {
                     setNotification(NotificationService.errorsInForm);
                     console.log('userInfo', userInfo);
                     let errorMessagesReport = ValidationManager.buildErrorMessagesReport(response.result, userInfo);
@@ -72,66 +72,66 @@ export default function Register(){
                     break;
                 }
                 setNotification(response.result);
-            break;
+                break;
 
             case httpResponseStatus._400badRequest:
-                setNotification(NotificationService.registrationFailed );
-            break;
+                setNotification(NotificationService.registrationFailed);
+                break;
 
             default:
-                setNotification( NotificationService.registrationNonProcessable );
-            break;
+                setNotification(NotificationService.registrationNonProcessable);
+                break;
         }
     }
 
-    function setNotificationPromise(message){
-        let promise = new Promise(function (resolve, reject){
+    function setNotificationPromise(message) {
+        let promise = new Promise(function (resolve, reject) {
             resolve(setNotification(message));
         });
         return promise;
     }
 
-    function setRegisterStatusPromise(status){
-        let promise = new Promise(function(resolve, reject){
+    function setRegisterStatusPromise(status) {
+        let promise = new Promise(function (resolve, reject) {
             //NOTE: Wait 5 seconds to display the SUCCESS registering the account,
             //Then redirect the user to the Login Page
-            setTimeout(function(){resolve(setRegisterStatus(status)); }, 5000);
+            setTimeout(function () { resolve(setRegisterStatus(status)); }, 5000);
         })
         return promise;
     }
 
-    function processUserRegistration(){
+    function processUserRegistration() {
         setNotification('');
         var form = document.getElementById('registerCustomerForm');
-        if(form !==null) {
+        if (form !== null) {
             console.log('processUserRegistration-form', form);
 
             let dataModel = {
-                firstName :(InputCommonInspector.objectIsValid(form[0]) ) ? form[0].value : '',
-                lastName : (InputCommonInspector.objectIsValid(form[1]) ) ? form[1].value : '',
-                username : (InputCommonInspector.objectIsValid(form[2]) ) ? form[2].value : '',
-                email : (InputCommonInspector.objectIsValid(form[3]) ) ? form[3].value : '',
-                password : (InputCommonInspector.objectIsValid(form[4]) ) ? form[4].value: '',
-                confirmPassword : (InputCommonInspector.objectIsValid(form[5]) ) ? form[5].value : '',
-                userRole : UserRole.BaseCustomer
+                firstName: (InputCommonInspector.objectIsValid(form[0])) ? form[0].value : '',
+                lastName: (InputCommonInspector.objectIsValid(form[1])) ? form[1].value : '',
+                username: (InputCommonInspector.objectIsValid(form[2])) ? form[2].value : '',
+                email: (InputCommonInspector.objectIsValid(form[3])) ? form[3].value : '',
+                password: (InputCommonInspector.objectIsValid(form[4])) ? form[4].value : '',
+                confirmPassword: (InputCommonInspector.objectIsValid(form[5])) ? form[5].value : '',
+                userRole: UserRole.BaseCustomer
             };
             var user = new UserRegister(dataModel);
             console.log('processUserRegistration-user', user);
             userInfo = user;
-            if( !inputsAreValid(user) ){ return; }
-            var registerUrl = EnvConfig.PROTOCOL +'://' + EnvConfig.TARGET_URL + ServerConfig.apiUsersRegisterPathPost;
+            if (!inputsAreValid(user)) { return; }
+            var registerUrl = EnvConfig.PROTOCOL + '://' + EnvConfig.TARGET_URL + ServerConfig.apiUsersRegisterPathPost;
 
             let _headers = {
                 x_csrf_token: antiforgeryToken,
-                x_csrf_token_client : antiforgeryTokenClient
+                x_csrf_token_client: antiforgeryTokenClient
             }
-            RequestMethodsService.postMethod(registerUrl, dataModel, registerUserCallback , _headers);
+            RequestMethodsService.postMethod(registerUrl, dataModel, registerUserCallback, _headers);
         }
     }
 
-    function inputsAreValid(objModel){
+    function inputsAreValid(objModel) {
         let errorsReport = ValidationManager.resolveUserFormValidation(objModel);
-        if(!InputCommonInspector.objectIsNullOrEmpty(errorsReport)){
+        if (!InputCommonInspector.objectIsNullOrEmpty(errorsReport)) {
             setNotification(NotificationService.errorsInForm);
             let errorMessagesReport = ValidationManager.buildErrorMessagesReport(errorsReport, objModel);
             setAllErrorMessages(errorMessagesReport);
@@ -140,7 +140,7 @@ export default function Register(){
         return true;
     }
 
-    function setAllErrorMessages(errorsReport){
+    function setAllErrorMessages(errorsReport) {
         setFirstNameErrors(errorsReport.firstNameAllErrors);
         setLastNameErrors(errorsReport.lastNameAllErrors);
         setUsernameErrors(errorsReport.usernameAllErrors);
@@ -149,47 +149,54 @@ export default function Register(){
         setConfirmPasswordErrors(errorsReport.confirmPasswordAllErrors);
     }
 
-    if(isRegistered){
-        return <Navigate to = {RouteConfig.authLoginPath} />
+    if (isRegistered) {
+        return <Navigate to={RouteConfig.authLoginPath} />
     }
 
-    return(
-     <div className="register-container">
-            <h3>Register</h3>
-            <span><Link to={ RouteConfig.homePath } data-testid="link-register-home-id"> Home </Link></span>
-            <br/>
-            <span><Link to={ RouteConfig.authLoginPath } data-testid="link-register-login-id"> Login </Link></span>
-            <br />
-            <fieldset>
-                <form action="/api/register" method="post" id="registerCustomerForm" className="form">
-                    <input type="text" name="firstName" placeholder="Insert your first Name" className="row" onFocus={()=>{ setFirstNameErrors('');}}/>
-                    <div className='text-left'>
-                        <span dangerouslySetInnerHTML={{ __html: firstNameErrors }}></span>
+    return (
+        <div className="register-section webpage">
+            <div className='outerLayout'>
+                <div className='header-container'>
+                    <div className='header-title silverBorder'>
+                        <div className='topNavigationBar'>
+                            <div className='floatLeft margin10'>Registration Section</div>
+                            <ul className='floatRight'>
+                                <li className='inlineBlock btnCreate'> <Link to={RouteConfig.homePath} data-testid="link-register-home-id" className='noTextDecoration'> Home </Link> </li>
+                                <li className='inlineBlock btnCreate'> <Link to={RouteConfig.authLoginPath} data-testid="link-register-login-id" className="noTextDecoration"> Login </Link> </li>
+                            </ul>
+                        </div>
                     </div>
-                    <input type="text" name="lastName" placeholder="Insert your last Name" className="row" onFocus={()=>{setLastNameErrors('');}}/>
-                    <div className='text-left'>
-                        <span dangerouslySetInnerHTML={{ __html: lastNameErrors }}></span>
-                    </div>
-                    <input type="text" name="username" placeholder="Insert your username" className="row" onFocus={()=>{setUsernameErrors('');}}/>
-                    <div className='text-left'>
-                        <span dangerouslySetInnerHTML={{ __html: usernameErrors }}></span>
-                    </div>
-                    <input type="email" name="enail" placeholder="Insert your email" className="row" onFocus={()=>{setEmailErrors('');}}/>
-                    <div className='text-left'>
-                        <span dangerouslySetInnerHTML={{ __html: emailErrors }}></span>
-                    </div>
-                    <input type="password" name="password" placeholder="insert your password" className="row" onFocus={()=>{setPasswordErrors('');}}/>
-                    <div className='text-left'>
-                        <span dangerouslySetInnerHTML={{ __html: passwordErrors }}></span>
-                    </div>
-                    <input type="password" name="confirmPassword" placeholder="Confirm your password" className="row" onFocus={()=>{setConfirmPasswordErrors('');}}/>
-                    <div className='text-left'>
-                        <span dangerouslySetInnerHTML={{ __html: confirmPasswordErrors }}></span>
-                    </div>
+                </div>
+            </div>
+            <form action="/api/register" method="post" id="registerCustomerForm" className="form">
+                <input type="text" name="firstName" placeholder="First Name" className="inputForm" onFocus={() => { setFirstNameErrors(''); }} />
+                <div className='textLeft margin10 danger'>
+                    <span dangerouslySetInnerHTML={{ __html: firstNameErrors }}></span>
+                </div>
+                <input type="text" name="lastName" placeholder="Last Name" className="inputForm" onFocus={() => { setLastNameErrors(''); }} />
+                <div className='textLeft margin10 danger'>
+                    <span dangerouslySetInnerHTML={{ __html: lastNameErrors }}></span>
+                </div>
+                <input type="text" name="username" placeholder="Username" className="inputForm" onFocus={() => { setUsernameErrors(''); }} />
+                <div className='textLeft margin10 danger'>
+                    <span dangerouslySetInnerHTML={{ __html: usernameErrors }}></span>
+                </div>
+                <input type="email" name="enail" placeholder="Email" className="inputForm" onFocus={() => { setEmailErrors(''); }} />
+                <div className='textLeft margin10 danger'>
+                    <span dangerouslySetInnerHTML={{ __html: emailErrors }}></span>
+                </div>
+                <input type="password" name="password" placeholder="Password" className="inputForm" onFocus={() => { setPasswordErrors(''); }} />
+                <div className='textLeft margin10 danger'>
+                    <span dangerouslySetInnerHTML={{ __html: passwordErrors }}></span>
+                </div>
+                <input type="password" name="confirmPassword" placeholder="Password" className="inputForm" onFocus={() => { setConfirmPasswordErrors(''); }} />
+                <div className='textLeft margin10 danger'>
+                    <span dangerouslySetInnerHTML={{ __html: confirmPasswordErrors }}></span>
+                </div>
 
-                    <button type="button" name="button" onClick={() => { processUserRegistration(); } } value="submit" className="row" data-testid="register-customer-form-id">Submit</button>
-                </form>
-            </fieldset>
-        <p>{notificationInfo}</p>
-    </div>);
+                <button type="button" name="button" onClick={() => { processUserRegistration(); }} value="Register" className="inputForm btnCreate " data-testid="register-customer-form-id">Register</button>
+            </form>
+
+            <p>{notificationInfo}</p>
+        </div>);
 }

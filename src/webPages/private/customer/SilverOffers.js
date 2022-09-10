@@ -78,7 +78,7 @@ export default function SilverOffers(){
 
             <div className='container'>
                 <h2>SILVER OFFERS Section.</h2>
-                <div className='top-navigation-bar'>
+                <div className='topNavigationBar'>
                     <h3>Go To</h3>
                     <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboardPath} buttonText=" Customer Dashboard " />
                 </div>

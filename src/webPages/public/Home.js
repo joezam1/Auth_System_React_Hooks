@@ -23,18 +23,22 @@ export default function Home(){
     }, []);
 
 
-    let privateComponent =  userIsLoggedIn ? <li> <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboardPath} buttonText=" Go to Customer Dashboard" />  </li>  : '';
-
   return(
-      <div className="home">
-          This is home Section - Public Page
-          <br/>
+    <div className="home webpage">
+        <div className='outerLayout'>
+            <div className='header-container'>
+                <div className='header-title silverBorder'>
+                   <div className='topNavigationBar'>
+                    <div className='floatLeft margin10'>HOME</div>
+                        <ul className='floatRight'>
 
-          <ul>
-              {privateComponent}
-              <li> <Link to={RouteConfig.authRegisterPath} data-testid="link-home-register-id">Register</Link></li>
-              <li> <Link to={RouteConfig.authLoginPath} data-testid="link-home-login-id"> Login</Link></li>
-          </ul>
-      </div>
+                            <li className='inlineBlock btnCreate'> <Link to={RouteConfig.authRegisterPath} data-testid="link-home-register-id" className='noTextDecoration'>Register</Link></li>
+                            <li className='inlineBlock btnCreate'> <Link to={RouteConfig.authLoginPath} data-testid="link-home-login-id" className='noTextDecoration'> Login</Link></li>
+                        </ul>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
   );
 }

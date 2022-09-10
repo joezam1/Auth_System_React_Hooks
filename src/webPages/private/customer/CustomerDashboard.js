@@ -79,7 +79,7 @@ export default function CustomerDashboard(){
 
             <div className= {'container ' + canRead} >
                 <h2>Customer Dashboard</h2>
-                <div className='top-navigation-bar'>
+                <div className='topNavigationBar'>
                     <h3>Go To</h3>
                     <div className=''>
                         <ul className=''>

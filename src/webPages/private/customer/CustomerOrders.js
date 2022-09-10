@@ -80,7 +80,7 @@ export default function CustomerOrders() {
         </div>
         <div className={'container ' + canRead}>
             <h2>Customer Orders Section.</h2>
-            <div className='top-navigation-bar'>
+            <div className='topNavigationBar'>
                 <h3>Go To</h3>
                 <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboardPath} buttonText=" Customer Dashboard " />
             </div>

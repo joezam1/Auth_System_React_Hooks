@@ -25,7 +25,7 @@ export default function PremiumOffers(){
     useEffect(()=>{
         let userInfo = ComponentAuthorizationService.getUserInfo();
         console.log('userInfo:', userInfo);
-        if(InputCommonInspector.inputExist()){
+        if(InputCommonInspector.inputExist(userInfo)){
             setUsername(userInfo.username);
             setCustomerType( UserRole[userInfo.roles[0]] );
         }
@@ -35,7 +35,7 @@ export default function PremiumOffers(){
         if(roleIsAuthorized){ setAuthorization('block') ; }
         let allPermissions = ComponentAuthorizationService.getAllApprovedPermissions(PremiumOffers.name)
         console.log('CustomerOrders-allPermissions', allPermissions);
-        if(InputCommonInspector.inputExist()){
+        if(InputCommonInspector.inputExist( allPermissions )){
             resolveApprovedPermissions(allPermissions);
         }
 
@@ -78,7 +78,7 @@ export default function PremiumOffers(){
 
             <div className='container'>
                 <h2>PREMIUM OFFERS Section.</h2>
-                <div className='top-navigation-bar'>
+                <div className='topNavigationBar'>
                     <h3>Go To</h3>
                     <LinkButtonPrivateRedirect redirectToLocation={RouteConfig.privateCustomerDashboardPath} buttonText=" Customer Dashboard " />
                 </div>
