@@ -41,7 +41,7 @@ exports[`File: CustomerOrders.js Component CustomerOrders It should take a snaps
           Customer Orders Section.
         </h2>
         <div
-          class="top-navigation-bar"
+          class="topNavigationBar"
         >
           <h3>
             Go To

@@ -13,22 +13,24 @@ import WindowLocationProperty from '../../library/stringLiterals/WindowLocationP
 import Helpers from '../../library/common/Helpers.js';
 import BackgroundWorker from '../../library/enumerations/BackgroundWorker.js';
 import httpResponseStatus from '../../library/enumerations/HttpResponseStatus.js';
+import MonitorService from '../monitoring/MonitorService.js';
+
 
 
 const SessionAuthenticationService = (function(){
     //Test:DONE
     const redirectPrivateWebpagesMediator = function(redirectTo){
-        console.log('redirectPrivateWebpagesMediator-redirectTo', redirectTo);
+        MonitorService.capture('redirectPrivateWebpagesMediator-redirectTo', redirectTo);
         saveRedirectValueToLocalStorage(redirectTo);
         let cookieName = LocalStorageService.getItemFromLocalStorage(CookieProperty.NAME);
         let sessionToken = CookieService.getCookieFromDataStoreByName(cookieName);
-        console.log('redirectPrivateWebpagesMediator-sessionToken', sessionToken);
+        MonitorService.capture('redirectPrivateWebpagesMediator-sessionToken', sessionToken);
         if( !inputCommonInspector.stringIsNullOrEmpty(sessionToken)){
             resolveSessionAuthenticationUsingWebWorkers( sessionToken);
         }
         else{
 
-            console.log('redirectPrivateWebpagesMediator-LOGOUT TRIGGERED');
+            MonitorService.capture('redirectPrivateWebpagesMediator-LOGOUT TRIGGERED');
             Helpers.setUrlRedirect( RouteConfig.authLogoutPath );
         }
     }
@@ -47,16 +49,16 @@ function saveRedirectValueToLocalStorage( redirectTo ){
     LocalStorageService.setItemInLocalStorage( WindowLocationProperty.REDIRECT, redirectTo );
     let _redirectValue = LocalStorageService.getItemFromLocalStorage( WindowLocationProperty.REDIRECT );
     if(!inputCommonInspector.inputExist(_redirectValue)){
-        console.log('WARNING-RedirectTo-value not SET:', _redirectValue);
+        MonitorService.capture('WARNING-RedirectTo-value not SET:', _redirectValue);
         return;
     }
-    console.log('RedirectTo-value SET-OK:', _redirectValue);
+    MonitorService.capture('RedirectTo-value SET-OK:', _redirectValue);
 }
 
 function resolveSessionAuthenticationUsingWebWorkers(currentSessionToken){
     SessionAuthenticationWebWorkerManager.createNewWorker( authenticateSessionFetchWorkerMessageCallback );
     let apiRequestMessage = createMessageForApiSession(currentSessionToken);
-    console.log('resolveSessionAuthenticationUsingWebWorkers-apiRequestMessage', apiRequestMessage);
+    MonitorService.capture('resolveSessionAuthenticationUsingWebWorkers-apiRequestMessage', apiRequestMessage);
     SessionAuthenticationWebWorkerManager.sendMessageToWorker(apiRequestMessage);
 }
 
@@ -72,13 +74,13 @@ function createMessageForApiSession(cookieValue){
 
 
 function authenticateSessionFetchWorkerMessageCallback(event){
-    console.log('sessionWorkerOnMessageCallback-event', event);
-    console.log('sessionWorkerOnMessageCallback-event?.data?', event?.data);
-    console.log('sessionWorkerOnMessageCallback-event?.data?.data?', event?.data?.data);
-    console.log('sessionWorkerOnMessageCallback-event?.data?.data?.result', event?.data?.data?.result);
+    MonitorService.capture('sessionWorkerOnMessageCallback-event', event);
+    MonitorService.capture('sessionWorkerOnMessageCallback-event?.data?', event?.data);
+    MonitorService.capture('sessionWorkerOnMessageCallback-event?.data?.data?', event?.data?.data);
+    MonitorService.capture('sessionWorkerOnMessageCallback-event?.data?.data?.result', event?.data?.data?.result);
 
     let sessionInfo = event?.data?.data?.result;
-    console.log('sessionWorkerOnMessageCallback-sessionInfo', sessionInfo);
+    MonitorService.capture('sessionWorkerOnMessageCallback-sessionInfo', sessionInfo);
     let responseStatus = event?.data?.status ;
 
     switch(responseStatus){
@@ -101,9 +103,9 @@ function authenticateSessionFetchWorkerMessageCallback(event){
             //For Any other Case we Verify the CALLBACK RESPONSE is from the backend API
             let sessionAuthenticationFetchWorker = BackgroundWorker[BackgroundWorker.SessionAuthenticationFetchApihWorker ];
             if(isValidHttpResponseFromSelectedWorker( sessionAuthenticationFetchWorker , event ) ){
-                console.log('it is a verified and valid request from the API.');
-                console.log('No ACTIVE Session FOUND then LOGOUT');
-                console.log('authenticateSessionFetchWorkerMessageCallback-LOGOUT TRIGGERED');
+                MonitorService.capture('it is a verified and valid request from the API.');
+                MonitorService.capture('No ACTIVE Session FOUND then LOGOUT');
+                MonitorService.capture('authenticateSessionFetchWorkerMessageCallback-LOGOUT TRIGGERED');
                 Helpers.setUrlRedirect( RouteConfig.authLogoutPath );
             }
         break;
@@ -122,13 +124,13 @@ function isValidHttpResponseFromSelectedWorker(selectedWorker, event){
 }
 
 function resolveCurrentSessionAuthentication(sessionInfo){
-    console.log('sessionWorkerOnMessageCallback-sessionInfo', sessionInfo)
+    MonitorService.capture('sessionWorkerOnMessageCallback-sessionInfo', sessionInfo)
     if(inputCommonInspector.objectIsValid(sessionInfo)){
         let apiStoredSessionToken = sessionInfo?.sessionToken?.fieldValue;
         let cookieName = LocalStorageService.getItemFromLocalStorage( CookieProperty.NAME);
         let currentSessionToken = CookieService.getCookieFromDataStoreByName(cookieName);
-        console.log('NEW API Stored SessionToken', apiStoredSessionToken)
-        console.log('CURRENT SessionToken', currentSessionToken)
+        MonitorService.capture('NEW API Stored SessionToken', apiStoredSessionToken)
+        MonitorService.capture('CURRENT SessionToken', currentSessionToken)
         if(apiStoredSessionToken === currentSessionToken){
             return true;
         }
@@ -138,9 +140,9 @@ function resolveCurrentSessionAuthentication(sessionInfo){
 
 function executePrivateRedirect(){
     let currentLocationRedirect = LocalStorageService.getItemFromLocalStorage(WindowLocationProperty.REDIRECT);
-    console.log('authenticateSessionFetchWorkerMessageCallback-currentLocationRedirect:' , currentLocationRedirect);
+    MonitorService.capture('authenticateSessionFetchWorkerMessageCallback-currentLocationRedirect:' , currentLocationRedirect);
     if(inputCommonInspector.stringIsValid(currentLocationRedirect)){
-        console.log('LOCATION REDIRECT IS VALID-currentLocationRedirect', currentLocationRedirect);
+        MonitorService.capture('LOCATION REDIRECT IS VALID-currentLocationRedirect', currentLocationRedirect);
         Helpers.setUrlRedirect( currentLocationRedirect );
     }
     return;

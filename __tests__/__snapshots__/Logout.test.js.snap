@@ -4,24 +4,45 @@ exports[`File: Logout.js Function return It should take a snapshot 1`] = `
 <DocumentFragment>
    
   <div
-    class="logout-section"
+    class="logout-section webpage"
   >
-    <p>
-      You are Logged Out 
-      <span>
-         | 
-      </span>
-      <a
-        href="/"
+    <div
+      class="outerLayout"
+    >
+      <div
+        class="header-container"
       >
-        Go Home
-      </a>
-       
-    </p>
-    <br />
-    <div>
-       
+        <div
+          class="header-title silverBorder"
+        >
+          <div
+            class="topNavigationBar"
+          >
+            <div
+              class="floatLeft margin10"
+            >
+              You are Logged Out
+            </div>
+            <ul
+              class="floatRight"
+            >
+              <li
+                class="inlineBlock btnCreate"
+              >
+                 
+                <a
+                  class="noTextDecoration"
+                  href="/"
+                >
+                  Go Home
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
+    <div />
   </div>
     
 </DocumentFragment>

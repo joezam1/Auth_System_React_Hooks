@@ -22,6 +22,10 @@ import DeviceDetectorService from '../../services/deviceDetection/DeviceDetector
 import TokenType from '../../library/enumerations/TokenType.js';
 import JwtTokenService from '../../services/authorization/JwtTokenService.js';
 import AntiforgeryTokenService from '../../services/csrfProtection/AntiForgeryTokenService.js';
+import MonitorService from '../../services/monitoring/MonitorService.js';
+
+
+
 
 //Test: DONE
 export default function Login() {
@@ -38,7 +42,7 @@ export default function Login() {
 
     useEffect(() => {
 
-        console.log('login-componentName', Login.name);
+        MonitorService.capture('login-componentName', Login.name);
         let tokenTypeName = TokenType[TokenType.antiforgeryToken];
         let csrfToken = LocalStorageService.getItemFromLocalStorage(tokenTypeName);
         setAntiforgeryToken(csrfToken);
@@ -57,7 +61,7 @@ export default function Login() {
 
 
     function loginUserCallback(response) {
-        console.log('loginUserCallback-response', response);
+        MonitorService.capture('loginUserCallback-response', response);
 
         switch (response.status) {
             case httpResponseStatus._200ok:
@@ -69,7 +73,7 @@ export default function Login() {
                 LocalStorageService.setItemInLocalStorage(CookieProperty.NAME, name);
                 LocalStorageService.setItemInLocalStorage(CookieProperty.PATH, properties.path);
                 let resultCookieStorage = CookieService.insertCookieInDataStore(name, value, properties);
-                console.log('resultCookieStorage', resultCookieStorage)
+                MonitorService.capture('resultCookieStorage', resultCookieStorage)
                 JwtTokenService.saveTokenToLocalStorage(TokenType.jwtAccessToken, data.jwtAccessToken.fieldValue);
                 JwtTokenService.saveTokenToLocalStorage(TokenType.jwtRefreshToken, data.jwtRefreshToken.fieldValue);
                 let csrfTokenName = TokenType[TokenType.antiforgeryToken];
@@ -85,7 +89,7 @@ export default function Login() {
                 let responseObj = (typeof response.result === 'object')
                 if (responseObj) {
                     setNotification(NotificationService.errorsInForm);
-                    console.log('userInfo: ', userInfo);
+                    MonitorService.capture('userInfo: ', userInfo);
                     let errorMessagesReport = ValidationManager.buildErrorMessagesReport(response.result, userInfo);
                     setAllErrorMessages(errorMessagesReport);
                     break;
@@ -94,7 +98,7 @@ export default function Login() {
                 break;
 
             case httpResponseStatus._400badRequest:
-                console.log('LOGIN: Failure Error: ', response);
+                MonitorService.capture('LOGIN: Failure Error: ', response);
                 setNotification(NotificationService.loginFailed);
                 break;
 
@@ -110,18 +114,18 @@ export default function Login() {
 
         let form = document.getElementById('loginCustomerForm');
         if (form !== null) {
-            console.log('processUserRegistration-form', form);
+            MonitorService.capture('processUserRegistration-form', form);
             UserLoginDataModel.username = (InputCommonInspector.objectIsValid(form[0])) ? form[0].value : '';
             UserLoginDataModel.password = (InputCommonInspector.objectIsValid(form[1])) ? form[1].value : '',
                 UserLoginDataModel.geoLocation = geoLocationInfo;
             UserLoginDataModel.userAgent = DeviceDetectorService.getUserAgent();
             UserLoginDataModel.deviceAndBrowser = DeviceDetectorService.getDeviceAndBrowserInfo();
             var userLogin = new UserLoginViewModel(UserLoginDataModel);
-            console.log('processUserRegistration-userLogin', userLogin);
+            MonitorService.capture('processUserRegistration-userLogin', userLogin);
             userInfo = userLogin;
             if (!inputsAreValid(userLogin)) { return; }
 
-            console.log('UserLoginDataModel:', UserLoginDataModel);
+            MonitorService.capture('UserLoginDataModel:', UserLoginDataModel);
             var loginUrl = EnvConfig.PROTOCOL + '://' + EnvConfig.TARGET_URL + ServerConfig.apiUsersLoginPathPost;
             let headers = {
                 x_csrf_token: antiforgeryToken,
@@ -149,7 +153,7 @@ export default function Login() {
     }
 
     if (isLoggedIn) {
-        console.log('LOGIN-PAGE-isLoggedIn', isLoggedIn);
+        MonitorService.capture('LOGIN-PAGE-isLoggedIn', isLoggedIn);
         SessionAuthenticationService.redirectPrivateWebpagesMediator(RouteConfig.privateCustomerDashboardPath)
     }
     return (

@@ -15,14 +15,14 @@ import JwtTokenService from '../services/authorization/JwtTokenService.js';
 import TokenType from "../library/enumerations/TokenType.js";
 import BackgroundWorker from "../library/enumerations/BackgroundWorker.js";
 import httpResponseStatus from "../library/enumerations/HttpResponseStatus.js";
-
+import MonitorService from "../services/monitoring/MonitorService.js";
 
 const SessionUpdateInspector = (function () {
     //Test:DONE
     const resolveUpdateExpiringSession = function () {
 
-        console.log('resolverefreshinExpiringSession-TRIGGERED')
-        console.log('SessionConfig.SESSION_UPDATE_FREQUENCY_IN_MILLISECONDS', SessionConfig.SESSION_UPDATE_FREQUENCY_IN_MILLISECONDS);
+        MonitorService.capture('resolverefreshinExpiringSession-TRIGGERED')
+        MonitorService.capture('SessionConfig.SESSION_UPDATE_FREQUENCY_IN_MILLISECONDS', SessionConfig.SESSION_UPDATE_FREQUENCY_IN_MILLISECONDS);
         let cookieName = LocalStorageService.getItemFromLocalStorage(CookieProperty.NAME);
         let initialCookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
 
@@ -31,12 +31,12 @@ const SessionUpdateInspector = (function () {
 
             let timerId = setInterval(function () {
 
-                console.log('Interval-triggered-ok');
+                MonitorService.capture('Interval-triggered-ok');
                 let latestCookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
-                console.log('latestCookieValue:', latestCookieValue);
+                MonitorService.capture('latestCookieValue:', latestCookieValue);
                 if (!inputCommonInspector.inputExist(latestCookieValue)) {
                     clearInterval(timerId);
-                    console.log('Interval-stopped-ok');
+                    MonitorService.capture('Interval-stopped-ok');
                     return;
                 }
                 SessionUpdateWebWorkerManager.createNewWorker( sessionUpdateFetchWorkerOnMessageCallback );
@@ -87,7 +87,7 @@ function createMessageDataForWorker(cookieName, cookieValue) {
 
 
 function sessionUpdateFetchWorkerOnMessageCallback(event) {
-    console.log('sessionWorkerOnMessageCallback-event', event);
+    MonitorService.capture('sessionWorkerOnMessageCallback-event', event);
     let responseStatus = event?.data?.status;
     switch(responseStatus){
         case httpResponseStatus._200ok:

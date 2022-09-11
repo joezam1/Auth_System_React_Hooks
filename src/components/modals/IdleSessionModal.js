@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SessionConfig from '../../../configuration/authentication/SessionConfig.js';
 import LocalStorageService from "../../services/localStorage/LocalStorageService";
-
+import MonitorService from "../../services/monitoring/MonitorService.js";
 
 
 //Test: DONE
@@ -12,18 +12,18 @@ export default function IdleSessionModal(){
     const [countdownValue, setCountdown] = useState();
 
     useEffect(()=>{
-        console.log('idleSessionModal-useEffect-triggered-OK');
+        MonitorService.capture('idleSessionModal-useEffect-triggered-OK');
         let _intervalId = setInterval(() => {
             _countdownValue = LocalStorageService.getItemFromLocalStorage(SessionConfig.IDLE_SESSION_COUNTDOWN_VALUE);
-            console.log('useEffect-setInterval-countdownValue', _countdownValue);
+            MonitorService.capture('useEffect-setInterval-countdownValue', _countdownValue);
             setCountdown(_countdownValue);
             if(_countdownValue <= 0){
                 clearInterval(_intervalId);
-                console.log('clearInterval-DONE-_intervalId', _intervalId);
-                console.log('clearInterval-DONE-_countdownValue', _countdownValue);
+                MonitorService.capture('clearInterval-DONE-_intervalId', _intervalId);
+                MonitorService.capture('clearInterval-DONE-_countdownValue', _countdownValue);
             }
         }, SessionConfig.ONE_SECOND_IN_MILLISECONDS);
-        console.log('idleSessionModal-useEffect-_intervalId', _intervalId)
+        MonitorService.capture('idleSessionModal-useEffect-_intervalId', _intervalId)
     }, []);
 
     return(<div className="idle-session-modal-section">

@@ -4,113 +4,141 @@ exports[`File: Register.js Component: Register It can take a snapshot 1`] = `
 <DocumentFragment>
    
   <div
-    class="register-container"
+    class="register-section webpage"
   >
-    <h3>
-      Register
-    </h3>
-    <span>
-      <a
-        data-testid="link-register-home-id"
-        href="/"
+    <div
+      class="outerLayout"
+    >
+      <div
+        class="header-container"
       >
-         Home 
-      </a>
-    </span>
-    <br />
-    <span>
-      <a
-        data-testid="link-register-login-id"
-        href="/auth/login"
+        <div
+          class="header-title silverBorder"
+        >
+          <div
+            class="topNavigationBar"
+          >
+            <div
+              class="floatLeft margin10"
+            >
+              Registration Section
+            </div>
+            <ul
+              class="floatRight"
+            >
+              <li
+                class="inlineBlock btnCreate"
+              >
+                 
+                <a
+                  class="noTextDecoration"
+                  data-testid="link-register-home-id"
+                  href="/"
+                >
+                   Home 
+                </a>
+                 
+              </li>
+              <li
+                class="inlineBlock btnCreate"
+              >
+                 
+                <a
+                  class="noTextDecoration"
+                  data-testid="link-register-login-id"
+                  href="/auth/login"
+                >
+                   Login 
+                </a>
+                 
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form
+      action="/api/register"
+      class="form"
+      id="registerCustomerForm"
+      method="post"
+    >
+      <input
+        class="inputForm"
+        name="firstName"
+        placeholder="First Name"
+        type="text"
+      />
+      <div
+        class="textLeft margin10 danger"
       >
-         Login 
-      </a>
-    </span>
-    <br />
-    <fieldset>
-      <form
-        action="/api/register"
-        class="form"
-        id="registerCustomerForm"
-        method="post"
+        <span />
+      </div>
+      <input
+        class="inputForm"
+        name="lastName"
+        placeholder="Last Name"
+        type="text"
+      />
+      <div
+        class="textLeft margin10 danger"
       >
-        <input
-          class="row"
-          name="firstName"
-          placeholder="Insert your first Name"
-          type="text"
-        />
-        <div
-          class="text-left"
-        >
-          <span />
-        </div>
-        <input
-          class="row"
-          name="lastName"
-          placeholder="Insert your last Name"
-          type="text"
-        />
-        <div
-          class="text-left"
-        >
-          <span />
-        </div>
-        <input
-          class="row"
-          name="username"
-          placeholder="Insert your username"
-          type="text"
-        />
-        <div
-          class="text-left"
-        >
-          <span />
-        </div>
-        <input
-          class="row"
-          name="enail"
-          placeholder="Insert your email"
-          type="email"
-        />
-        <div
-          class="text-left"
-        >
-          <span />
-        </div>
-        <input
-          class="row"
-          name="password"
-          placeholder="insert your password"
-          type="password"
-        />
-        <div
-          class="text-left"
-        >
-          <span />
-        </div>
-        <input
-          class="row"
-          name="confirmPassword"
-          placeholder="Confirm your password"
-          type="password"
-        />
-        <div
-          class="text-left"
-        >
-          <span />
-        </div>
-        <button
-          class="row"
-          data-testid="register-customer-form-id"
-          name="button"
-          type="button"
-          value="submit"
-        >
-          Submit
-        </button>
-      </form>
-    </fieldset>
+        <span />
+      </div>
+      <input
+        class="inputForm"
+        name="username"
+        placeholder="Username"
+        type="text"
+      />
+      <div
+        class="textLeft margin10 danger"
+      >
+        <span />
+      </div>
+      <input
+        class="inputForm"
+        name="enail"
+        placeholder="Email"
+        type="email"
+      />
+      <div
+        class="textLeft margin10 danger"
+      >
+        <span />
+      </div>
+      <input
+        class="inputForm"
+        name="password"
+        placeholder="Password"
+        type="password"
+      />
+      <div
+        class="textLeft margin10 danger"
+      >
+        <span />
+      </div>
+      <input
+        class="inputForm"
+        name="confirmPassword"
+        placeholder="Password"
+        type="password"
+      />
+      <div
+        class="textLeft margin10 danger"
+      >
+        <span />
+      </div>
+      <button
+        class="inputForm btnCreate "
+        data-testid="register-customer-form-id"
+        name="button"
+        type="button"
+        value="Register"
+      >
+        Register
+      </button>
+    </form>
     <p />
   </div>
    

@@ -1,5 +1,4 @@
 import JsDataType from '../stringLiterals/JsDataType.js';
-import CommonValidators from '../../services/validators/CommonValidators.js';
 import InputCommonInspector from '../../services/validators/InputCommonInspector.js';
 
 //Test: DONE

@@ -2,6 +2,10 @@ import React from "react";
 import ReactRenderer from "./ReactRenderer";
 import TransparentLayer from "../../components/modals/TransparentBackgroundLayer";
 import TargetHtmlElementId from '../../library/stringLiterals/TargetHtmlElementId.js';
+import MonitorService from "../monitoring/MonitorService";
+
+
+
 
 const LayerRenderingService = (function(){
 
@@ -24,7 +28,7 @@ const LayerRenderingService = (function(){
 
     function onInit(){
         ReactRenderer.setHtmlTargetElement( TargetHtmlElementId.LAYER);
-        console.log( 'onInit-ReactRenderer.setHtmlTargetElement-TRIGGERED' );
+        MonitorService.capture( 'onInit-ReactRenderer.setHtmlTargetElement-TRIGGERED' );
     }
 
     //#ENDREGION Private Functions

@@ -9,6 +9,10 @@ import InputCommonInspector from '../services/validators/InputCommonInspector.js
 import CookieService from '../services/cookieStorage/CookieService.js';
 import CookieProperty from '../library/stringLiterals/CookieProperty.js';
 import ModalWindowName from '../library/enumerations/ModalWindowName.js';
+import MonitorService from '../services/monitoring/MonitorService.js';
+
+
+
 
 const IdleSessionInspector = (function(){
 
@@ -55,8 +59,8 @@ const IdleSessionInspector = (function(){
 
         function startIdleTimeScanner() {
             _idleSecondsCounter++;
-            console.log('CheckTime-_idleSecondsCounter:' , _idleSecondsCounter);
-            console.log('CheckTime-MODAL --> _countdown:' , _countdown);
+            MonitorService.capture('CheckTime-_idleSecondsCounter:' , _idleSecondsCounter);
+            MonitorService.capture('CheckTime-MODAL --> _countdown:' , _countdown);
             if(_idleSecondsCounter === 0){
                 ModalRenderingService.stopRendering();
                 LayerRenderingService.stopRendering();
@@ -65,10 +69,10 @@ const IdleSessionInspector = (function(){
             }
             if(_idleSecondsCounter >= DISPLAY_LOGOUT_WARNING){
 
-                console.log('_countdown-BEFORE : ',_countdown);
+                MonitorService.capture('_countdown-BEFORE : ',_countdown);
                 LocalStorageService.setItemInLocalStorage(SessionConfig.IDLE_SESSION_COUNTDOWN_VALUE , _countdown);
                 _countdown--;
-                console.log('_countdown-AFTER : ',_countdown);
+                MonitorService.capture('_countdown-AFTER : ',_countdown);
             }
             if(_idleSecondsCounter === DISPLAY_LOGOUT_WARNING){
 
@@ -95,11 +99,11 @@ export default IdleSessionInspector;
 //#REGION Private Functions
 
 function resolveLogoutUser(countdown){
-    console.log("resolveLogoutUser-countdown", countdown);
+    MonitorService.capture("resolveLogoutUser-countdown", countdown);
     let storageName = IntervalIdName[IntervalIdName.idleBrowserIntervalId];
     let intervalId =  LocalStorageService.getItemFromLocalStorage(storageName);
-    console.log("resolveLogoutUser-intervalId", intervalId);
-    console.log("Time expired!");
+    MonitorService.capture("resolveLogoutUser-intervalId", intervalId);
+    MonitorService.capture("Time expired!");
 
     window.clearInterval(intervalId);
     LocalStorageService.removeItemFromLocalStorage(storageName);

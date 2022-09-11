@@ -41,7 +41,7 @@ exports[`File: GoldOffers.js Component GoldOffers It should take a snapshot 1`] 
           GOLD OFFERS Section.
         </h2>
         <div
-          class="top-navigation-bar"
+          class="topNavigationBar"
         >
           <h3>
             Go To

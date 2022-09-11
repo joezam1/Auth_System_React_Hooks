@@ -1,12 +1,12 @@
 import CookieHelper from './CookieHelper.js';
-
+import MonitorService from '../monitoring/MonitorService.js';
 
 const CookieService = (function(){
 
 //Test: DONE
 let insertCookieInDataStore = function(cookieName, cookieValue, optionsObject){
     try{
-        console.log('optionsObject', optionsObject)
+        MonitorService.capture('optionsObject', optionsObject)
         let properties = {
             path: optionsObject.path,
             maxAge : optionsObject.maxAge,
@@ -17,7 +17,7 @@ let insertCookieInDataStore = function(cookieName, cookieValue, optionsObject){
     }
     catch(error){
         let errorMessage= new Error('Failed to save the cookie to the storage: ', error);
-        console.log('errorMessage', errorMessage);
+        MonitorService.capture('errorMessage', errorMessage);
         return error;
     }
 }
@@ -34,7 +34,7 @@ let deleteCookieFromDataStoreByNameAndPath = function(cookieName, cookiePath){
     }
     catch(error){
         let errorMessage= new Error('Failed to Delete the cookie from the storage: ', error);
-        console.log('errorMessage', errorMessage);
+        MonitorService.capture('errorMessage', errorMessage);
         return errorMessage;
     }
 }
@@ -44,8 +44,8 @@ let sessionCookieIsExpired = function(cookieSessionUTCDateExpired){
     //To convert to UTC datetime by subtracting the current Timezone offset
     var utcDate =  new Date(dateNow.getTime() + (dateNow.getTimezoneOffset()*60000));
     let dateExpiredUtcAsDate = new Date(cookieSessionUTCDateExpired)
-    console.log('sessionCookieIsExpired-utdDate', utcDate);
-    console.log('sessionCookieIsExpired-dateExpiredUtcAsDate', dateExpiredUtcAsDate);
+    MonitorService.capture('sessionCookieIsExpired-utdDate', utcDate);
+    MonitorService.capture('sessionCookieIsExpired-dateExpiredUtcAsDate', dateExpiredUtcAsDate);
 
     let dateNowUtcAsTime = utcDate.getTime();
     let dateExpiredUtcAsTime = dateExpiredUtcAsDate.getTime();

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import SessionConfig from '../../../configuration/authentication/SessionConfig.js';
 import LocalStorageService from "../../services/localStorage/LocalStorageService.js";
+import MonitorService from "../../services/monitoring/MonitorService.js";
+
 
 //Test: DONE
 export default function LogoutSessionModal(){
@@ -8,21 +10,21 @@ export default function LogoutSessionModal(){
 
 
     useEffect(()=>{
-        console.log('LogoutSessionModal-useEffect-triggered-OK');
+        MonitorService.capture('LogoutSessionModal-useEffect-triggered-OK');
         let countdownValue = LocalStorageService.getItemFromLocalStorage(SessionConfig.LOGOUT_SESSION_COUNTDOWN_VALUE);
         setCountdown(countdownValue);
         let _intervalId = setInterval(() => {
 
             let countdownValueInsideInterval = LocalStorageService.getItemFromLocalStorage(SessionConfig.LOGOUT_SESSION_COUNTDOWN_VALUE);
-            console.log('useEffect-setInterval-countdownValue', countdownValueInsideInterval);
+            MonitorService.capture('useEffect-setInterval-countdownValue', countdownValueInsideInterval);
             setCountdown(countdownValueInsideInterval);
             if(countdownValueInsideInterval <= 0){
                 clearInterval(_intervalId);
-                console.log('clearInterval-DONE-_intervalId', _intervalId);
-                console.log('clearInterval-DONE-countdownValue', countdownValueInsideInterval);
+                MonitorService.capture('clearInterval-DONE-_intervalId', _intervalId);
+                MonitorService.capture('clearInterval-DONE-countdownValue', countdownValueInsideInterval);
             }
         }, SessionConfig.ONE_SECOND_IN_MILLISECONDS);
-        console.log('LogoutSessionModal-useEffect-_intervalId', _intervalId)
+        MonitorService.capture('LogoutSessionModal-useEffect-_intervalId', _intervalId)
     }, []);
 
     return(<div className="logout-session-modal-section">

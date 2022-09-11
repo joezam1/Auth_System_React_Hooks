@@ -51,7 +51,7 @@ exports[`File: PremiumClubMember.js Component PremiumClubMember It should take a
           PREMIUM Club Member
         </h2>
         <div
-          class="top-navigation-bar"
+          class="topNavigationBar"
         >
           <h3>
             Go To

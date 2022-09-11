@@ -4,6 +4,9 @@ import EncryptDecryptService from '../encryption/EncryptDecryptService.js';
 import Helpers from '../../library/common/Helpers.js';
 import TokenType from '../../library/enumerations/TokenType.js';
 import LocalStorageService from '../localStorage/LocalStorageService.js';
+import MonitorService from '../monitoring/MonitorService.js';
+
+
 
 const JwtTokenService = (function(){
 
@@ -16,7 +19,7 @@ const JwtTokenService = (function(){
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
 
-        console.log('jsonPayload', jsonPayload)
+        MonitorService.capture('jsonPayload', jsonPayload)
         let result = CommonValidators.safeJsonParse(jsonPayload);
         return result;
     };

@@ -6,30 +6,57 @@ exports[`File: App.js Function App it should take a snapshot 1`] = `
     class="app"
   >
     <div
-      class="home"
+      class="home webpage"
     >
-      This is home Section - Public Page
-      <br />
-      <ul>
-        <li>
-           
-          <a
-            data-testid="link-home-register-id"
-            href="/auth/register"
+      <div
+        class="outerLayout"
+      >
+        <div
+          class="header-container"
+        >
+          <div
+            class="header-title silverBorder"
           >
-            Register
-          </a>
-        </li>
-        <li>
-           
-          <a
-            data-testid="link-home-login-id"
-            href="/auth/login"
-          >
-             Login
-          </a>
-        </li>
-      </ul>
+            <div
+              class="topNavigationBar"
+            >
+              <div
+                class="floatLeft margin10"
+              >
+                HOME
+              </div>
+              <ul
+                class="floatRight"
+              >
+                <li
+                  class="inlineBlock btnCreate"
+                >
+                   
+                  <a
+                    class="noTextDecoration"
+                    data-testid="link-home-register-id"
+                    href="/auth/register"
+                  >
+                    Register
+                  </a>
+                </li>
+                <li
+                  class="inlineBlock btnCreate"
+                >
+                   
+                  <a
+                    class="noTextDecoration"
+                    data-testid="link-home-login-id"
+                    href="/auth/login"
+                  >
+                     Login
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </DocumentFragment>

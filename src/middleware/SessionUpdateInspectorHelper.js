@@ -2,11 +2,13 @@ import CookieService from '../services/cookieStorage/CookieService.js';
 import LocalStorageService from '../services/localStorage/LocalStorageService.js';
 import CookieProperty from '../library/stringLiterals/CookieProperty.js';
 import InputCommonInspector from '../services/validators/InputCommonInspector.js';
+import MonitorService from '../services/monitoring/MonitorService.js';
+
 
 //Test: DONE
 const resolveSessionUpdate = function(sessionInfo){
     let newSessionToken = sessionInfo?.sessionToken?.fieldValue;
-    console.log('NEW-SESSION-TOKEN:', newSessionToken);
+    MonitorService.capture('NEW-SESSION-TOKEN:', newSessionToken);
     if(!InputCommonInspector.inputExist(newSessionToken) || !InputCommonInspector.stringIsValid(newSessionToken) ){
         return false;
     }
@@ -14,7 +16,7 @@ const resolveSessionUpdate = function(sessionInfo){
     let expiresInMilliseconds = sessionInfo?.expires?.fieldValue;
 
     let currentCookieValue = CookieService.getCookieFromDataStoreByName(cookieName);
-    console.log('CURRENT-SESSION-TOKEN:', currentCookieValue)
+    MonitorService.capture('CURRENT-SESSION-TOKEN:', currentCookieValue)
 
     let incomingSessionIsNew =  sessionsAreDifferent( newSessionToken , currentCookieValue );
     if (incomingSessionIsNew ) {

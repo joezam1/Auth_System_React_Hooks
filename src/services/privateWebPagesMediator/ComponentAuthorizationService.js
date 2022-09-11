@@ -2,14 +2,17 @@ import JwtTokenService from "../authorization/JwtTokenService";
 import TokenType from "../../library/enumerations/TokenType";
 import ComponentAuthorizationHelper from './ComponentAuthorizationHelper.js'
 import InputCommonInspector from '../validators/InputCommonInspector.js';
+import MonitorService from "../monitoring/MonitorService";
+
+
+
+
 
 
 const ComponentAuthorizationService = (function(){
 
     let _userRolesArray = null;
     let _userInfo = null;
-
-
 
     //Test: DONE
     const getUserInfo = function(){
@@ -32,12 +35,12 @@ const ComponentAuthorizationService = (function(){
 
     //Test: DONE
     const roleIsAuthorized = function(componentName){
-        console.log('roleIsAuthorized-componentName', componentName);
+        MonitorService.capture('roleIsAuthorized-componentName', componentName);
         let componentFound = ComponentAuthorizationHelper.getComponentInfo(componentName);
         let allRolesFound = (InputCommonInspector.inputExist(componentFound))
                             ? ComponentAuthorizationHelper.getAllAuthorizedRoles(componentFound.roles, _userRolesArray)
                             : [] ;
-        console.log('ComponentAuthorizationService-allRolesFound', allRolesFound);
+        MonitorService.capture('ComponentAuthorizationService-allRolesFound', allRolesFound);
         if(allRolesFound.length>0){
             return true;
         }
@@ -57,12 +60,12 @@ const ComponentAuthorizationService = (function(){
     }
     //Test: DONE
     const getAllApprovedPermissions = function(componentName){
-        console.log('roleIsAuthorized-componentName', componentName);
+        MonitorService.capture('roleIsAuthorized-componentName', componentName);
         let componentFound = ComponentAuthorizationHelper.getComponentInfo(componentName);
         let allRolesFound = (InputCommonInspector.inputExist(componentFound))
                             ? ComponentAuthorizationHelper.getAllAuthorizedRoles(componentFound.roles, _userRolesArray)
                             : [] ;
-        console.log('ComponentAuthorizationService-allRolesFound', allRolesFound);
+        MonitorService.capture('ComponentAuthorizationService-allRolesFound', allRolesFound);
         let permissionsArray =ComponentAuthorizationHelper.findApprovedPermissions(allRolesFound);
         return permissionsArray;
     }

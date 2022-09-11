@@ -13,6 +13,10 @@ import NotificationService from '../../services/notifications/NotificationServic
 import TokenType from '../../library/enumerations/TokenType.js';
 import LocalStorageService from '../../services/localStorage/LocalStorageService.js';
 import AntiforgeryTokenService from '../../services/csrfProtection/AntiForgeryTokenService.js';
+import MonitorService from '../../services/monitoring/MonitorService.js';
+
+
+
 
 //Test:DONE
 export default function Register() {
@@ -34,7 +38,7 @@ export default function Register() {
 
     useEffect(() => {
 
-        console.log('Register-componentName', Register.name);
+        MonitorService.capture('Register-componentName', Register.name);
         let tokenTypeName = TokenType[TokenType.antiforgeryToken];
         let csrfToken = LocalStorageService.getItemFromLocalStorage(tokenTypeName);
         setAntiforgeryToken(csrfToken);
@@ -51,7 +55,7 @@ export default function Register() {
 
 
     let registerUserCallback = (response) => {
-        console.log('RegisterUserCallback-response', response);
+        MonitorService.capture('RegisterUserCallback-response', response);
         switch (response.status) {
             case httpResponseStatus._201created:
                 let csrfToken = response.csrfToken;
@@ -66,7 +70,7 @@ export default function Register() {
                 let responseObj = (typeof response.result === 'object')
                 if (responseObj) {
                     setNotification(NotificationService.errorsInForm);
-                    console.log('userInfo', userInfo);
+                    MonitorService.capture('userInfo', userInfo);
                     let errorMessagesReport = ValidationManager.buildErrorMessagesReport(response.result, userInfo);
                     setAllErrorMessages(errorMessagesReport);
                     break;
@@ -104,7 +108,7 @@ export default function Register() {
         setNotification('');
         var form = document.getElementById('registerCustomerForm');
         if (form !== null) {
-            console.log('processUserRegistration-form', form);
+            MonitorService.capture('processUserRegistration-form', form);
 
             let dataModel = {
                 firstName: (InputCommonInspector.objectIsValid(form[0])) ? form[0].value : '',
@@ -116,7 +120,7 @@ export default function Register() {
                 userRole: UserRole.BaseCustomer
             };
             var user = new UserRegister(dataModel);
-            console.log('processUserRegistration-user', user);
+            MonitorService.capture('processUserRegistration-user', user);
             userInfo = user;
             if (!inputsAreValid(user)) { return; }
             var registerUrl = EnvConfig.PROTOCOL + '://' + EnvConfig.TARGET_URL + ServerConfig.apiUsersRegisterPathPost;

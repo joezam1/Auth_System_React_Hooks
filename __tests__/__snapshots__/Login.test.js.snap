@@ -4,68 +4,96 @@ exports[`File: Login.js Component Login It should take a snapshot 1`] = `
 <DocumentFragment>
    
   <div
-    class="register-container"
+    class="login-section webpage"
   >
-    <h3>
-      Login
-    </h3>
-    <span>
-      <a
-        data-testid="link-login-home-id"
-        href="/"
+    <div
+      class="outerLayout"
+    >
+      <div
+        class="header-container"
       >
-         Home 
-      </a>
-    </span>
-    <br />
-    <span>
-      <a
-        data-testid="link-login-register-id"
-        href="/auth/register"
-      >
-        Register
-      </a>
-    </span>
-    <br />
-    <fieldset>
-      <form
-        action="/api/login"
-        class="form"
-        id="loginCustomerForm"
-        method="post"
-      >
-        <input
-          class="row"
-          name="username"
-          placeholder="Insert your username"
-          type="text"
-        />
         <div
-          class="text-left"
+          class="header-title silverBorder"
         >
-          <span />
+          <div
+            class="topNavigationBar"
+          >
+            <div
+              class="floatLeft margin10"
+            >
+              Login Section
+            </div>
+            <ul
+              class="floatRight"
+            >
+              <li
+                class="inlineBlock btnCreate"
+              >
+                 
+                <a
+                  class="noTextDecoration"
+                  data-testid="link-login-home-id"
+                  href="/"
+                >
+                   Home 
+                </a>
+                 
+              </li>
+              <li
+                class="inlineBlock btnCreate"
+              >
+                 
+                <a
+                  class="noTextDecoration"
+                  data-testid="link-login-register-id"
+                  href="/auth/register"
+                >
+                  Register
+                </a>
+                 
+              </li>
+            </ul>
+          </div>
         </div>
-        <input
-          class="row"
-          name="password"
-          placeholder="insert your password"
-          type="password"
-        />
-        <div
-          class="text-left"
-        >
-          <span />
-        </div>
-        <button
-          class="row"
-          name="button"
-          type="button"
-          value="submit"
-        >
-          Submit
-        </button>
-      </form>
-    </fieldset>
+      </div>
+    </div>
+    <form
+      action="/api/login"
+      class="form"
+      id="loginCustomerForm"
+      method="post"
+    >
+      <input
+        class="inputForm"
+        name="username"
+        placeholder="Username"
+        type="text"
+      />
+      <div
+        class="textLeft margin10 danger"
+      >
+        <span />
+      </div>
+      <input
+        class="inputForm"
+        name="password"
+        placeholder="Password"
+        type="password"
+      />
+      <div
+        class="textLeft margin10 danger"
+      >
+        <span />
+      </div>
+      <button
+        class="inputForm btnCreate "
+        name="button"
+        type="button"
+        value="submit"
+      >
+        Login
+      </button>
+    </form>
     <p />
   </div>
     

@@ -51,7 +51,7 @@ exports[`File: CustomerDashboard.js Component CustomerDashboard It should take a
           Customer Dashboard
         </h2>
         <div
-          class="top-navigation-bar"
+          class="topNavigationBar"
         >
           <h3>
             Go To

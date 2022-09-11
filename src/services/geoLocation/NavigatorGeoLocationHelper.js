@@ -1,4 +1,4 @@
-
+import MonitorService from "../monitoring/MonitorService";
 
 const NavigatorGeoLocationHelper = (function () {
 
@@ -17,10 +17,10 @@ const NavigatorGeoLocationHelper = (function () {
 
             function successCallback(positionInfo) {
                 const crd = positionInfo.coords;
-                console.log('Your current position is:');
-                console.log(`Latitude : ${crd.latitude}`);
-                console.log(`Longitude: ${crd.longitude}`);
-                console.log(`More or less ${crd.accuracy} meters.`);
+                MonitorService.capture('Your current position is:');
+                MonitorService.capture(`Latitude : ${crd.latitude}`);
+                MonitorService.capture(`Longitude: ${crd.longitude}`);
+                MonitorService.capture(`More or less ${crd.accuracy} meters.`);
                 resolve(positionInfo);
             }
 
@@ -40,7 +40,7 @@ const NavigatorGeoLocationHelper = (function () {
                     message ="An unknown error occurred.";
                     break;
                 }
-                console.log(`Error Message: ${message}`, error);
+                MonitorService.capture(`Error Message: ${message}`, error);
                 reject(error);
             }
 

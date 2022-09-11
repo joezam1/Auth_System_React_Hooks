@@ -1,5 +1,6 @@
 import InputCommonInspector from "../services/validators/InputCommonInspector";
 import ResourcesFetchApiWorker from './ResourcesFetchApiWorker.js';
+import MonitorService from "../services/monitoring/MonitorService";
 
 
 
@@ -7,22 +8,22 @@ const ResourcesWebWorkerManager = (function () {
 
     let resourcesWorker = null;
     const createNewWorker = function (callback) {
-        console.log('createWorker-resourcesWorker', resourcesWorker);
+        MonitorService.capture('createWorker-resourcesWorker', resourcesWorker);
         if (browserSupportsWorker() && !InputCommonInspector.inputExist(resourcesWorker) ) {
             resourcesWorker = new Worker(ResourcesFetchApiWorker);
-            console.log('BEGIN-createNewWorker', ResourcesFetchApiWorker);
+            MonitorService.capture('BEGIN-createNewWorker', ResourcesFetchApiWorker);
 
             resourcesWorker.onmessage = function(event) {
-                console.log(`web-worker-onmessage-MESSAGE RECEIVED:`, event);
+                MonitorService.capture(`web-worker-onmessage-MESSAGE RECEIVED:`, event);
                 if (InputCommonInspector.inputExist(callback)) {
-                    console.log('callback-isValid');
+                    MonitorService.capture('callback-isValid');
                     callback(event);
                 }
             }
 
             resourcesWorker.onerror = function (error) {
-                console.log(`[error] ${error.message}`);
-                console.log(`[SOCKET] ${error.message}`);
+                MonitorService.capture(`[error] ${error.message}`);
+                MonitorService.capture(`[SOCKET] ${error.message}`);
                 callback(error);
             };
         }
@@ -31,7 +32,7 @@ const ResourcesWebWorkerManager = (function () {
 
 
     const sendMessageToWorker = function (messageObj) {
-        console.log('WORKER-MANAGER- sendMessageToWorker- messageObj:', messageObj)
+        MonitorService.capture('WORKER-MANAGER- sendMessageToWorker- messageObj:', messageObj)
         if (browserSupportsWorker()) {
             resourcesWorker.postMessage(messageObj);
         }
@@ -39,13 +40,13 @@ const ResourcesWebWorkerManager = (function () {
     }
 
     const terminateActiveWorker = function () {
-        console.log('BEGIN-terminateActiveWorker-resourcesWorker', resourcesWorker);
+        MonitorService.capture('BEGIN-terminateActiveWorker-resourcesWorker', resourcesWorker);
         if ((InputCommonInspector.inputExist(resourcesWorker))) {
             resourcesWorker.terminate();
             resourcesWorker = undefined;
-            console.log('END-terminateActiveWorker-resourcesWorker', resourcesWorker);
+            MonitorService.capture('END-terminateActiveWorker-resourcesWorker', resourcesWorker);
         }
-        console.log('terminateActiveWorker-resourcesWorker', resourcesWorker);
+        MonitorService.capture('terminateActiveWorker-resourcesWorker', resourcesWorker);
     }
 
 

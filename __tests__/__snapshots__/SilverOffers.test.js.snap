@@ -41,7 +41,7 @@ exports[`File: SilverOffers.js Component SilverOffers It should take a snapshot 
           SILVER OFFERS Section.
         </h2>
         <div
-          class="top-navigation-bar"
+          class="topNavigationBar"
         >
           <h3>
             Go To

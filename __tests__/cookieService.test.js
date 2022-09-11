@@ -1,5 +1,8 @@
 import CookieService from '../src/services/cookieStorage/CookieService.js';
 import CookieHelper from '../src/services/cookieStorage/CookieHelper.js';
+import MonitorService from '../src/services/monitoring/MonitorService.js';
+
+
 jest.mock('../src/services/cookieStorage/CookieHelper.js')
 
 describe('File: CookieService.js',function(){
@@ -37,7 +40,7 @@ describe('File: CookieService.js',function(){
             CookieHelper.getCookieValueByName = jest.fn().mockReturnValueOnce(cookieValue);
             //Act
             let cookieResult = CookieService.getCookieFromDataStoreByName(cookieName);
-            console.log('cookieResult', cookieResult);
+            MonitorService.capture('cookieResult', cookieResult);
             //Assert
             expect(cookieResult).toEqual(cookieValue);
             expect(CookieHelper.getCookieValueByName).toHaveBeenCalledTimes(1);

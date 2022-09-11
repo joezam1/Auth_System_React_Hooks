@@ -3,6 +3,11 @@ import TokenValidator from'token-validator';
 
 import TokenDuration from '../../library/enumerations/TokenDuration.js';
 import AntiforgeryTokenConfig from '../../../configuration/csrfProtection/AntiForgeryTokenConfig.js';
+import MonitorService from '../monitoring/MonitorService.js';
+
+
+
+
 
 
 const antiforgeryTokenService = (function(){
@@ -68,7 +73,7 @@ const antiforgeryTokenService = (function(){
     //#REGION Private Functions
 
     function onInit(){
-        console.log('AntiforgeryTokenConfiguration: ', AntiforgeryTokenConfig);
+        MonitorService.capture('AntiforgeryTokenConfiguration: ', AntiforgeryTokenConfig);
         _csrfToken = new CSRFToken();
         _enabledTokenType = AntiforgeryTokenConfig.ANTIFORGERY_TOKEN_ACTIVATED;
         _nonExpiringTokenSecret = AntiforgeryTokenConfig.NON_EXPIRING_ANTIFORGERY_TOKEN_SECRET;

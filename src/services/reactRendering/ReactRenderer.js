@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import InputCommonInspector from '../validators/InputCommonInspector.js';
-
+import MonitorService from '../monitoring/MonitorService.js';
 
 const ReactRenderer = (function () {
     let _targetHtmlElement = null;
@@ -15,12 +15,12 @@ const ReactRenderer = (function () {
 
     const setHtmlTargetElement = function( htmlelementId) {
         let htmlElement = document.getElementById( htmlelementId )
-        console.log('setHtmlTargetElement-BEFORE-htmlElement', htmlElement);
+        MonitorService.capture('setHtmlTargetElement-BEFORE-htmlElement', htmlElement);
         if(InputCommonInspector.inputExist(htmlElement) &&
            !componentIsMounted(_targetHtmlElement)){
             _targetHtmlElement = ReactDOM.createRoot(htmlElement);
         }
-        console.log('setHtmlTargetElement-AFTER-htmlElement', htmlElement);
+        MonitorService.capture('setHtmlTargetElement-AFTER-htmlElement', htmlElement);
     }
 
 

@@ -41,7 +41,7 @@ exports[`File: PremiumOffers.js Component PremiumOffers It should take a snapsho
           PREMIUM OFFERS Section.
         </h2>
         <div
-          class="top-navigation-bar"
+          class="topNavigationBar"
         >
           <h3>
             Go To

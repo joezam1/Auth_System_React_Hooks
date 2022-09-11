@@ -7,6 +7,11 @@ import FetchWorkerHelper from '../backgroundWorkers/FetchWorkerHelper.js';
 import AntiforgeryTokenService from '../services/csrfProtection/AntiForgeryTokenService.js';
 import EnvConfig from "../../configuration/environment/EnvConfig";
 import HttpResponseStatus from "../library/enumerations/HttpResponseStatus";
+import MonitorService from "../services/monitoring/MonitorService";
+
+
+
+
 
 
 const ResourcesInspector = (function(){
@@ -16,7 +21,7 @@ const ResourcesInspector = (function(){
 
         let csrfTokenName = TokenType[TokenType.antiforgeryToken];
         let antiforgeryToken = LocalStorageService.removeItemFromLocalStorage (csrfTokenName);
-        console.log('ResourcesInspector-antiforgeryToken:', antiforgeryToken);
+        MonitorService.capture('ResourcesInspector-antiforgeryToken:', antiforgeryToken);
         ResourcesWebWorkerManager.createNewWorker(resourcesCallback);
         let message = createMessageDataForSharedWorker();
         ResourcesWebWorkerManager.sendMessageToWorker(message);
@@ -47,7 +52,7 @@ function createMessageDataForSharedWorker( ) {
 
 function resourcesCallback(event){
 
-    console.log('resourcesCallback-event', event);
+    MonitorService.capture('resourcesCallback-event', event);
     let responseStatus = event?.data?.status;
     switch(responseStatus){
         case HttpResponseStatus._200ok:
@@ -56,10 +61,10 @@ function resourcesCallback(event){
             let tokenOk = LocalStorageService.setItemInLocalStorage( csrfTokenName , antiforgeryToken );
             setTimeout(async function(){
 
-                console.log('token',antiforgeryToken );
+                MonitorService.capture('token',antiforgeryToken );
                 let isValidCsrfToken = await AntiforgeryTokenService.verifyAntiForgeryTokenIsValidAsync(antiforgeryToken);
                 if(isValidCsrfToken){
-                    console.log('csrfTokenIsValid - OK');
+                    MonitorService.capture('csrfTokenIsValid - OK');
                 }
             }, 0);
         break;

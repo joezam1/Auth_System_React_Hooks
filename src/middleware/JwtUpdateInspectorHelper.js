@@ -1,12 +1,12 @@
 import InputCommonInspector from '../services/validators/InputCommonInspector.js';
 import TokenType from '../library/enumerations/TokenType.js';
 import JwtTokenService from '../services/authorization/JwtTokenService';
-
+import MonitorService from '../services/monitoring/MonitorService.js';
 
 
 //Test: DONE
 const resolveJwtUpdate = function(jwtInfo){
-    console.log('jwtInfo', jwtInfo);
+    MonitorService.capture('jwtInfo', jwtInfo);
 
     let _newjwtAccessToken = jwtInfo?.jwtAccessToken?.fieldValue;
     let _newJwtRefreshToken = jwtInfo?.jwtRefreshToken?.fieldValue;
@@ -36,7 +36,7 @@ function executeUpdateJwtStorageData( jwtAccessTokenValue , jwtRefreshTokenValue
     JwtTokenService.saveTokenToLocalStorage(TokenType.jwtAccessToken, jwtAccessTokenValue);
     JwtTokenService.deleteTokenFromLocalStorage(TokenType.jwtRefreshToken);
     JwtTokenService.saveTokenToLocalStorage(TokenType.jwtRefreshToken, jwtRefreshTokenValue);
-    console.log('executeUpdateJwtStorageData-jwtRefreshTokenValue', jwtRefreshTokenValue);
+    MonitorService.capture('executeUpdateJwtStorageData-jwtRefreshTokenValue', jwtRefreshTokenValue);
 
     return true;
 }

@@ -1,28 +1,28 @@
 import InputCommonInspector from "../services/validators/InputCommonInspector";
 import SessionUpdateFetchApiWorker from './SessionUpdateFetchApiWorker.js';
-
+import MonitorService from "../services/monitoring/MonitorService";
 
 
 const SessionUpdateWebWorkerManager = (function () {
 
     let sessionWorker = null;
     const createNewWorker = function (callback) {
-        console.log('createWorker-sessionWorker', sessionWorker);
+        MonitorService.capture('createWorker-sessionWorker', sessionWorker);
         if (browserSupportsWorker() && !InputCommonInspector.inputExist(sessionWorker) ) {
             sessionWorker = new Worker(SessionUpdateFetchApiWorker);
-            console.log('BEGIN-createNewWorker', SessionUpdateFetchApiWorker);
+            MonitorService.capture('BEGIN-createNewWorker', SessionUpdateFetchApiWorker);
 
             sessionWorker.onmessage = function(event) {
-                console.log(`web-worker-onmessage-MESSAGE RECEIVED:`, event);
+                MonitorService.capture(`web-worker-onmessage-MESSAGE RECEIVED:`, event);
                 if (InputCommonInspector.inputExist(callback)) {
-                    console.log('callback-isValid');
+                    MonitorService.capture('callback-isValid');
                     callback(event);
                 }
             }
 
             sessionWorker.onerror = function (error) {
-                console.log(`[error] ${error.message}`);
-                console.log(`[SOCKET] ${error.message}`);
+                MonitorService.capture(`[error] ${error.message}`);
+                MonitorService.capture(`[SOCKET] ${error.message}`);
                 callback(error);
             };
         }
@@ -31,7 +31,7 @@ const SessionUpdateWebWorkerManager = (function () {
 
 
     const sendMessageToWorker = function (messageObj) {
-        console.log('WORKER-MANAGER- sendMessageToWorker- messageObj:', messageObj)
+        MonitorService.capture('WORKER-MANAGER- sendMessageToWorker- messageObj:', messageObj)
         if (browserSupportsWorker()) {
             sessionWorker.postMessage(messageObj);
         }
@@ -39,13 +39,13 @@ const SessionUpdateWebWorkerManager = (function () {
     }
 
     const terminateActiveWorker = function () {
-        console.log('BEGIN-terminateActiveWorker-sessionWorker', sessionWorker);
+        MonitorService.capture('BEGIN-terminateActiveWorker-sessionWorker', sessionWorker);
         if ((InputCommonInspector.inputExist(sessionWorker))) {
             sessionWorker.terminate();
             sessionWorker = undefined;
-            console.log('END-terminateActiveWorker-sessionWorker', sessionWorker);
+            MonitorService.capture('END-terminateActiveWorker-sessionWorker', sessionWorker);
         }
-        console.log('terminateActiveWorker-sessionWorker', sessionWorker);
+        MonitorService.capture('terminateActiveWorker-sessionWorker', sessionWorker);
     }
 
 

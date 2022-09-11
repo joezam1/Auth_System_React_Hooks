@@ -19,6 +19,10 @@ import CookieProperty from "../../library/stringLiterals/CookieProperty.js";
 import ModalRenderingService from '../../services/reactRendering/ModalRenderingService.js';
 import ModalWindowName from '../../library/enumerations/ModalWindowName.js';
 import TokenType from "../../library/enumerations/TokenType.js";
+import MonitorService from "../../services/monitoring/MonitorService.js";
+
+
+
 
 
 //Tet: DONE
@@ -48,7 +52,7 @@ export default function Logout(){
     },[]);
 
     function logoutUserCallback(response){
-        console.log('logoutUserCallback-response:', response);
+        MonitorService.capture('logoutUserCallback-response:', response);
 
         ModalRenderingService.startRendering(ModalWindowName.logoutSession);
         switch(response.status){
@@ -81,10 +85,10 @@ export default function Logout(){
     }
 
     function delayRedirect(){
-        console.log('_countdown-BEFORE : ',_countdown);
+        MonitorService.capture('_countdown-BEFORE : ',_countdown);
         let intervalId = setInterval(function(){
         _countdown--;
-        console.log('_countdown-AFTER : ',_countdown);
+        MonitorService.capture('_countdown-AFTER : ',_countdown);
         LocalStorageService.setItemInLocalStorage(SessionConfig.LOGOUT_SESSION_COUNTDOWN_VALUE , _countdown);
             if(_countdown === 0 ){
                 setLogoutStatus(true);

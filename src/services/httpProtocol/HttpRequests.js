@@ -1,24 +1,27 @@
 import CommonValidators from '../validators/CommonValidators.js';
+import MonitorService from '../monitoring/MonitorService.js';
+
+
 
 
 //Test: DONE
 function fetchMethod(url, options, responseCallback) {
     fetch(url, options)
         .then(function (response) {
-            console.log('response:', response);
+            MonitorService.capture('response:', response);
             return response.text();
         })
         .then(function (result) {
-            console.log('result:', result);
+            MonitorService.capture('result:', result);
             var responseObj = CommonValidators.safeJsonParse(result);
-            console.log('responseObj:', responseObj);
+            MonitorService.capture('responseObj:', responseObj);
 
             responseCallback(responseObj);
 
         })
         .catch(function (error) {
             var errorObj = new Error("Promise Error:" + error);
-            console.log(errorObj);
+            MonitorService.capture(errorObj);
         })
 }
 

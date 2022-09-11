@@ -3,6 +3,8 @@ import SessionAuthenticationService from "../services/privateWebPagesMediator/Se
 import InputCommonInspector from '../services/validators/InputCommonInspector.js';
 import InputTypeInspector from '../services/validators/InputTypeInspector.js';
 import ComponentAuthorizationService from "../services/privateWebPagesMediator/ComponentAuthorizationService";
+import MonitorService from "../services/monitoring/MonitorService";
+
 
 //Test: DONE
 export default function LinkButtonPrivateRedirect(props){
@@ -10,9 +12,9 @@ export default function LinkButtonPrivateRedirect(props){
 
     useEffect(()=>{
         let roleIsAuthorized = ComponentAuthorizationService.roleIsAuthorized(LinkButtonPrivateRedirect.name);
-        console.log('LinkButtonPrivateRedirect-useEffect-roleIsAuthorized', roleIsAuthorized);
+        MonitorService.capture('LinkButtonPrivateRedirect-useEffect-roleIsAuthorized', roleIsAuthorized);
         let routeIsAuthorized = ComponentAuthorizationService.routeIsAuthorized(props.redirectToLocation);
-        console.log('LinkButtonPrivateRedirect-useEffect-routeIsAuthorized', routeIsAuthorized);
+        MonitorService.capture('LinkButtonPrivateRedirect-useEffect-routeIsAuthorized', routeIsAuthorized);
         if(roleIsAuthorized && routeIsAuthorized){
             setAuthorization('block')
         }
