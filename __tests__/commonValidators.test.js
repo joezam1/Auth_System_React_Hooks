@@ -7,8 +7,6 @@ describe('File: CommonValidators.js', function () {
     afterEach(() => {
         jest.clearAllMocks();
     });
-    //NOTE: Test that JEST is working correctly
-    //test('True is True', function () { expect(true).toBe(true); });
 
     describe('Function: isValidJson', function(){
         test('Input of type json Object returns TRUE', function(){
