@@ -56,9 +56,12 @@ const IdleSessionInspector = (function(){
         function startIdleTimeScanner() {
             _idleSecondsCounter++;
             console.log('CheckTime-_idleSecondsCounter:' , _idleSecondsCounter);
+            console.log('CheckTime-MODAL --> _countdown:' , _countdown);
             if(_idleSecondsCounter === 0){
                 ModalRenderingService.stopRendering();
                 LayerRenderingService.stopRendering();
+                _countdown = WARNING_MESSAGE_COUNTDOWN_IN_SECONDS;
+
             }
             if(_idleSecondsCounter >= DISPLAY_LOGOUT_WARNING){
 

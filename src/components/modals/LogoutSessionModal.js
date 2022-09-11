@@ -12,6 +12,7 @@ export default function LogoutSessionModal(){
         let countdownValue = LocalStorageService.getItemFromLocalStorage(SessionConfig.LOGOUT_SESSION_COUNTDOWN_VALUE);
         setCountdown(countdownValue);
         let _intervalId = setInterval(() => {
+
             let countdownValueInsideInterval = LocalStorageService.getItemFromLocalStorage(SessionConfig.LOGOUT_SESSION_COUNTDOWN_VALUE);
             console.log('useEffect-setInterval-countdownValue', countdownValueInsideInterval);
             setCountdown(countdownValueInsideInterval);
