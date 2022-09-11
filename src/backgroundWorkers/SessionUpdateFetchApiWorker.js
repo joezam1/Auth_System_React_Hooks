@@ -1,7 +1,10 @@
 const SessionUpdateFetchApiWorker = function () {
+
+    const monitorService = false;
+
     self.onmessage = function (event) {
 
-        console.log('SessionUpdateFetchApiWorker-self.onmessage-event', event);
+        if(monitorService){console.log('SessionUpdateFetchApiWorker-self.onmessage-event', event)};
         if (event && event.data) {
             let message = event.data;
             let switchMessage = message.switchMessage;
@@ -39,7 +42,8 @@ const SessionUpdateFetchApiWorker = function () {
                         data: responseResult
                     }
 
-                    console.log('SESSION-httpRequest.onreadystatechange-HTTP-RESPONSE',responseObj)
+
+                    if(monitorService){console.log('SESSION-httpRequest.onreadystatechange-HTTP-RESPONSE',responseObj)};
                     self.postMessage(responseObj);
                 }
             }
@@ -47,9 +51,10 @@ const SessionUpdateFetchApiWorker = function () {
 
 
         httpRequest.onerror = function(error) {
-            console.log('SessionUpdateFetch-Worker-HTTPResponse-ERROR',error);
+
+            if(monitorService){console.log('SessionUpdateFetch-Worker-HTTPResponse-ERROR',error)};
             let errorObjSerializable = composeErrorObjectToStringify(error);
-            console.log('SessionUpdateFetch-Worker-HTTPResponse-errorObjSerializable',errorObjSerializable)
+            if(monitorService){console.log('SessionUpdateFetch-Worker-HTTPResponse-errorObjSerializable',errorObjSerializable)};
             self.postMessage(errorObjSerializable);
         };
     }
@@ -76,7 +81,7 @@ const SessionUpdateFetchApiWorker = function () {
 
 
     const composeErrorObjectToStringify = function(errorObj){
-        console.log('composeErrorObjectToStringify-errorObj', errorObj);
+        if(monitorService){console.log('composeErrorObjectToStringify-errorObj', errorObj)};
         let newErrorObj = Object.assign({}, errorObj);
         let propertyExist  =  (('toJSON' in Error.prototype));
         if (!propertyExist){

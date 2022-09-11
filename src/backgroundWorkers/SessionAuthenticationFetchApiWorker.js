@@ -1,8 +1,10 @@
 const SessionAuthenticationFetchApihWorker = function () {
 
+
+    const monitorService = false;
     self.onmessage = function (event) {
 
-        console.log('SessionAuthenticationFetchApihWorker-self.onmessage-event', event);
+        if(monitorService){console.log('SessionAuthenticationFetchApihWorker-self.onmessage-event', event)};
         if (event && event.data) {
             let message = event.data;
             let switchMessage = message.switchMessage;
@@ -40,7 +42,7 @@ const SessionAuthenticationFetchApihWorker = function () {
                         statusText: httpRequest.statusText,
                         data: responseResult
                     }
-                    console.log('Fetc-hWorker-HTTPResponse',responseObj)
+                    if(monitorService){console.log('Fetc-hWorker-HTTPResponse',responseObj)};
                     self.postMessage(responseObj);
                 }
             }
@@ -48,9 +50,9 @@ const SessionAuthenticationFetchApihWorker = function () {
 
 
         httpRequest.onerror = function(error) {
-            console.log('Fetc-hWorker-HTTPResponse-ERROR',error);
+            if(monitorService){console.log('Fetc-hWorker-HTTPResponse-ERROR',error)};
             let errorObjSerializable = composeErrorObjectToStringify(error);
-            console.log('Fetch-hWorker-HTTPResponse-errorObjSerializable',errorObjSerializable)
+            if(monitorService){console.log('Fetch-hWorker-HTTPResponse-errorObjSerializable',errorObjSerializable)};
             self.postMessage(errorObjSerializable);
         };
     }
@@ -76,7 +78,7 @@ const SessionAuthenticationFetchApihWorker = function () {
 
 
     const composeErrorObjectToStringify = function(errorObj){
-        console.log('composeErrorObjectToStringify-errorObj', errorObj);
+        if(monitorService){console.log('composeErrorObjectToStringify-errorObj', errorObj)};
         let newErrorObj = Object.assign({}, errorObj);
         let propertyExist  =  (('toJSON' in Error.prototype));
         if (!propertyExist){
